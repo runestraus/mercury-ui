@@ -9,13 +9,16 @@ import { NavbarComponent } from './navbar/navbar.component';
 import { SearchBarComponent } from './search-bar/search-bar.component';
 import {RouterModule} from "@angular/router";
 import { SearchComponent } from './search/search.component';
+import {SearchService} from "./service/search.service";
+import { DashboardComponent } from './dashboard/dashboard.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     NavbarComponent,
     SearchBarComponent,
-    SearchComponent
+    SearchComponent,
+    DashboardComponent
   ],
   imports: [
     BrowserModule,
@@ -25,11 +28,16 @@ import { SearchComponent } from './search/search.component';
     RouterModule.forRoot([
       {
         path: 'search/:query',
-        component: SearchComponent
+        component: SearchComponent,
+        children: []
+      },
+      {
+        path: '',
+        component: DashboardComponent
       }
     ])
   ],
-  providers: [],
+  providers: [SearchService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

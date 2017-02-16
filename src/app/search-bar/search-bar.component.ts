@@ -16,7 +16,6 @@ export class SearchBarComponent implements OnInit {
   }
 
   newQuery() {
-    console.log(this.query);
     this.router.navigate(['/search', this.query]);
   }
 

@@ -1,3 +1,17 @@
-<p>
-  {{query}}
-</p>
+<table class="table">
+  <thead>
+    <tr>
+      <th>Domain</th>
+      <th>TLD</th>
+      <th>Client ID</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let row of result">
+      <td>{{row.domainName}}</td>
+      <td>{{row.tld}}</td>
+      <td>{{row.clientId}}</td>
+    </tr>
+  </tbody>
+</table>
+<router-outlet></router-outlet>
