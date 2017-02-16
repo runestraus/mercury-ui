@@ -1,8 +1,9 @@
-import {Injectable} from "@angular/core";
+import {Injectable, EventEmitter} from "@angular/core";
 import {Tld} from "../model/tld.model";
+import {Observable, Subject} from "rxjs";
 @Injectable()
 export class TldService {
-  private tlds: Tld[] = [{
+  private tlds = [{
     "name": "abc",
     "description": null,
     "state": "PREDELEGATION",
@@ -72,8 +73,17 @@ export class TldService {
     },
     "dnsPaused": true
   }];
+  public itemAdded$: EventEmitter<Tld>;
 
+  constructor() {
+    this.itemAdded$ = new EventEmitter();
+  }
   getTlds(): Tld[] {
     return this.tlds;
+  }
+
+  createTld(tld: Tld) {
+    this.tlds.push(tld);
+    this.itemAdded$.emit(tld);
   }
 }

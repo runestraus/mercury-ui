@@ -13,10 +13,7 @@
             <i class="fa fa-download"></i>
             Download CSV
           </button>
-          <button id="create-new-tld" type="button" class="btn btn-xs btn-success pull-right" data-ng-click="ctrl.openCreateUpdateDialog('', 'create','tldCreate','CreateTldCtrl')">
-            <i class="fa fa-plus"></i>
-            Create new TLD
-          </button><br>
+          <app-tlds-create></app-tlds-create><br>
         </div>
         <div class="panel-body" data-ng-show="ctrl.showError" data-ng-class="{'has-error': ctrl.showError}">
           <p class="help-block">{{ errorMsg }}</p>
@@ -70,4 +67,4 @@
   </div>
   <!-- /.row -->
 </div>
-
+<template ngbModalContainer></template>

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from "@angular/core";
 import {TldService} from "../../service/tld.service";
 import {Tld} from "../../model/tld.model";
 
@@ -11,10 +11,11 @@ export class TldsIndexComponent implements OnInit {
   tldList: Tld[];
   errorMsg: string;
 
-  constructor(private tldService: TldService) { }
+  constructor(private tldService: TldService) {}
 
   ngOnInit() {
     this.tldList = this.tldService.getTlds();
   }
+
 
 }
