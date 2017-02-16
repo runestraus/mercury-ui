@@ -11,6 +11,9 @@ import {RouterModule} from "@angular/router";
 import { SearchComponent } from './search/search.component';
 import {SearchService} from "./service/search.service";
 import { DashboardComponent } from './dashboard/dashboard.component';
+import { TldsIndexComponent } from './tlds/tlds-index/tlds-index.component';
+import {TldService} from "./service/tld.service";
+import { TldsCreateComponent } from './tlds/tlds-create/tlds-create.component';
 
 @NgModule({
   declarations: [
@@ -18,7 +21,9 @@ import { DashboardComponent } from './dashboard/dashboard.component';
     NavbarComponent,
     SearchBarComponent,
     SearchComponent,
-    DashboardComponent
+    DashboardComponent,
+    TldsIndexComponent,
+    TldsCreateComponent
   ],
   imports: [
     BrowserModule,
@@ -34,10 +39,14 @@ import { DashboardComponent } from './dashboard/dashboard.component';
       {
         path: '',
         component: DashboardComponent
+      },
+      {
+        path: 'tlds',
+        component: TldsIndexComponent
       }
     ])
   ],
-  providers: [SearchService],
+  providers: [SearchService, TldService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

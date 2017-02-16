@@ -1,0 +1,73 @@
+<div id="page-wrapper">
+  <div class="row">
+    <div class="col-lg-12">
+      <h1 class="page-header">Manage TLDs</h1>
+    </div>
+    <!-- /.col-lg-12 -->
+  </div>
+  <div class="row">
+    <div class="col-lg-12">
+      <div class="panel panel-default">
+        <div class="panel-heading">
+          <button type="button" class="btn btn-xs btn-primary pull-left" data-ng-click="ctrl.downloadCSV()" data-ng-hide="ctrl.showList">
+            <i class="fa fa-download"></i>
+            Download CSV
+          </button>
+          <button id="create-new-tld" type="button" class="btn btn-xs btn-success pull-right" data-ng-click="ctrl.openCreateUpdateDialog('', 'create','tldCreate','CreateTldCtrl')">
+            <i class="fa fa-plus"></i>
+            Create new TLD
+          </button><br>
+        </div>
+        <div class="panel-body" data-ng-show="ctrl.showError" data-ng-class="{'has-error': ctrl.showError}">
+          <p class="help-block">{{ errorMsg }}</p>
+        </div>
+        <!-- END ERROR -->
+        <div class="panel-body" data-ng-hide="ctrl.showList">
+          <table id="tlds-info" st-table="ctrl.displayItems" st-safe-src="ctrl.tldList" class="table table-striped">
+            <thead>
+            <tr>
+              <th st-sort-default="true" st-skip-natural="true" st-sort="name" class="columnSorter">TLD</th>
+              <th st-skip-natural="true" st-sort="state" class="columnSorter">State</th>
+              <th st-skip-natural="true" st-sort="delegationDate" class="columnSorter">Delegation Date</th>
+              <th st-skip-natural="true" st-sort="createBillingCost.value" class="columnSorter text-right">Create</th>
+              <th st-skip-natural="true" st-sort="restoreBillingCost.value" class="columnSorter text-right">Restore</th>
+              <th></th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr *ngFor="let row of tldList">
+              <td>{{row.name}}</td>
+              <td>{{row.state}}</td>
+              <td>{{row.delegationDate | date:"yyyy-MM-dd HH:mm:ss"}}</td>
+              <td class="text-right">{{row.createBillingCost.value | currency:'USD':true}}</td>
+              <td class="text-right">{{row.restoreBillingCost.value | currency:'USD':true}}</td>
+              <td>
+                <a data-ng-show="ctrl.showUpdateDeleteButtons" tooltip="Edit TLD" class="label label-warning button-margin"
+                   data-ng-click="ctrl.openListItemInDialog($index, 'CreateTldCtrl', 'reload', 'tldUpdate', 'update')">
+                  <i class="fa fa-edit"></i>
+                </a>
+                <a data-ng-show="ctrl.showUpdateDeleteButtons" tooltip="View Phases" class="label label-primary button-margin"
+                   data-ng-click="ctrl.openListItemInDialog($index, 'CreateTldCtrl', null, 'tldStateList', 'update')">
+                  <i class="fa fa-list"></i>
+                </a>
+              </td>
+            </tr>
+            </tbody>
+            <tfoot>
+            <tr>
+              <td colspan="8" class="text-center">
+                <div st-pagination="" st-items-by-page="ctrl.itemsByPage" st-displayed-pages="5"></div>
+              </td>
+            </tr>
+            </tfoot>
+          </table>
+        </div>
+        <!-- /.panel-body -->
+      </div>
+      <!-- /.panel -->
+    </div>
+    <!-- /.col-lg-12 -->
+  </div>
+  <!-- /.row -->
+</div>
+
