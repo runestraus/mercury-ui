@@ -1,4 +1,10 @@
-<form class="form-inline col-10">
-  <input class="form-control my-auto" type="text" placeholder="Search" [(ngModel)]="query" [ngModelOptions]="{standalone: true}">
-  <button class="btn btn-outline-success my-2 my-sm-0" type="submit" (click)="newQuery()">Search</button>
+<form role="form">
+  <div class="form-group">
+    <div class="input-group">
+      <input id="searchTermInput" placeholder=".tld" class="form-control" [(ngModel)]="query" [ngModelOptions]="{standalone: true}" type="text">
+      <button id="searchButton" type="button" class="btn btn-primary left" (click)="newQuery()">
+        <i class="fa fa-search"></i>
+      </button>
+    </div>
+  </div>
 </form>

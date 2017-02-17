@@ -1,6 +1,7 @@
 import {Component, OnInit} from "@angular/core";
 import {TldService} from "../../service/tld.service";
 import {Tld} from "../../model/tld.model";
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-tlds-index',
@@ -11,10 +12,15 @@ export class TldsIndexComponent implements OnInit {
   tldList: Tld[];
   errorMsg: string;
 
-  constructor(private tldService: TldService) {}
+  constructor(private tldService: TldService,
+              private router: Router) {}
 
   ngOnInit() {
     this.tldList = this.tldService.getTlds();
+  }
+
+  createNewTld() {
+    this.router.navigate(['/tlds/new']);
   }
 
 

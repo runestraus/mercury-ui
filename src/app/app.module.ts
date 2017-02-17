@@ -3,7 +3,6 @@ import {NgModule} from "@angular/core";
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {HttpModule} from "@angular/http";
 import {AppComponent} from "./app.component";
-import {NgbModule} from "@ng-bootstrap/ng-bootstrap";
 import {NavbarComponent} from "./navbar/navbar.component";
 import {SearchBarComponent} from "./search-bar/search-bar.component";
 import {RouterModule} from "@angular/router";
@@ -12,7 +11,8 @@ import {SearchService} from "./service/search.service";
 import {DashboardComponent} from "./dashboard/dashboard.component";
 import {TldsIndexComponent} from "./tlds/tlds-index/tlds-index.component";
 import {TldService} from "./service/tld.service";
-import {TldsCreateComponent, TldsCreateContent} from "./tlds/tlds-create/tlds-create.component";
+import {TldsCreateComponent} from "./tlds/tlds-create/tlds-create.component";
+import {DialogModule} from "primeng/components/dialog/dialog";
 
 @NgModule({
   declarations: [
@@ -22,15 +22,14 @@ import {TldsCreateComponent, TldsCreateContent} from "./tlds/tlds-create/tlds-cr
     SearchComponent,
     DashboardComponent,
     TldsIndexComponent,
-    TldsCreateComponent,
-    TldsCreateContent
+    TldsCreateComponent
   ],
   imports: [
+    DialogModule,
     BrowserModule,
     FormsModule,
     HttpModule,
     ReactiveFormsModule,
-    NgbModule.forRoot(),
     RouterModule.forRoot([
       {
         path: 'search/:query',
@@ -43,12 +42,18 @@ import {TldsCreateComponent, TldsCreateContent} from "./tlds/tlds-create/tlds-cr
       },
       {
         path: 'tlds',
-        component: TldsIndexComponent
+        component: TldsIndexComponent,
+        children: [
+          {
+            path: 'new',
+            component: TldsCreateComponent
+          }
+        ]
       }
     ])
   ],
   providers: [SearchService, TldService],
-  entryComponents: [TldsCreateContent],
+  entryComponents: [],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

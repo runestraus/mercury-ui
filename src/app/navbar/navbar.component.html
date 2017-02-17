@@ -1,11 +1,13 @@
-<nav class="navbar navbar-toggleable-md navbar-light bg-faded">
-  <a class="navbar-brand" routerLink="/">
-    <img src="/assets/images/donuts-logo.png" width="105" height="30" alt="">
-  </a>
-  <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-    <span class="navbar-toggler-icon"></span>
-  </button>
+<!-- Navigation -->
+<nav class="navbar navbar-default navbar-static-top" role="navigation">
 
-  <app-search-bar class="col-10"></app-search-bar>
+  <div class="navbar-header" routerLink="/">
+    <a class="navbar-brand"><img id="donuts-logo" src="/assets/images/donuts-logo.png"/></a>
+    <a class="navbar-brand registry-header-text">Portal</a>
+  </div>
+  <!-- /.navbar-header -->
+
+  <div class="navbar-search">
+    <app-search-bar></app-search-bar>
+  </div>
 </nav>
-
