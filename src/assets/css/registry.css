@@ -1,28 +1,17 @@
-/* You can add global styles to this file, and also import other style files */
-/*
+/* 
  * admin and whois specific CSS
  */
 
-body {
-  background-color: #f8f8f8;
-}
-
-#page-wrapper {
-  padding: 0 20px;
-  min-height: 568px;
-  background-color: #fff;
-}
-
 .left{
-  float: left;
+    float: left;
 }
 
 .right {
-  float: right;
+    float: right;
 }
 
 .clear {
-  clear: both;
+    clear: both;
 }
 
 .wordBreak {
@@ -30,11 +19,11 @@ body {
 }
 
 .domain-status-items {
-  margin-left: 20px;
+    margin-left: 20px;
 }
 
 .bold {
-  font-weight: bold;
+    font-weight: bold;
 }
 
 .iconAdjust {
@@ -59,40 +48,40 @@ body {
 }
 
 .webconsole-ul-no-left-pad {
-  padding-left: 0;
+    padding-left: 0;
 }
 
 .domainDataCell {
-  width:60%;
+    width:60%;
 }
 
 .formElementTogglerDiv {
-  margin-bottom: 5px;
+    margin-bottom: 5px;
 }
 
 #donuts-logo {
-  height: 25px;
-  display: inline;
+    height: 25px;
+    display: inline;
 }
 
 .registry-header-text {
-  line-height:28px;
-  padding-left:5px;
-  margin-left:-5px;
-  font-size:23px;
+    line-height:28px;
+    padding-left:5px;
+    margin-left:-5px;
+    font-size:23px;
 }
 
 #whois-results {
-  margin-top: 10px;
-  background-color: #fff;
+    margin-top: 10px;
+    background-color: #fff;
 }
 
 #whois-loading {
-  margin-top: 10px;
+    margin-top: 10px;
 }
 
 .navbar {
-  margin-bottom: 0;
+    margin-bottom: 0;
 }
 
 span.clear{
@@ -111,32 +100,32 @@ span.clear{
 }
 
 .form-control-eighty-percent-width {
-  width:80% !important;
+    width:80% !important;
 }
 
 .dynamicTextInput {
-  width:75% !important;
-  float:left;
-  margin-bottom:10px;
+    width:75% !important;
+    float:left;
+    margin-bottom:10px;
 }
 
 #customizeContactIDButton {
-  margin-top:5px;
-  line-height:10px;
-  font-size: 10px;
+    margin-top:5px;
+    line-height:10px;
+    font-size: 10px;
 }
 
 .last-form-element, .navbar {
-  margin-bottom: 0;
+    margin-bottom: 0;
 }
 
 .remove-element-button, .new-contact-button {
-  float:left;
-  margin-left:10px;
+    float:left;
+    margin-left:10px;
 }
 
 .text-align-center {
-  text-align: center;
+    text-align: center;
 }
 
 span.has-error, p.has-error {
@@ -252,7 +241,7 @@ h5.modalSectionHeader {
 }
 
 /*
- * also gets the user menu on the top right,
+ * also gets the user menu on the top right, 
  * create a different style for that. Maybe just text underline
  */
 .nav > li > a:focus, .nav > li > a:hover, .nav > li > a:active, .activeMenuItem {
@@ -312,10 +301,6 @@ label.modal-label, .modal-input-group, .modal-text, .modal-form-control {
   margin-right: 20px;
 }
 
-.search-bar-wrapper {
-  background-color: #f8f8f8;
-}
-
 /*
  * mobile first
  */
@@ -340,6 +325,7 @@ label.modal-label, .modal-input-group, .modal-text, .modal-form-control {
   .navbar-search {
     float: left;
     margin-top:15px;
+    padding-left:60px;
     width:800px;
   }
   .navbar-search div.input-group {
@@ -418,28 +404,28 @@ label.modal-label, .modal-input-group, .modal-text, .modal-form-control {
 }
 
 .error-page {
-  margin-top: 80px;
-  margin-bottom: 40px;
+    margin-top: 80px;
+    margin-bottom: 40px;
 }
 
 .error-page .error-status {
-  font-size: 150px;
+    font-size: 150px;
 }
 
 .error-page .error-description {
-  font-size: 40px;
+    font-size: 40px;
 }
 
-input[type=number]::-webkit-inner-spin-button,
-input[type=number]::-webkit-outer-spin-button {
-  -webkit-appearance: none;
-  margin: 0;
+input[type=number]::-webkit-inner-spin-button, 
+input[type=number]::-webkit-outer-spin-button { 
+  -webkit-appearance: none; 
+  margin: 0; 
 }
 
 .wrapper {
-  overflow-wrap: break-word;
-  word-wrap: break-word;
-  -ms-word-break: break-all;
-  word-break: break-all;
-  word-break: break-word;
+ overflow-wrap: break-word;
+ word-wrap: break-word;
+ -ms-word-break: break-all;
+ word-break: break-all;
+ word-break: break-word;
 }
