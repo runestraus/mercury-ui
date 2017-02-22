@@ -1,8 +1,7 @@
 import {TestBed, async, inject, getTestBed, fakeAsync, tick} from "@angular/core/testing";
 import {PermissionService} from "./Permission.service";
 import {
-  HttpModule, Response, ResponseOptions, XHRBackend, ConnectionBackend, RequestOptions,
-  BaseRequestOptions, Http
+  HttpModule, Response, ResponseOptions, XHRBackend, ConnectionBackend, RequestOptions, BaseRequestOptions, Http
 } from "@angular/http";
 import {MockBackend, MockConnection} from "@angular/http/testing";
 import {Permission} from "../model/permission.model";
@@ -30,18 +29,18 @@ describe('PermissionService', () => {
   }));
 
   it('getPermissions() should return an Promise', async(() => {
-      let mockPermission = {name: 'Permission 0'};
-      mockBackend.connections.subscribe((connection: MockConnection) => {
-        let responseOpts = new ResponseOptions({body: JSON.stringify(mockPermission)});
-        connection.mockRespond(new Response(responseOpts));
-      });
-      let permissions: Permission[];
-      permissions = service.getSessionPermissionsArray()
-      expect(permissions.length).toBe(9);
+    let mockPermission = {name: 'Permission 0'};
+    mockBackend.connections.subscribe((connection: MockConnection) => {
+      let responseOpts = new ResponseOptions({body: JSON.stringify(mockPermission)});
+      connection.mockRespond(new Response(responseOpts));
+    });
+    let permissions: Permission[];
+    permissions = service.getSessionPermissionsArray()
+    expect(permissions.length).toBe(9);
 
-      service.getPermission('Permission 0').then(p => {
-        console.log(p);
-      })
+    service.getPermission('Permission 0').then(p => {
+      console.log(p);
+    })
   }));
 });
 
