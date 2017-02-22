@@ -37,10 +37,15 @@ describe('PermissionService', () => {
     let permissions: Permission[];
     permissions = service.getSessionPermissionsArray()
     expect(permissions.length).toBe(9);
-
-    service.getPermission('Permission 0').then(p => {
-      console.log(p);
-    })
+    expect(permissions[0].name).toBe('EPP');
+    expect(permissions[1].name).toBe('SERVER_SIDE_STATUS');
+    expect(permissions[2].name).toBe('CRU_REGISTRY_ADMIN');
+    expect(permissions[3].name).toBe('CRU_REGISTRAR_USER');
+    expect(permissions[4].name).toBe('CRU_REGISTRAR_ADMIN');
+    expect(permissions[5].name).toBe('CRU_REGISTRAR_USER');
+    expect(permissions[6].name).toBe('CRU_TLD');
+    expect(permissions[7].name).toBe('CRU_REGISTRAR');
+    expect(permissions[8].name).toBe('CRU_PRICE_CATEGORIES');
   }));
 });
 
@@ -78,7 +83,7 @@ describe('MockBackend PermissonService Example', () => {
   it('getPermissions() should return some permissions', fakeAsync(() => {
     let mockPermission1 = {name: 'Permission 0'};
     let result: String[];
-    this.permissionService.getPermission('Permission 1').then((perms: String[]) => result = perms);
+    this.permissionService.getPermission('Permission 0').then((perms: String[]) => result = perms);
     this.lastConnection.mockRespond(new Response(new ResponseOptions({
       body: JSON.stringify({data: [mockPermission1]}),
     })));
