@@ -37,7 +37,6 @@ import {RegistryAPIService} from "./service/RegistryAPI.service";
     FormsModule,
     HttpModule,
     AppRoutingModule,
-    InMemoryWebApiModule.forRoot(InMemoryDataService),
     ReactiveFormsModule,
     RouterModule.forRoot([
       {

@@ -1,19 +1,4 @@
 <div class="wrapper">
   <app-navbar></app-navbar>
   <router-outlet></router-outlet>
-  <app-permisson-detail>[permissions]="PERMISSION"</app-permisson-detail>
-
-  <h2>My Permissions</h2>
-  <ul class="permissions">
-    <li *ngFor="let permission of permissions" (click)="onSelect(permission)">
-      <p class="Name">{{permission.name}}</p>
-    </li>
-  </ul>
-  <div *ngIf="selectedPermission">
-    <h2>{{selectedPermission.name}} details!</h2>
-    <div>
-      <label>name: </label>
-      <input [(ngModel)]="selectedPermission.name" placeholder="name"/>
-    </div>
-  </div>
 </div>

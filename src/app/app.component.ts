@@ -9,14 +9,4 @@ import {PermissionService} from "./service/Permission.service";
 })
 export class AppComponent {
   title = 'app works!';
-
-  constructor(private permissionService: PermissionService) {}
-
-  permissions = this.permissionService.getSessionPermissionsArray();
-
-  selectedPermission: Permission;
-
-  onSelect(permission: Permission): void {
-    this.selectedPermission = permission;
-  }
 }
