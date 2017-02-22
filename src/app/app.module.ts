@@ -59,7 +59,7 @@ import { HttpClient } from './shared/http.client';
       }
     ])
   ],
-  providers: [SearchService, TldService, SessionService, MeService, HttpClient],
+  providers: [SearchService, TldService, SessionService, MeService, HttpClient, PermissionService],
   entryComponents: [],
   bootstrap: [AppComponent]
 })
