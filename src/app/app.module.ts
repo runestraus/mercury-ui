@@ -13,6 +13,12 @@ import {TldsIndexComponent} from "./tlds/tlds-index/tlds-index.component";
 import {TldService} from "./service/tld.service";
 import {TldsCreateComponent} from "./tlds/tlds-create/tlds-create.component";
 import {DialogModule} from "primeng/components/dialog/dialog";
+import {PermissionService} from "./service/Permission.service";
+import {AppRoutingModule} from './app-routing.module';
+import {InMemoryWebApiModule} from 'angular-in-memory-web-api';
+import {InMemoryDataService}  from './in-memory-data.service';
+import {PermissonDetailComponent} from './permission-detail/permisson-detail.component';
+import {RegistryAPIService} from "./service/RegistryAPI.service";
 
 @NgModule({
   declarations: [
@@ -22,13 +28,16 @@ import {DialogModule} from "primeng/components/dialog/dialog";
     SearchComponent,
     DashboardComponent,
     TldsIndexComponent,
-    TldsCreateComponent
+    TldsCreateComponent,
+    PermissonDetailComponent
   ],
   imports: [
     DialogModule,
     BrowserModule,
     FormsModule,
     HttpModule,
+    AppRoutingModule,
+    InMemoryWebApiModule.forRoot(InMemoryDataService),
     ReactiveFormsModule,
     RouterModule.forRoot([
       {
@@ -52,7 +61,7 @@ import {DialogModule} from "primeng/components/dialog/dialog";
       }
     ])
   ],
-  providers: [SearchService, TldService],
+  providers: [SearchService, TldService, PermissionService, RegistryAPIService],
   entryComponents: [],
   bootstrap: [AppComponent]
 })
