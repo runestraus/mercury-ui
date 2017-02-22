@@ -4,7 +4,7 @@ import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {HttpModule} from "@angular/http";
 import {AppComponent} from "./app.component";
 import {SearchBarComponent} from "./search-bar/search-bar.component";
-import {RouterModule} from "@angular/router";
+import {AppRoutingModule} from "./app-routing.module";
 import {SearchComponent} from "./search/search.component";
 import {SearchService} from "./service/search.service";
 import {DashboardComponent} from "./dashboard/dashboard.component";
@@ -30,27 +30,7 @@ import { MenuComponent } from './menu/menu.component';
     FormsModule,
     HttpModule,
     ReactiveFormsModule,
-    RouterModule.forRoot([
-      {
-        path: 'search/:query',
-        component: SearchComponent,
-        children: []
-      },
-      {
-        path: '',
-        component: DashboardComponent
-      },
-      {
-        path: 'tlds',
-        component: TldsIndexComponent,
-        children: [
-          {
-            path: 'new',
-            component: TldsCreateComponent
-          }
-        ]
-      }
-    ])
+    AppRoutingModule
   ],
   providers: [SearchService, TldService],
   entryComponents: [],

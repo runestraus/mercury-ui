@@ -17,5 +17,4 @@ export class MenuComponent implements OnInit {
   toggle() {
     this.isActive = !this.isActive;
   }
-
 }
