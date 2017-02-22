@@ -17,20 +17,9 @@ const PERMISSIONS: Permission[] = [
 
 @Injectable()
 export class PermissionService {
-
   private permissionUrl = 'api/permissions';
-  private headers = new Headers({'Content-Type': 'application/json'});
 
   constructor(private http: Http) {}
-
-  update(permission: Permission): Promise<Permission> {
-    const url = `${this.permissionUrl}/${permission.name}`;
-    return this.http
-      .put(url, JSON.stringify(permission), {headers: this.headers})
-      .toPromise()
-      .then(() => permission)
-      .catch(this.handleError);
-  }
 
   getPermission(name: string): Promise<Permission> {
     const url = `${this.permissionUrl}/${name}`;
