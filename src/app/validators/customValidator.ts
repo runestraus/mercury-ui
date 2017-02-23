@@ -34,11 +34,13 @@ export class CustomValidator {
    * @param control
    * @returns {any}
    */
-  static validateEmailAddress(control: FormControl): ValidationResult {
+  static validateEmailAddress(control: FormControl) {
     const EMAIL_REGEXP = /^[a-z0-9!#$%&'*+\/=?^_`{|}~.-]+@[a-z0-9]([a-z0-9-]*[a-z0-9])?(\.[a-z0-9]([a-z0-9-]*[a-z0-9])?)*$/i;
 
     if (!EMAIL_REGEXP.test(control.value)) {
-      return {invalidEmail: true};
+      return {validateEmailAddress: {
+        valid: false}
+      };
     }
     return null;
   }
@@ -49,10 +51,12 @@ export class CustomValidator {
    * @param control
    * @returns {any}
    */
-  static validateipV4RegEx(control: FormControl): ValidationResult {
+  static validateipV4RegEx(control: FormControl) {
     const v4RegEx = /^(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$/;
     if (!v4RegEx.test(control.value)) {
-      return {invalidipV4RegEx: true};
+      return {validateipV4RegEx: {
+        valid: false}
+      };
     }
     return null;
   }
@@ -63,15 +67,13 @@ export class CustomValidator {
    * @param control
    * @returns {any}
    */
-  static validateipV6RegEx(control: FormControl): ValidationResult {
+  static validateipV6RegEx(control: FormControl) {
     const v6RegEx = /^(?:[A-F0-9]{1,4}:){7}[A-F0-9]{1,4}$/;
     if (!v6RegEx.test(control.value)) {
-      return {invalidipV6RegEx: true};
+      return {validateipV6RegEx: {
+        valid: false}
+      };
     }
     return null;
   }
-}
-
-interface ValidationResult {
-  [key: string]: boolean;
 }
