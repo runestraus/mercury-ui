@@ -424,9 +424,4 @@ input[type=number]::-webkit-outer-spin-button {
 }
 
 .wrapper {
-  overflow-wrap: break-word;
-  word-wrap: break-word;
-  -ms-word-break: break-all;
-  word-break: break-all;
-  word-break: break-word;
 }
