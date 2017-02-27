@@ -13,22 +13,15 @@
 // limitations under the License.
 
 import { Injectable } from '@angular/core';
-import { HttpClient } from '../shared/http.client';
-import { User } from '../model/user.model';
+import { MeService } from './me.service';
 import 'rxjs/add/operator/toPromise';
 
 @Injectable()
-export class MeService {
+export class PermissionService {
 
-  constructor(private http: HttpClient) { }
+  constructor(private meService: MeService) {}
 
-  get(): Promise<User> {
-    return this.http.get('/api/me').toPromise()
-      .then(res => res.json() as User)
-      .catch(this.handleError);
-  }
-
-  private handleError(error: any): Promise<any> {
-    return Promise.reject(error.message || error);
+  getPermissions(): Promise<String[]> {
+    return this.meService.get().then(user => user.permissions);
   }
 }

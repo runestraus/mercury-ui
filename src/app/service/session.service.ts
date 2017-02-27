@@ -3,11 +3,12 @@ import { OAuthService } from 'angular-oauth2-oidc';
 import { environment } from '../../environments/environment';
 import { Subject } from 'rxjs/Subject';
 import { MeService } from './me.service';
+import { User } from '../model/user.model';
 
 @Injectable()
 export class SessionService {
 
-  private loginEvent = new Subject<string>();
+  private loginEvent = new Subject<User>();
 
   constructor(private oauthService: OAuthService, private meService: MeService) { }
 
@@ -24,16 +25,9 @@ export class SessionService {
     this.oauthService.loadDiscoveryDocument().then(() => {
       this.oauthService.tryLogin({
         onTokenReceived: () => {
-          this.meService.get().subscribe(
-            data => {
-              this.loginEvent.next(data);
-            },
-            error => {
-              this.logOut();
-              this.loginEvent.error(error);
-            },
-            () => this.loginEvent.complete()
-          );
+          this.meService.get().then( data =>
+            this.loginEvent.next(data)
+          ).catch(this.handleError);
         }
       });
     });
@@ -63,4 +57,8 @@ export class SessionService {
     this.oauthService.logOut();
   }
 
+  private handleError(error: any) {
+    this.logOut();
+    this.loginEvent.error(error);
+  }
 }
