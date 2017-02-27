@@ -23,7 +23,12 @@ export class MeService {
   constructor(private http: HttpClient) { }
 
   get(): Promise<User> {
-    return this.http.get('/api/me')
-      .map(res => res.json() as User).toPromise();
+    return this.http.get('/api/me').toPromise()
+      .then(res => res.json() as User)
+      .catch(this.handleError);
+  }
+
+  private handleError(error: any): Promise<any> {
+    return Promise.reject(error.message || error);
   }
 }

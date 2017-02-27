@@ -28,7 +28,6 @@ import { TldService } from "./service/tld.service";
 import { TldsCreateComponent } from "./tlds/tlds-create/tlds-create.component";
 import { DialogModule } from "primeng/components/dialog/dialog";
 import { PermissionService } from "./service/Permission.service";
-import { AppRoutingModule } from "./app-routing.module";
 import { LoginComponent } from "./login/login.component";
 import { OAuthModule } from "angular-oauth2-oidc";
 import { SessionService } from "./service/session.service";
@@ -51,7 +50,6 @@ import { HttpClient } from "./shared/http.client";
     BrowserModule,
     FormsModule,
     HttpModule,
-    AppRoutingModule,
     ReactiveFormsModule,
     OAuthModule.forRoot(),
     RouterModule.forRoot([

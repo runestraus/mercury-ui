@@ -25,16 +25,9 @@ export class SessionService {
     this.oauthService.loadDiscoveryDocument().then(() => {
       this.oauthService.tryLogin({
         onTokenReceived: () => {
-          this.meService.get().subscribe(
-            data => {
-              this.loginEvent.next(data);
-            },
-            error => {
-              this.logOut();
-              this.loginEvent.error(error);
-            },
-            () => this.loginEvent.complete()
-          );
+          this.meService.get().then( data =>
+            this.loginEvent.next(data)
+          ).catch(this.handleError);
         }
       });
     });
@@ -64,4 +57,8 @@ export class SessionService {
     this.oauthService.logOut();
   }
 
+  private handleError(error: any) {
+    this.logOut();
+    this.loginEvent.error(error);
+  }
 }
