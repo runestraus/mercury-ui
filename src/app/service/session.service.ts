@@ -3,11 +3,12 @@ import { OAuthService } from 'angular-oauth2-oidc';
 import { environment } from '../../environments/environment';
 import { Subject } from 'rxjs/Subject';
 import { MeService } from './me.service';
+import { User } from "../model/user.model";
 
 @Injectable()
 export class SessionService {
 
-  private loginEvent = new Subject<string>();
+  private loginEvent = new Subject<User>();
 
   constructor(private oauthService: OAuthService, private meService: MeService) { }
 
