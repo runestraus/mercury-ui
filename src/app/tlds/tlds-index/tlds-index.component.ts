@@ -1,7 +1,7 @@
-import {Component, OnInit} from "@angular/core";
-import {TldService} from "../../service/tld.service";
-import {Tld} from "../../model/tld.model";
-import {Router} from "@angular/router";
+import {Component, OnInit} from '@angular/core';
+import {TldService} from '../../service/tld.service';
+import {Tld} from '../../model/tld.model';
+import {Router} from '@angular/router';
 
 @Component({
   selector: 'app-tlds-index',

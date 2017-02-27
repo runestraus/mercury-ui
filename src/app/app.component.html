@@ -2,6 +2,10 @@
   <app-menu></app-menu>
   <div class="ui-g-12 ui-md-10 ui-g-nopad">
     <app-search-bar></app-search-bar>
-    <router-outlet></router-outlet>
+    <app-navbar *ngIf="isLoggedIn()"></app-navbar>
+    <app-login *ngIf="!isLoggedIn()"></app-login>
+    <div class="wrapper" [class.hide]="!isLoggedIn()">
+      <router-outlet></router-outlet>
+    </div>
   </div>
 </div>
