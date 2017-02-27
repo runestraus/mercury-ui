@@ -3,17 +3,17 @@ import {CustomValidator} from "./customValidator";
 
 describe('customValidator Test', () => {
 
-  xit('should validate ipV6 address in not valid', () => {
-    expect(CustomValidator.validateMoney(1,2)).toEqual({
+  xit('should validate Money is not valid', () => {
+    expect(CustomValidator.validateMoney(1,2).prototype(new FormControl('1'))).toEqual({
       'validateipV6RegEx': {'valid': false}
     });
   });
 
-  xit('should validate ipV6 address with null response', () => {
+  xit('should validate Money with null response', () => {
     expect(CustomValidator.validateMoney(1,3)).toEqual(null);
   });
 
-  it('should validate ipV6 address in not valid', () => {
+  it('should validate ipV6 address is not valid', () => {
     expect(CustomValidator.validateipV6RegEx(new FormControl('1722.162.2542.12'))).toEqual({
       'validateipV6RegEx': {'valid': false}
     });
