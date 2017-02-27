@@ -12,10 +12,10 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-import { TestBed, async, inject } from "@angular/core/testing";
-import { PermissionService } from "./Permission.service";
-import { MeService } from "./me.service";
-import { User } from "../model/user.model";
+import { TestBed, async, inject } from '@angular/core/testing';
+import { PermissionService } from './Permission.service';
+import { MeService } from './me.service';
+import { User } from '../model/user.model';
 import 'rxjs/add/operator/toPromise';
 
 describe('PermissionService', () => {
@@ -34,7 +34,7 @@ describe('PermissionService', () => {
 
   beforeEach(inject([PermissionService], (_service) => {
     mockUser = new User();
-    mockUser.permissions = ['EPP','SERVER_SIDE_STATUS'];
+    mockUser.permissions = ['EPP', 'SERVER_SIDE_STATUS'];
     mockMeService.get.and.returnValue(Promise.resolve(mockUser));
     service = _service;
   }));

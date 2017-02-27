@@ -12,8 +12,8 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-import { Injectable } from "@angular/core";
-import { MeService } from "./me.service";
+import { Injectable } from '@angular/core';
+import { MeService } from './me.service';
 import 'rxjs/add/operator/toPromise';
 
 @Injectable()

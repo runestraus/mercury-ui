@@ -12,9 +12,9 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-import { Injectable } from "@angular/core";
-import { HttpClient } from "../shared/http.client";
-import { User } from "../model/user.model";
+import { Injectable } from '@angular/core';
+import { HttpClient } from '../shared/http.client';
+import { User } from '../model/user.model';
 import 'rxjs/add/operator/toPromise';
 
 @Injectable()
