@@ -22,10 +22,6 @@ export class PermissionService {
   constructor(private meService: MeService) {}
 
   getPermissions(): Promise<String[]> {
-    return this.meService.get().then(user => user.permissions).catch(this.handleError);
-  }
-
-  private handleError(error: any): Promise<any> {
-    return Promise.reject(error.message || error);
+    return this.meService.get().then(user => user.permissions);
   }
 }
