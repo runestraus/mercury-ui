@@ -74,7 +74,7 @@ import { HttpClient } from "./shared/http.client";
       }
     ])
   ],
-  providers: [SearchService, TldService,  SessionService, MeService, PermissionService, HttpClient],
+  providers: [SearchService, TldService, SessionService, MeService, PermissionService, HttpClient],
   entryComponents: [],
   bootstrap: [AppComponent]
 })
