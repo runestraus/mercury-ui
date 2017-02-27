@@ -3,7 +3,7 @@ import { OAuthService } from 'angular-oauth2-oidc';
 import { environment } from '../../environments/environment';
 import { Subject } from 'rxjs/Subject';
 import { MeService } from './me.service';
-import { User } from "../model/user.model";
+import { User } from '../model/user.model';
 
 @Injectable()
 export class SessionService {
