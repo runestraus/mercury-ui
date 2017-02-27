@@ -74,7 +74,7 @@ import { PermissionService } from "./service/Permission.service";
       }
     ])
   ],
-  providers: [SearchService, TldService, SessionService, MeService, HttpClient, PermissionService],
+  providers: [SearchService, TldService, SessionService, MeService, PermissionService, HttpClient],
   entryComponents: [],
   bootstrap: [AppComponent]
 })
