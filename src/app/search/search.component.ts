@@ -1,8 +1,8 @@
-import {Component, OnInit} from "@angular/core";
-import {ActivatedRoute} from "@angular/router";
-import "rxjs/add/operator/switchMap";
-import {SearchService} from "../service/search.service";
-import {Domain} from "../model/domain.model";
+import {Component, OnInit} from '@angular/core';
+import {ActivatedRoute} from '@angular/router';
+import 'rxjs/add/operator/switchMap';
+import {SearchService} from '../service/search.service';
+import {Domain} from '../model/domain.model';
 
 @Component({
   selector: 'app-search',
