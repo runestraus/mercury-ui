@@ -12,7 +12,7 @@ import {TldsIndexComponent} from "./tlds/tlds-index/tlds-index.component";
 import {TldService} from "./service/tld.service";
 import {TldsCreateComponent} from "./tlds/tlds-create/tlds-create.component";
 import {DialogModule} from "primeng/components/dialog/dialog";
-import { MenuComponent } from './menu/menu.component';
+import {MenuComponent} from "./menu/menu.component";
 
 @NgModule({
   declarations: [

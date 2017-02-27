@@ -1,10 +1,12 @@
-<div class="navbar-search">
-  <form role="form">
-    <div class="input-group">
-      <input id="searchTermInput" placeholder=".tld" class="form-control" [(ngModel)]="query" [ngModelOptions]="{standalone: true}" type="text">
-      <button id="searchButton" type="button" class="btn btn-primary left" (click)="newQuery()">
-        <i class="fa fa-search"></i>
-      </button>
-    </div>
-</form>
+<div class="ui-g-12 search-bar-wrapper">
+  <div class="navbar-search">
+    <form role="form">
+      <div class="input-group">
+        <input id="searchTermInput" placeholder=".tld" class="form-control" [(ngModel)]="query" [ngModelOptions]="{standalone: true}" type="text">
+        <button id="searchButton" type="button" class="btn btn-primary left" (click)="newQuery()">
+          <i class="fa fa-search"></i>
+        </button>
+      </div>
+    </form>
+  </div>
 </div>

@@ -5,7 +5,7 @@ import { TldsIndexComponent } from './tlds/tlds-index/tlds-index.component';
 import { TldsCreateComponent } from './tlds/tlds-create/tlds-create.component';
 import { SearchComponent } from "./search/search.component";
 
-const routes: Routes = [
+export const routes: Routes = [
   { path: '', redirectTo: '/dashboard', pathMatch: 'full' },
   { path: 'dashboard',  component: DashboardComponent },
   {
