@@ -13,24 +13,24 @@
 // limitations under the License.
 
 import {FormControl } from '@angular/forms';
-import {CustomValidator} from "./customValidator";
+import {CustomValidator} from './customValidator';
 
 describe('customValidator Test', () => {
 
   it('should validate Money maximum amount is not valid', () => {
-    expect(CustomValidator.validateMoney(1,2)(new FormControl('3'))).toEqual(
+    expect(CustomValidator.validateMoney(1, 2)(new FormControl('3'))).toEqual(
       { MaximumAmount: Object({ requiredAmount: 2, actualAmount: '3' }) }
     );
   });
 
   it('should validate Money minimum amount is not valid', () => {
-    expect(CustomValidator.validateMoney(2,4)(new FormControl('1'))).toEqual(
+    expect(CustomValidator.validateMoney(2, 4)(new FormControl('1'))).toEqual(
       { MinimumAmount: Object({ requiredAmount: 2, actualAmount: '1' }) }
     );
   });
 
   it('should validate Money with null response', () => {
-    expect(CustomValidator.validateMoney(1,3)(new FormControl('2'))).toEqual(null);
+    expect(CustomValidator.validateMoney(1, 3)(new FormControl('2'))).toEqual(null);
   });
 
   it('should validate ipV6 address is not valid', () => {
