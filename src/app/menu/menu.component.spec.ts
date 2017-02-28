@@ -2,7 +2,6 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { DebugElement } from '@angular/core';
-
 import { MenuComponent } from './menu.component';
 
 describe('MenuComponent', () => {
@@ -35,5 +34,8 @@ it('expand menu', () => {
     component.isActive = true;
     fixture.detectChanges();
     expect(component.isActive).toBeTruthy();
+
+    fixture.debugElement.query(By.css('span')).nativeElement.click();
+    console.log(fixture.debugElement.query(By.css('span')).nativeElement);
 });
 });

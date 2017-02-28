@@ -1,9 +1,9 @@
 <p-dialog visible="true" modal="modal" width="300" responsive="true" [(closable)]="closable" header="Create New TLD">
-  <form  #tldForm="ngForm" (ngSubmit)="onSubmit()">
+  <form  (ngSubmit)="onSubmit()">
     <div class="modal-body">
       <div class="form-group">
         <label>TLD Name*:</label>
-        <input id="tld-name" type="text" autofocus placeholder="Name" class="form-control" [(ngModel)]="tld.name"
+        <input id="tld-name" type="text" autofocus placeholder="Name" class="form-control"
                minlength="2" maxlength="63" name="name" required/>
       </div>
       <div class="form-group">
@@ -11,7 +11,7 @@
         <div class="input-group">
           <span class="input-group-addon">USD</span>
           <input id="tld-create-price" type="number" class="form-control" placeholder="1.00" required
-                 [(ngModel)]="tld.createBillingCost" min="1" max="100000000" step="0.01" name="createBillingCost"/>
+                  min="1" max="100000000" step="0.01" name="createBillingCost"/>
         </div>
       </div>
       <div class="form-group">
@@ -19,7 +19,7 @@
         <div class="input-group">
           <span class="input-group-addon">USD</span>
           <input id="tld-restore-price" type="number" class="form-control" placeholder="1.00" required
-                 [(ngModel)]="tld.restoreBillingCost" min="1" max="100000000" step="0.01" name="restoreBillingCost"/>
+                 min="1" max="100000000" step="0.01" name="restoreBillingCost"/>
         </div>
       </div>
     </div>
