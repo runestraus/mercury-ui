@@ -12,23 +12,10 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-import { Injectable } from '@angular/core';
-import { HttpClient } from '../shared/http.client';
-import { User } from '../model/user.model';
-import 'rxjs/add/operator/toPromise';
-
-@Injectable()
-export class MeService {
-
-  constructor(private http: HttpClient) { }
-
-  get(): Promise<User> {
-    return this.http.get('/api/me').toPromise()
-      .then(res => res.json() as User)
-      .catch(this.handleError);
-  }
-
-  private handleError(error: any): Promise<any> {
-    return Promise.reject(error.message || error);
-  }
+export class User {
+  email: string;
+  clientId: string;
+  isRegistrarLogin: boolean;
+  permissions: string[];
+  ianaId: number;
 }
