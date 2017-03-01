@@ -3,43 +3,53 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { DebugElement } from '@angular/core';
 import { MenuComponent } from './menu.component';
-import { HttpClient } from '../shared/http.client';
+import { FormsModule } from '@angular/forms';
 import { MeService } from '../service/me.service';
 import 'rxjs/add/operator/toPromise';
 import {User} from '../model/user.model';
+import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 
 describe('MenuComponent', () => {
-let component: MenuComponent;
-let fixture: ComponentFixture<MenuComponent>;
+  let component: MenuComponent;
+  let fixture: ComponentFixture<MenuComponent>;
+  let page: Page;
 
-beforeEach(async(() => {
+  const mockRouter = {
+    navigate: jasmine.createSpy('navigate')
+   };
+
+  beforeEach(async(() => {
     TestBed.configureTestingModule({
     declarations: [ MenuComponent ],
-    providers: [HttpClient]
+    imports: [FormsModule],
+    schemas: [ CUSTOM_ELEMENTS_SCHEMA ]
     })
     .compileComponents();
-}));
+  }));
 
-beforeEach(() => {
+  beforeEach(() => {
     fixture = TestBed.createComponent(MenuComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
-});
+  });
 
-xit('should create', () => {
+  xit('should create', () => {
     expect(component).toBeTruthy();
-});
+  });
 
-xit('active should be false', () => {
+  xit('active should be false', () => {
     expect(component.isActive).toBe(false);
-});
+  });
 
-xit('expand menu', () => {
-    component.isActive = true;
-    fixture.detectChanges();
+  xit('expand menu', () => {
+    expect(component.isActive).toBeFalsy();
+    page.toggleButton.click();
     expect(component.isActive).toBeTruthy();
-
-    fixture.debugElement.query(By.css('span')).nativeElement.click();
     console.log(fixture.debugElement.query(By.css('span')).nativeElement);
-});
+  });
+
+  class Page {
+    toggleButton = fixture.debugElement.query(By.css('span')).nativeElement;
+    constructor() {}
+  }
 });

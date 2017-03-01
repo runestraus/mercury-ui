@@ -20,6 +20,7 @@ import {User} from '../model/user.model';
 
 @Component({
   selector: 'app-menu',
+  moduleId: module.id,
   templateUrl: './menu.component.html',
   styleUrls: ['./menu.component.css'],
   providers: [MeService]
@@ -33,14 +34,17 @@ export class MenuComponent implements OnInit {
 
   constructor(private meService: MeService) {}
 
-    ngOnInit() {
-    this.getUser();
-    console.log('user: ' + this.user);
+  getUser() {
+    this.meService.get()
+    .then(user => {
+      this.user = user;
+    })
   }
 
-  getUser() {
-    this.meService.get().then(user => this.user);
-  }
+ngOnInit() {
+  this.user = null;
+  this.getUser();
+}
 
   toggle() {
     this.isActive = !this.isActive;

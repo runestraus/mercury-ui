@@ -2,10 +2,11 @@
     <span role="button" class="hamburger" (click)="toggle()"><i class="fa fa-bars fa-lg"></i></span>
     <a class="navbar-brand" routerLink="/"><img id="donuts-logo" src="/assets/images/donuts-logo.png"/></a>
     <a class="navbar-brand registry-header-text" routerLink="/">Portal</a>
-    <div class="registrarName">
-        Registrar: <br />
-        IANA ID: 
+    <div class="registrarName" *ngIf="user">
+        Registrar: {{user.clientId}}<br />
+        IANA ID: {{user.ianaId}}
     </div>
+    <p class="error" *ngIf="errorMessage">{{errorMessage}}</p>
     <div class="navbar-default sidebar" role="navigation" *ngIf="isActive">
         <ul class="nav" id="side-menu">
             <ul class="nav">

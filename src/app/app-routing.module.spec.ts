@@ -43,7 +43,6 @@ describe('component: TestComponent', function () {
     fixture.debugElement.query(By.css('a')).nativeElement.click();
     fixture.whenStable().then(() => {
       expect(location.path()).toEqual('/tlds');
-      console.log('location.path()) is ' + location.path());
     });
   })));
 });

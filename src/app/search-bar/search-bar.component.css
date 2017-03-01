@@ -3,10 +3,11 @@
 }
 
 .navbar-search {
-    float: left;
-    margin-top:15px;
-    width:800px;
+  float: left;
+  margin-top:15px;
+  width:800px;
 }
-  .navbar-search div.input-group {
-    width: 100%;
+
+.navbar-search div.input-group {
+  width: 100%;
 }
