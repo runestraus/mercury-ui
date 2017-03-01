@@ -312,10 +312,6 @@ label.modal-label, .modal-input-group, .modal-text, .modal-form-control {
   margin-right: 20px;
 }
 
-.search-bar-wrapper {
-  background-color: #f8f8f8;
-}
-
 /*
  * mobile first
  */
@@ -336,14 +332,6 @@ label.modal-label, .modal-input-group, .modal-text, .modal-form-control {
   }
   .showOnlyInDesktop, .hiddenInMobile {
     display: none;
-  }
-  .navbar-search {
-    float: left;
-    margin-top:15px;
-    width:800px;
-  }
-  .navbar-search div.input-group {
-    width: 100%;
   }
   .navbar-header::after {
     clear:none;

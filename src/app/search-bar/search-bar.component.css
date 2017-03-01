@@ -1,0 +1,12 @@
+.search-bar-wrapper {
+  background-color: #f8f8f8;
+}
+
+.navbar-search {
+    float: left;
+    margin-top:15px;
+    width:800px;
+}
+  .navbar-search div.input-group {
+    width: 100%;
+}
