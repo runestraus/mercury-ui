@@ -8,12 +8,16 @@ import { SessionService } from '../service/session.service';
 })
 export class LoginComponent implements OnInit {
   loginFailed = false;
-  constructor(private sessionService: SessionService) {
-  }
+
+  constructor(private sessionService: SessionService) {}
 
   ngOnInit() {
     this.sessionService.loginObservable().subscribe(
-      error => this.loginFailed = true
+      () => {}, // Successful Event
+      () => {   // Error
+        this.loginFailed = true;
+      },
+      () => {}  // Done
     );
   }
 

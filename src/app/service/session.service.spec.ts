@@ -1,10 +1,10 @@
 /* tslint:disable:no-unused-variable */
-import { TestBed, inject } from '@angular/core/testing';
+import { TestBed, inject, async } from '@angular/core/testing';
 import { SessionService } from './session.service';
 import { OAuthService } from 'angular-oauth2-oidc';
 import { environment } from '../../environments/environment';
 import { MeService } from './me.service';
-import { Observable } from 'rxjs/Observable';
+import { User } from '../model/user.model';
 
 describe('SessionService', () => {
   let sessionService;
@@ -14,13 +14,15 @@ describe('SessionService', () => {
     redirectUri: '',
     clientId: '',
     scope: '',
-    hasValidAccessToken: jasmine.createSpy('hasValidAccessToken'),
-    tryLogin: jasmine.createSpy('tryLogin'),
-    loadDiscoveryDocument: jasmine.createSpy('loadDiscoveryDocument')
+    hasValidAccessToken: jasmine.createSpy('oauthService.hasValidAccessToken'),
+    tryLogin: jasmine.createSpy('oauthService.tryLogin'),
+    loadDiscoveryDocument: jasmine.createSpy('oauthService.loadDiscoveryDocument'),
+    logOut: jasmine.createSpy('oauthService.logOut')
   };
 
   const mockMeService = {
-    get: jasmine.createSpy('get')
+    get: jasmine.createSpy('get'),
+    logout: jasmine.createSpy('logout')
   };
 
   beforeEach(() => {
@@ -39,7 +41,7 @@ describe('SessionService', () => {
   }));
 
   it('initialize() should setup and tryLogin', () => {
-    mockOAuthService.loadDiscoveryDocument.and.returnValue(Observable.from('nothing').toPromise());
+    mockOAuthService.loadDiscoveryDocument.and.returnValue(Promise.resolve('nothing'));
     sessionService.initialize();
 
     expect(oAuthService.redirectUri).toBeDefined();
@@ -59,6 +61,24 @@ describe('SessionService', () => {
     mockOAuthService.hasValidAccessToken.and.returnValue(true);
     expect(sessionService.isLoggedIn()).toBeTruthy();
     expect(mockOAuthService.hasValidAccessToken).toHaveBeenCalled();
+  });
+
+  it('logOut() should call logout on meService then logout from oauthService', async(() => {
+    mockMeService.logout.and.returnValue(Promise.resolve(new User()));
+
+    sessionService.logOut().then(() => {
+      expect(mockMeService.logout).toHaveBeenCalled();
+      expect(mockOAuthService.logOut).toHaveBeenCalled();
+    });
+  }));
+
+  it('should load the user profile from localstorage', () => {
+    localStorage.setItem('id_token_claims_obj', '{"name":"John Donuts", "email":"john@donuts.email", "picture":"someImageUrl"}');
+    const profile = sessionService.getUserProfile();
+
+    expect(profile.name).toBe('John Donuts');
+    expect(profile.email).toBe('john@donuts.email');
+    expect(profile.picture).toBe('someImageUrl');
   });
 });
 

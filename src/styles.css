@@ -65,6 +65,27 @@
   display: inline;
 }
 
+#user-image {
+  -webkit-background-size: 32px 32px;
+  background-size: 32px 32px;
+  display: block;
+  overflow: hidden;
+  position: relative;
+  height: 32px;
+  width: 32px;
+  z-index: 0;
+}
+
+.dropdown-text {
+  display: block;
+  padding: 3px 20px;
+  clear: both;
+  font-weight: normal;
+  line-height: 1.42857143;
+  color: #333;
+  white-space: nowrap;
+}
+
 .registry-header-text {
   line-height:28px;
   padding-left:5px;

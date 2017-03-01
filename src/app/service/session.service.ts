@@ -4,6 +4,7 @@ import { environment } from '../../environments/environment';
 import { Subject } from 'rxjs/Subject';
 import { MeService } from './me.service';
 import { User } from '../model/user.model';
+import { Profile } from '../model/profile.model';
 
 @Injectable()
 export class SessionService {
@@ -25,9 +26,14 @@ export class SessionService {
     this.oauthService.loadDiscoveryDocument().then(() => {
       this.oauthService.tryLogin({
         onTokenReceived: () => {
-          this.meService.get().then( data =>
-            this.loginEvent.next(data)
-          ).catch(this.handleError);
+          this.meService.get()
+            .then(data => {
+              this.loginEvent.next(data);
+            })
+            .catch(err => {
+              this.oauthService.logOut();
+              this.loginEvent.error(err);
+            });
         }
       });
     });
@@ -45,20 +51,16 @@ export class SessionService {
     return this.loginEvent.asObservable();
   }
 
-  logOut() {
-    // hack to sign out from google oauth
-    const revokeTokenEndpoint = 'https://accounts.google.com/o/oauth2/revoke?token';
-    const iframe = document.createElement('iframe');
-
-    iframe.setAttribute('src', `${revokeTokenEndpoint}=${this.oauthService.getAccessToken()}`);
-    iframe.setAttribute('class', 'hide');
-    iframe.setAttribute('id', 'google-redirect');
-    document.body.appendChild(iframe);
-    this.oauthService.logOut();
+  getUserProfile(): Profile {
+    return JSON.parse(localStorage.getItem('id_token_claims_obj')) as Profile;
   }
 
-  private handleError(error: any) {
-    this.logOut();
-    this.loginEvent.error(error);
+  logOut(): Promise<any> {
+    return this.meService.logout()
+      .then(() => this.oauthService.logOut())
+      .catch(() => {
+        // swallow error and log out locally
+        this.oauthService.logOut();
+      });
   }
 }

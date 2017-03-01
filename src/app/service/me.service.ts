@@ -22,9 +22,24 @@ export class MeService {
 
   constructor(private http: HttpClient) { }
 
+  /**
+   * Gets the current logged in user.
+   *
+   * @returns {Promise<User>}
+   */
   get(): Promise<User> {
     return this.http.get('/api/me').toPromise()
       .then(res => res.json() as User)
+      .catch(this.handleError);
+  }
+
+  /**
+   * Sends logout request to api
+   *
+   * @returns {any}
+   */
+  logout() {
+    return this.http.get('/api/me/logout').toPromise()
       .catch(this.handleError);
   }
 

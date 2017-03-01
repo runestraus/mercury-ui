@@ -33,4 +33,12 @@ describe('MeService', () => {
     });
     service.get();
   });
+
+  it('should make a request to api/me/logout route', () => {
+    mockBackend.connections.subscribe((connection: MockConnection) => {
+      expect(connection.request.url).toMatch(/api\/me\/logout/, 'url invalid');
+      expect(connection.request.method).toBe(RequestMethod.Get);
+    });
+    service.logout();
+  });
 });
