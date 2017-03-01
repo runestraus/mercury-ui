@@ -31,13 +31,13 @@ xit('should create', () => {
 });
 
 xit('active should be false', () => {
-    //expect(component.isActive).toBe(false);
+    expect(component.isActive).toBe(false);
 });
 
 xit('expand menu', () => {
-    //component.isActive = true;
+    component.isActive = true;
     fixture.detectChanges();
-    //expect(component.isActive).toBeTruthy();
+    expect(component.isActive).toBeTruthy();
 
     fixture.debugElement.query(By.css('span')).nativeElement.click();
     console.log(fixture.debugElement.query(By.css('span')).nativeElement);
