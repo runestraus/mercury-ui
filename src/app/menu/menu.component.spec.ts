@@ -7,7 +7,7 @@ import { MenuComponent } from './menu.component';
 describe('MenuComponent', () => {
 let component: MenuComponent;
 let fixture: ComponentFixture<MenuComponent>;
-let el: HTMLElement;
+const el: HTMLElement;
 
 beforeEach(async(() => {
     TestBed.configureTestingModule({

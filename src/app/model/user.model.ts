@@ -13,9 +13,10 @@
 // limitations under the License.
 
 export class User {
-  email: string;
-  clientId: string;
-  isRegistrarLogin: boolean;
-  permissions: string[];
-  ianaId: number;
+  constructor(
+    public email: string,
+    public clientId: string,
+    public isRegistrarLogin: boolean,
+    public permissions: string[],
+    public ianaId: number) {}
 }
