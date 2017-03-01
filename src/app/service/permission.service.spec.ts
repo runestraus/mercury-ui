@@ -13,7 +13,7 @@
 // limitations under the License.
 
 import { TestBed, async, inject } from '@angular/core/testing';
-import { PermissionService } from './Permission.service';
+import { PermissionService } from './permission.service';
 import { MeService } from './me.service';
 import { User } from '../model/user.model';
 import 'rxjs/add/operator/toPromise';

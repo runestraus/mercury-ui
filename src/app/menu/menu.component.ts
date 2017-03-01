@@ -38,7 +38,7 @@ export class MenuComponent implements OnInit {
     this.meService.get()
     .then(user => {
       this.user = user;
-    })
+    });
   }
 
 ngOnInit() {

@@ -12,7 +12,6 @@ import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 describe('MenuComponent', () => {
   let component: MenuComponent;
   let fixture: ComponentFixture<MenuComponent>;
-  let page: Page;
 
   const mockRouter = {
     navigate: jasmine.createSpy('navigate')
@@ -43,13 +42,8 @@ describe('MenuComponent', () => {
 
   xit('expand menu', () => {
     expect(component.isActive).toBeFalsy();
-    page.toggleButton.click();
+    fixture.debugElement.query(By.css('span')).nativeElement.toggleButton.click();
     expect(component.isActive).toBeTruthy();
     console.log(fixture.debugElement.query(By.css('span')).nativeElement);
   });
-
-  class Page {
-    toggleButton = fixture.debugElement.query(By.css('span')).nativeElement;
-    constructor() {}
-  }
 });

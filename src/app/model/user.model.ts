@@ -17,5 +17,5 @@ export class User {
   clientId: string;
   isRegistrarLogin: boolean;
   permissions: string[];
-  ianaId: number
+  ianaId: number;
 }

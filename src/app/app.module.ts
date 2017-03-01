@@ -33,7 +33,7 @@ import { OAuthModule } from 'angular-oauth2-oidc';
 import { SessionService } from './service/session.service';
 import { MeService } from './service/me.service';
 import { HttpClient } from './shared/http.client';
-import { PermissionService } from './service/Permission.service';
+import { PermissionService } from './service/permission.service';
 
 @NgModule({
   declarations: [
