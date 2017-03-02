@@ -1,8 +1,10 @@
 import { async, TestBed, ComponentFixture } from '@angular/core/testing';
 import { AppComponent } from './app.component';
 import { SessionService } from './service/session.service';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
+
 describe('AppComponent', () => {
   let component: AppComponent;
   let fixture: ComponentFixture<AppComponent>;
@@ -19,6 +21,7 @@ describe('AppComponent', () => {
       providers: [{provide: SessionService, useValue: mockSessionService},
         {provide: Router, useValue: mockRouter}],
       declarations: [ AppComponent ],
+      imports: [ FormsModule, ReactiveFormsModule ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA]
     }).compileComponents();
   }));

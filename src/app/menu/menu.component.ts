@@ -12,16 +12,36 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-import { Injectable } from '@angular/core';
-import { MeService } from './me.service';
+import { Component, OnInit, Injectable } from '@angular/core';
+import {Router} from '@angular/router';
+import { MeService } from '../service/me.service';
 import 'rxjs/add/operator/toPromise';
+import {User} from '../model/user.model';
 
-@Injectable()
-export class PermissionService {
+@Component({
+  selector: 'app-menu',
+  templateUrl: './menu.component.html',
+  styleUrls: ['./menu.component.css']
+})
+export class MenuComponent implements OnInit {
+  isActive: boolean;
+  user: User;
+  errorMessage: string;
 
   constructor(private meService: MeService) {}
 
-  getPermissions(): Promise<String[]> {
-    return this.meService.get().then(user => user.permissions);
+  showNavItem(permission): boolean {
+    return this.user.permissions.some(perm => perm === permission);
+  }
+
+  ngOnInit() {
+    this.meService.get()
+      .then(user => {
+        this.user = user;
+      });
+  }
+
+  toggle() {
+    this.isActive = !this.isActive;
   }
 }

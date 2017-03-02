@@ -1,7 +1,10 @@
-<div class="wrapper">
-  <app-navbar *ngIf="isLoggedIn()"></app-navbar>
-  <app-login *ngIf="!isLoggedIn()"></app-login>
-  <div class="wrapper" [class.hide]="!isLoggedIn()">
-    <router-outlet></router-outlet>
+<div class="ui-g">
+  <app-menu *ngIf="isLoggedIn()"></app-menu>
+  <div class="ui-g-12 ui-md-10 ui-g-nopad">
+    <app-search-bar *ngIf="isLoggedIn()"></app-search-bar>
+    <app-login *ngIf="!isLoggedIn()"></app-login>
+    <div class="wrapper" [class.hide]="!isLoggedIn()">
+      <router-outlet></router-outlet>
+    </div>
   </div>
 </div>

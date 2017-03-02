@@ -1,29 +1,26 @@
 <p-dialog visible="true" modal="modal" width="300" responsive="true" [(closable)]="closable" header="Create New TLD">
-  <form  #tldForm="ngForm" (ngSubmit)="onSubmit()">
-    <div class="modal-body" data-ng-show="ctrl.showform">
+  <form  (ngSubmit)="onSubmit()">
+    <div class="modal-body">
       <div class="form-group">
         <label>TLD Name*:</label>
-        <input id="tld-name" type="text" autofocus placeholder="Name" class="form-control" [(ngModel)]="tld.name"
+        <input id="tld-name" type="text" autofocus placeholder="Name" class="form-control"
                minlength="2" maxlength="63" name="name" required/>
-        <!--<p id="tld-name-error" class="help-block" data-ng-if="ctrl.errors.name">{{ ctrl.errors.name}}</p>-->
       </div>
       <div class="form-group">
         <label>Create*:</label>
         <div class="input-group">
           <span class="input-group-addon">USD</span>
           <input id="tld-create-price" type="number" class="form-control" placeholder="1.00" required
-                 [(ngModel)]="tld.createBillingCost" min="1" max="100000000" step="0.01" name="createBillingCost"/>
+                  min="1" max="100000000" step="0.01" name="createBillingCost"/>
         </div>
-        <!--<p class="help-block" data-ng-if="ctrl.errors.createBillingCost">{{ ctrl.errors.createBillingCost}}</p>-->
       </div>
-      <div class="form-group" data-ng-class="{'has-error': ctrl.errors.restoreBillingCost}">
+      <div class="form-group">
         <label>Restore*:</label>
         <div class="input-group">
           <span class="input-group-addon">USD</span>
           <input id="tld-restore-price" type="number" class="form-control" placeholder="1.00" required
-                 [(ngModel)]="tld.restoreBillingCost" min="1" max="100000000" step="0.01" name="restoreBillingCost"/>
+                 min="1" max="100000000" step="0.01" name="restoreBillingCost"/>
         </div>
-        <!--<p class="help-block" data-ng-if="ctrl.errors.restoreBillingCost">{{ ctrl.errors.restoreBillingCost}}</p>-->
       </div>
     </div>
     <p-footer id="tld-create-footer">
