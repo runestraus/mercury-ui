@@ -1,0 +1,29 @@
+<table>
+  <p class="error" *ngIf="errorMessage">{{errorMessage}}</p>
+</table>
+<table class="table table-striped table-bordered table-hover" id="domainsTable">
+  <thead>
+  <tr>
+    <th id="domainName">Domain</th>
+    <th id="tld">TLD</th>
+    <th id="status">Status</th>
+    <th id="systemTags">System Tags</th>
+    <th id="price">Price</th>
+    <th id="category">Category</th>
+    <th id="iannaNumber">Ianna ID</th>
+    <th id="registrarName">Registrar</th>
+  </tr>
+  </thead>
+  <tbody>
+  <tr *ngFor="let domain of domains">
+    <td>{{domain.domainName}}</td>
+    <td>{{domain.tld}}</td>
+    <td>{{domain.status}}</td>
+    <td>{{domain.systemTags}}</td>
+    <td>{{domain.price}}</td>
+    <td>{{domain.priceCategory}}</td>
+    <td>{{domain.iannaNumber}}</td>
+    <td>{{domain.registrar}}</td>
+  </tr>
+  </tbody>
+</table>

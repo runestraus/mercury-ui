@@ -1,0 +1,20 @@
+<table>
+  <p class="error" *ngIf="errorMessage">{{errorMessage}}</p>
+</table>
+<table id="dopmlTable">
+  <thead>
+  <tr>
+    <th id="domainName">Label</th>
+  </tr>
+  </thead>
+  <tbody>
+  <tr *ngFor="let dpml of dpmls">
+    <td>{{dpml.label}}</td>
+  </tr>
+  <tr *ngFor="let dpml of dpmls">
+    <app-domain *ngIf="dpml.domainNames.length > 0" [domains]="dpml.domainNames"></app-domain>
+    <app-premium-name *ngIf="dpml.premiumNames.length > 0" [premiumNames]="dpml.premiumNames"></app-premium-name>
+    <app-reserved-name *ngIf="dpml.reservedNames.length > 0" [reservedNames]="dpml.reservedNames"></app-reserved-name>
+  </tr>
+  </tbody>
+</table>

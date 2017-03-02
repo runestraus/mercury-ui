@@ -46,5 +46,4 @@ describe('PermissionService', () => {
       expect(perms[1]).toEqual('SERVER_SIDE_STATUS', ' SERVER_SIDE_STATUS should be the second permission');
     });
   }));
-
 });
