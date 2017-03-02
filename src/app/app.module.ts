@@ -33,7 +33,6 @@ import { OAuthModule } from 'angular-oauth2-oidc';
 import { SessionService } from './service/session.service';
 import { MeService } from './service/me.service';
 import { HttpClient } from './shared/http.client';
-import { PermissionService } from './service/permission.service';
 
 @NgModule({
   declarations: [
@@ -55,7 +54,7 @@ import { PermissionService } from './service/permission.service';
     AppRoutingModule,
     OAuthModule.forRoot(),
   ],
-  providers: [SearchService, TldService, SessionService, MeService, PermissionService, HttpClient],
+  providers: [SearchService, TldService, SessionService, MeService, HttpClient],
   entryComponents: [],
   bootstrap: [AppComponent]
 })

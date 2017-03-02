@@ -41,18 +41,13 @@ export class MenuComponent implements OnInit {
     });
   }
 
-  showNavItem(permission) {
-    this.permissions = this.user.permissions;
-        if (this.permissions.indexOf(permission) > -1) {
-            return true;
-        } else {
-            return false;
-        }
+  showNavItem(permission): boolean {
+    return this.user.permissions.some(perm => perm === permission);
   }
 
-ngOnInit() {
-  this.getUser();
-}
+  ngOnInit() {
+    this.getUser();
+  }
 
   toggle() {
     this.isActive = !this.isActive;

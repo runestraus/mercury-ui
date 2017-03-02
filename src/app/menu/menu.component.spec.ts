@@ -20,6 +20,10 @@ describe('MenuComponent', () => {
     navigate: jasmine.createSpy('navigate')
    };
 
+  const mockSessionService = {
+    getUser: jasmine.createSpy('meService.get')
+  };
+
   beforeEach(async(() => {
     TestBed.configureTestingModule({
     declarations: [ MenuComponent ],
@@ -31,6 +35,13 @@ describe('MenuComponent', () => {
   }));
 
   beforeEach(() => {
+    const user = new User();
+    user.email = 'test@donuts.email';
+    user.clientId = 'brodaddy';
+    user.isRegistrarLogin = true;
+    user.permissions = ['CRU_REGISTRY_ADMIN'];
+    user.ianaId = 9999;
+    mockSessionService.getUser.and.returnValue(user);
     fixture = TestBed.createComponent(MenuComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
@@ -41,12 +52,16 @@ describe('MenuComponent', () => {
   });
 
   it('active should be false', () => {
-    expect(component.isActive).toBeFalsy;
+    expect(component.isActive).toBeFalsy();
   });
 
   it('expand menu', () => {
     expect(component.isActive).toBeFalsy();
     fixture.debugElement.query(By.css('span')).nativeElement.click();
-    expect(component.isActive).toBeTruthy;
+    expect(component.isActive).toBeTruthy();
+  });
+
+  it('show nav item', () => {
+    expect(component.showNavItem).toBeTruthy();
   });
 });
