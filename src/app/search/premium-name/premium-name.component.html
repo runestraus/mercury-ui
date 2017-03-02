@@ -1,0 +1,35 @@
+<table>
+  <p class="error" *ngIf="errorMessage">{{errorMessage}}</p>
+</table>
+<table class="table table-striped table-bordered table-hover" id="premiumPriceTable">
+  <thead>
+  <tr>
+    <th id="premiumDomainName">Domain</th>
+    <th id="premiumDomainCategory">Category</th>
+    <th id="premiumDomainPrice">Amount</th>
+    <th id="premiumDomainFutureCategory">Future Category</th>
+    <th id="premiumDomainChangeDate">Change Date</th>
+  </tr>
+  </thead>
+  <tbody>
+  <tr *ngFor="let premiumName of premiumNames">
+    <td>
+        <span tooltip="Get Domain Info" class="spanLink">
+          {{premiumName.name}}
+        </span>
+    </td>
+    <td>
+      {{premiumName.category}}
+    </td>
+    <td class="text-right">
+      {{premiumName.price}}
+    </td>
+    <td>
+      {{premiumName.futureCategory}}
+    </td>
+    <td>
+      {{premiumName.changeDate}}
+    </td>
+  </tr>
+  </tbody>
+</table>

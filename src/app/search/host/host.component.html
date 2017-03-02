@@ -1,0 +1,15 @@
+<table>
+  <p class="error" *ngIf="errorMessage">{{errorMessage}}</p>
+</table>
+<table id="hostsTable">
+  <thead>
+  <tr>
+    <th id="hostName">Host</th>
+  </tr>
+  </thead>
+  <tbody>
+  <tr *ngFor="let host of hosts">
+    <td>{{host.fullyQualifiedHostName}}</td>
+  </tr>
+  </tbody>
+</table>

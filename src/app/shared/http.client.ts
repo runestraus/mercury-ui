@@ -31,4 +31,7 @@ export class HttpClient {
     return this.http.delete(environment.baseRoute + url, {headers: this.getHeaders()});
   }
 
+  handleError(error: any): Promise<any> {
+    return Promise.reject(error.message || error);
+  }
 }
