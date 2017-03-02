@@ -20,32 +20,25 @@ import {User} from '../model/user.model';
 
 @Component({
   selector: 'app-menu',
-  moduleId: module.id,
   templateUrl: './menu.component.html',
-  styleUrls: ['./menu.component.css'],
-  providers: [MeService]
+  styleUrls: ['./menu.component.css']
 })
 export class MenuComponent implements OnInit {
   isActive: boolean;
-
   user: User;
   errorMessage: string;
 
   constructor(private meService: MeService) {}
-
-  getUser() {
-    this.meService.get()
-    .then(user => {
-      this.user = user;
-    });
-  }
 
   showNavItem(permission): boolean {
     return this.user.permissions.some(perm => perm === permission);
   }
 
   ngOnInit() {
-    this.getUser();
+    this.meService.get()
+      .then(user => {
+        this.user = user;
+      });
   }
 
   toggle() {
