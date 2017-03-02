@@ -9,33 +9,33 @@
     <p class="error" *ngIf="errorMessage">{{errorMessage}}</p>
     <div class="navbar-default sidebar" role="navigation" *ngIf="isActive">
         <ul class="nav" id="side-menu">
-            <ul class="nav">
-                <li>
+            <ul class="nav" *ngIf="showNavItem('CRU_REGISTRY_ADMIN')">
+                <li *ngIf="showNavItem('CRU_REGISTRY_ADMIN')">
                     <a routerLink="/premiumlists" routerLinkActive="active"><i class="fa fa-cloud-download fa-fw"></i>&nbsp; Premium Lists</a>
                 </li>
-                <li>
+                <li *ngIf="showNavItem('CRU_REGISTRY_ADMIN')">
                     <a routerLink="/reserveddomains" routerLinkActive="active"><i class="fa fa-cloud-download fa-fw"></i>Reserved Domains</a>
                 </li>
             </ul>
-            <ul class="nav">
-                <li>
+            <ul class="nav" *ngIf="showNavItem('CRU_REGISTRAR_USER')">
+                <li *ngIf="showNavItem('CRU_TLD')">
                     <a routerLink="/tlds" routerLinkActive="active"><i class="fa fa-gear fa-fw"></i>TLDs</a>
                 </li>
-                <li>
+                <li *ngIf="showNavItem('CRU_REGISTRAR_USER')">
                     <a routerLink="/users" routerLinkActive="active"><i class="fa fa-users fa-fw"></i>Users</a>
                 </li>
-                <li>
+                <li *ngIf="showNavItem('CRU_PRICE_CATEGORIES')">
                     <a routerLink="/pricecategories" routerLinkActive="active"><i class="fa fa-dollar fa-fw"></i>Price Categories</a>
                 </li>
             </ul>
-            <ul class="nav">
-                <li>
+            <ul class="nav" *ngIf="showNavItem('SERVER_SIDE_STATUS')">
+                <li *ngIf="showNavItem('CRU_REGISTRAR_USER')">
                     <a routerLink="/pricecategories" routerLinkActive="active"><i class="fa fa-cubes fa-fw"></i>TLD Report Counters</a>
                 </li>
-                <li>
+                <li *ngIf="showNavItem('CRU_REGISTRAR_USER')">
                     <a routerLink="/pricecategories" routerLinkActive="active"><i class="fa fa-group fa-fw"></i>Registrars Report Counters</a>
                 </li>
-                <li>
+                <li *ngIf="showNavItem('CRU_REGISTRAR_USER')">
                     <a routerLink="/pricecategories" routerLinkActive="active"><i class="fa fa-globe fa-fw"></i>DNS Report Counters</a>
                 </li>
             </ul>

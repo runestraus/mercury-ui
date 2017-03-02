@@ -30,7 +30,7 @@ export class MenuComponent implements OnInit {
 
   user: User;
   errorMessage: string;
-  mode = 'Promise';
+  permissions: string[];
 
   constructor(private meService: MeService) {}
 
@@ -41,8 +41,16 @@ export class MenuComponent implements OnInit {
     });
   }
 
+  showNavItem(permission) {
+    this.permissions = this.user.permissions;
+        if (this.permissions.indexOf(permission) > -1) {
+            return true;
+        } else {
+            return false;
+        }
+  }
+
 ngOnInit() {
-  this.user = null;
   this.getUser();
 }
 

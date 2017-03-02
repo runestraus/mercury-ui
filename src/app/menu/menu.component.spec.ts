@@ -6,8 +6,11 @@ import { MenuComponent } from './menu.component';
 import { FormsModule } from '@angular/forms';
 import { MeService } from '../service/me.service';
 import 'rxjs/add/operator/toPromise';
+import { HttpModule } from '@angular/http';
 import {User} from '../model/user.model';
-import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
+import { CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA } from '@angular/core';
+import { HttpClient } from '../shared/http.client';
+import { OAuthService } from 'angular-oauth2-oidc';
 
 describe('MenuComponent', () => {
   let component: MenuComponent;
@@ -20,8 +23,9 @@ describe('MenuComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
     declarations: [ MenuComponent ],
-    imports: [FormsModule],
-    schemas: [ CUSTOM_ELEMENTS_SCHEMA ]
+    imports: [ FormsModule, HttpModule ],
+    schemas: [ CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA ],
+    providers: [ HttpClient, OAuthService ]
     })
     .compileComponents();
   }));
@@ -32,18 +36,17 @@ describe('MenuComponent', () => {
     fixture.detectChanges();
   });
 
-  xit('should create', () => {
+  it('should create', () => {
     expect(component).toBeTruthy();
   });
 
-  xit('active should be false', () => {
-    expect(component.isActive).toBe(false);
+  it('active should be false', () => {
+    expect(component.isActive).toBeFalsy;
   });
 
-  xit('expand menu', () => {
+  it('expand menu', () => {
     expect(component.isActive).toBeFalsy();
-    fixture.debugElement.query(By.css('span')).nativeElement.toggleButton.click();
-    expect(component.isActive).toBeTruthy();
-    console.log(fixture.debugElement.query(By.css('span')).nativeElement);
+    fixture.debugElement.query(By.css('span')).nativeElement.click();
+    expect(component.isActive).toBeTruthy;
   });
 });
