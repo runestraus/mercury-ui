@@ -3,16 +3,6 @@
  * admin and whois specific CSS
  */
 
-body {
-  background-color: #f8f8f8;
-}
-
-#page-wrapper {
-  padding: 0 20px;
-  min-height: 568px;
-  background-color: #fff;
-}
-
 .left{
   float: left;
 }
@@ -353,6 +343,15 @@ label.modal-label, .modal-input-group, .modal-text, .modal-form-control {
   }
   .showOnlyInDesktop, .hiddenInMobile {
     display: none;
+  }
+  .navbar-search {
+    float: left;
+    margin-top:15px;
+    padding-left:60px;
+    width:800px;
+  }
+  .navbar-search div.input-group {
+    width: 100%;
   }
   .navbar-header::after {
     clear:none;
