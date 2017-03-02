@@ -30,7 +30,6 @@ export class MenuComponent implements OnInit {
 
   user: User;
   errorMessage: string;
-  permissions: string[];
 
   constructor(private meService: MeService) {}
 
