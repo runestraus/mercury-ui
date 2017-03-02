@@ -3,7 +3,6 @@ node('master') {
         stage('Checkout') {
             checkout scm
             sh 'npm install'
-            sh "ng build -prod -aot"
         }
         stage('Lint') {
             sh 'npm install'

@@ -11,6 +11,7 @@
 // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 // See the License for the specific language governing permissions and
 // limitations under the License.
+
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
@@ -18,6 +19,7 @@ import { HttpModule } from '@angular/http';
 import { AppComponent } from './app.component';
 import { SearchBarComponent } from './search-bar/search-bar.component';
 import { AppRoutingModule } from './app-routing.module';
+import { RouterModule } from '@angular/router';
 import { SearchComponent } from './search/search.component';
 import { SearchService } from './service/search.service';
 import { DashboardComponent } from './dashboard/dashboard.component';
@@ -37,7 +39,6 @@ import { ContactComponent } from './search/contact/contact.component';
 import { PremiumNameComponent } from './search/premium-name/premium-name.component';
 import { ReservedNameComponent } from './search/reserved-name/reserved-name.component';
 import { DpmlComponent } from './search/dpml/dpml.component';
-import { NavbarComponent } from './navbar/navbar.component';
 
 @NgModule({
   declarations: [
@@ -54,8 +55,7 @@ import { NavbarComponent } from './navbar/navbar.component';
     ContactComponent,
     PremiumNameComponent,
     ReservedNameComponent,
-    DpmlComponent,
-    NavbarComponent
+    DpmlComponent
   ],
   imports: [
     DialogModule,
