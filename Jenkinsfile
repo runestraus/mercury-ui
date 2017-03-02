@@ -14,5 +14,15 @@ node('master') {
                 sh 'ng test --build --browsers SL_Chrome --watch=false'
             }
         }
+        if (env.BRANCH_NAME == 'master') {
+            stage('Deploy') {
+                sh "ng build -prod -aot"
+                withCredentials([[$class: 'StringBinding',
+                                credentialsId: 'fbdeb584-ea29-4614-9421-c2ec9c84a083',
+                                variable: 'CREDENTIALS']]) {
+                    sh "firebase deploy --only hosting --token $CREDENTIALS"
+                }
+            }
+        }
     }
 }
