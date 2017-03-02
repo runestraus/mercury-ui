@@ -33,16 +33,12 @@ import { OAuthModule } from 'angular-oauth2-oidc';
 import { SessionService } from './service/session.service';
 import { MeService } from './service/me.service';
 import { HttpClient } from './shared/http.client';
-<<<<<<< HEAD
-=======
-import { PermissionService } from './service/permission.service';
 import { DomainComponent } from './search/domain/domain.component';
 import { HostComponent } from './search/host/host.component';
 import { ContactComponent } from './search/contact/contact.component';
 import { PremiumNameComponent } from './search/premium-name/premium-name.component';
 import { ReservedNameComponent } from './search/reserved-name/reserved-name.component';
 import { DpmlComponent } from './search/dpml/dpml.component';
->>>>>>> master
 
 @NgModule({
   declarations: [
@@ -52,10 +48,7 @@ import { DpmlComponent } from './search/dpml/dpml.component';
     DashboardComponent,
     TldsIndexComponent,
     TldsCreateComponent,
-<<<<<<< HEAD
     MenuComponent,
-    LoginComponent
-=======
     LoginComponent,
     DomainComponent,
     HostComponent,
@@ -63,7 +56,6 @@ import { DpmlComponent } from './search/dpml/dpml.component';
     PremiumNameComponent,
     ReservedNameComponent,
     DpmlComponent
->>>>>>> master
   ],
   imports: [
     DialogModule,
