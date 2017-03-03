@@ -1,29 +1,16 @@
-<table>
-  <p class="error" *ngIf="errorMessage">{{errorMessage}}</p>
-</table>
-<table class="table table-striped table-bordered table-hover" id="domainsTable">
-  <thead>
-  <tr>
-    <th id="domainName">Domain</th>
-    <th id="tld">TLD</th>
-    <th id="status">Status</th>
-    <th id="systemTags">System Tags</th>
-    <th id="price">Price</th>
-    <th id="category">Category</th>
-    <th id="iannaNumber">Ianna ID</th>
-    <th id="registrarName">Registrar</th>
-  </tr>
-  </thead>
-  <tbody>
-  <tr *ngFor="let domain of domains">
-    <td>{{domain.domainName}}</td>
-    <td>{{domain.tld}}</td>
-    <td>{{domain.status}}</td>
-    <td>{{domain.systemTags}}</td>
-    <td>{{domain.price}}</td>
-    <td>{{domain.priceCategory}}</td>
-    <td>{{domain.iannaNumber}}</td>
-    <td>{{domain.registrar}}</td>
-  </tr>
-  </tbody>
-</table>
+<p class="error" *ngIf="errorMessage">{{errorMessage}}</p>
+<p-dataTable #dt [value]="domains" exportFilename="domains" sortMode="multiple" id="domainsTable">
+  <p-header>
+    <div class="ui-helper-clearfix">
+      <button type="button" pButton icon="fa-file-o" iconPos="left" label="CSV" (click)="dt.exportCSV()" style="float:left"></button>
+    </div>
+  </p-header>
+  <p-column id="domainName" field="domainName" header="Domain" [sortable]="true"></p-column>
+  <p-column id="tld" field="tld" header="TLD" [sortable]="true"></p-column>
+  <p-column id="status" field="status" header="Status" [sortable]="true"></p-column>
+  <p-column id="systemTags" field="systemTags" header="System Tags" [sortable]="true"></p-column>
+  <p-column id="price" field="price" header="Price" [sortable]="true"></p-column>
+  <p-column id="category" field="priceCategory" header="Category" [sortable]="true"></p-column>
+  <p-column id="iannaNumber" field="iannaNumber" header="Ianna ID" [sortable]="true"></p-column>
+  <p-column id="registrarName" field="registrar" header="Registrar" [sortable]="true"></p-column>
+</p-dataTable>

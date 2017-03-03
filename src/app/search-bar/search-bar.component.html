@@ -2,7 +2,7 @@
   <div class="form-group">
     <div class="input-group">
       <input id="searchTermInput" placeholder=".tld" class="form-control" [(ngModel)]="query" [ngModelOptions]="{standalone: true}" type="text">
-      <button id="searchButton" type="button" class="btn btn-primary left" (click)="newQuery()">
+      <button id="searchButton" type="submit" class="btn btn-primary left" (click)="newQuery()">
         <i class="fa fa-search"></i>
       </button>
     </div>

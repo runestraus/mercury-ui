@@ -1,24 +1,11 @@
-<table>
-  <p class="error" *ngIf="errorMessage">{{errorMessage}}</p>
-</table>
-<table id="contactsTable">
-  <thead>
-  <tr>
-    <th id="contactName">Name</th>
-    <th id="contactId">Contact Id</th>
-    <th id="currentSponsorClientId">Current Sponsor Client Id</th>
-  </tr>
-  </thead>
-  <tr *ngFor="let contact of contacts">
-    <td>
-        <span tooltip="Get Contact Info" class="spanLink">
-            {{contact.name}}
-        </span>
-    </td>
-    <td>
-      {{contact.contactId}}
-    </td>
-    <td>{{contact.currentSponsorClientId}}</td>
-  </tr>
-  </tbody>
-</table>
+<p  class="error" *ngIf="errorMessage">{{errorMessage}}</p>
+<p-dataTable #dt [value]="contacts" exportFilename="contacts" sortMode="multiple" id="contactsTable">
+  <p-header>
+    <div class="ui-helper-clearfix">
+      <button id="exportButton" type="button" pButton icon="fa-file-o" iconPos="left" label="CSV" (click)="dt.exportCSV()" style="float:left"></button>
+    </div>
+  </p-header>
+    <p-column id="contactName" styleClass="contactName" field="name" header="Name" [sortable]="true"></p-column>
+    <p-column id="contactId" styleClass="contactId" field="contactId" header="Contact Id" [sortable]="true"></p-column>
+    <p-column id="currentSponsorClientId" styleClass="contactClientId" field="currentSponsorClientId" header="Current Sponsor Client Id" [sortable]="true"></p-column>
+</p-dataTable>

@@ -1,23 +1,10 @@
-<table>
-  <p class="error" *ngIf="errorMessage">{{errorMessage}}</p>
-</table>
-<table id="reservedNamesTable">
-  <thead>
-  <tr>
-    <th id="reservedDomainName">Domain</th>
-    <th id="reservedDomainTags">Tags</th>
-  </tr>
-  </thead>
-  <tbody>
-  <tr *ngFor="let reservedName of reservedNames">
-    <td>
-        <span tooltip="Get Domain Info" class="spanLink">
-            {{reservedName.name}}
-        </span>
-    </td>
-    <td>
-      {{reservedName.tags}}
-    </td>
-  </tr>
-  </tbody>
-</table>
+<p class="error" *ngIf="errorMessage">{{errorMessage}}</p>
+<p-dataTable #dt [value]="reservedNames" exportFilename="reservedNames" sortMode="multiple" id="reservedNamesTable">
+  <p-header>
+    <div class="ui-helper-clearfix">
+      <button type="button" pButton icon="fa-file-o" iconPos="left" label="CSV" (click)="dt.exportCSV()" style="float:left"></button>
+    </div>
+  </p-header>
+  <p-column id="reservedDomainName" field="name" header="Domain" [sortable]="true"></p-column>
+  <p-column id="reservedDomainTags" field="tags" header="Tags" [sortable]="true"></p-column>
+</p-dataTable>

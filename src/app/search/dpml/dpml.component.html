@@ -1,16 +1,13 @@
+<p class="error" *ngIf="errorMessage">{{errorMessage}}</p>
+<p-dataTable #dt [value]="dpmls" exportFilename="dpmls" sortMode="multiple" id="dpmlTable">
+  <p-header>
+    <div class="ui-helper-clearfix">
+      <button type="button" pButton icon="fa-file-o" iconPos="left" label="CSV" (click)="dt.exportCSV()" style="float:left"></button>
+    </div>
+  </p-header>
+  <p-column id="Label" field="label" header="Label" [sortable]="true"></p-column>
+</p-dataTable>
 <table>
-  <p class="error" *ngIf="errorMessage">{{errorMessage}}</p>
-</table>
-<table id="dopmlTable">
-  <thead>
-  <tr>
-    <th id="domainName">Label</th>
-  </tr>
-  </thead>
-  <tbody>
-  <tr *ngFor="let dpml of dpmls">
-    <td>{{dpml.label}}</td>
-  </tr>
   <tr *ngFor="let dpml of dpmls">
     <app-domain *ngIf="dpml.domainNames.length > 0" [domains]="dpml.domainNames"></app-domain>
     <app-premium-name *ngIf="dpml.premiumNames.length > 0" [premiumNames]="dpml.premiumNames"></app-premium-name>
@@ -18,3 +15,4 @@
   </tr>
   </tbody>
 </table>
+
