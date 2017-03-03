@@ -1,7 +1,7 @@
-<div class="wrapper">
+<div>
   <app-navbar *ngIf="isLoggedIn()"></app-navbar>
   <app-login *ngIf="!isLoggedIn()"></app-login>
-  <div class="wrapper" [class.hide]="!isLoggedIn()">
+  <div class="container-fluid" [class.hide]="!isLoggedIn()">
     <router-outlet></router-outlet>
   </div>
 </div>

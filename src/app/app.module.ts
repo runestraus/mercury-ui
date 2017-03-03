@@ -17,6 +17,7 @@ import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
 import { AppComponent } from './app.component';
+import { AppRoutingModule } from './app-routing.module';
 import { NavbarComponent } from './navbar/navbar.component';
 import { SearchBarComponent } from './search-bar/search-bar.component';
 import { RouterModule } from '@angular/router';
@@ -39,6 +40,7 @@ import { ContactComponent } from './search/contact/contact.component';
 import { PremiumNameComponent } from './search/premium-name/premium-name.component';
 import { ReservedNameComponent } from './search/reserved-name/reserved-name.component';
 import { DpmlComponent } from './search/dpml/dpml.component';
+import { MenuComponent } from './menu/menu.component';
 
 @NgModule({
   declarations: [
@@ -55,7 +57,8 @@ import { DpmlComponent } from './search/dpml/dpml.component';
     ContactComponent,
     PremiumNameComponent,
     ReservedNameComponent,
-    DpmlComponent
+    DpmlComponent,
+    MenuComponent
   ],
   imports: [
     DialogModule,
@@ -64,27 +67,7 @@ import { DpmlComponent } from './search/dpml/dpml.component';
     HttpModule,
     ReactiveFormsModule,
     OAuthModule.forRoot(),
-    RouterModule.forRoot([
-      {
-        path: 'search/:query',
-        component: SearchComponent,
-        children: []
-      },
-      {
-        path: '',
-        component: DashboardComponent
-      },
-      {
-        path: 'tlds',
-        component: TldsIndexComponent,
-        children: [
-          {
-            path: 'new',
-            component: TldsCreateComponent
-          }
-        ]
-      }
-    ])
+    AppRoutingModule
   ],
   providers: [SearchService, TldService, SessionService, MeService, PermissionService, HttpClient],
   entryComponents: [],

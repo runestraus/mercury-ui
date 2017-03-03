@@ -367,6 +367,9 @@ label.modal-label, .modal-input-group, .modal-text, .modal-form-control {
  * tablet
  */
 @media only screen and (min-width: 40.0625em) {
+  .registrar-name {
+    margin-top: 7px;
+  }
   #whoisdomain {
     clear: none;
     width: 75%;
@@ -377,7 +380,7 @@ label.modal-label, .modal-input-group, .modal-text, .modal-form-control {
   }
   .navbar-search {
     float: left;
-    margin-top:15px;
+    margin-top:7px;
     width:205px;
   }
   .navbar-search div.input-group {
@@ -442,7 +445,4 @@ input[type=number]::-webkit-inner-spin-button,
 input[type=number]::-webkit-outer-spin-button {
   -webkit-appearance: none;
   margin: 0;
-}
-
-.wrapper {
 }
