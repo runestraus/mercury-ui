@@ -1,0 +1,48 @@
+<div id="page-wrapper">
+  <form name="icannTldForm" (ngSubmit)="submit()">
+      <div class="row">
+        <div class="col-lg-12">
+          <h1 class="page-header">ICANN TLD Counters</h1>
+        </div>
+      </div>
+      <p class="has-error" name="error" *ngIf="errorMessage">{{errorMessage}}</p>
+      <!-- END ERROR -->
+      <div class="panel-body">
+        <div class="form-group left modal-form-group count modal-300">
+          <label>TLD*:</label>
+          <select [(ngModel)]="icannTld.tld" name="tld" id="tld"required ><option  *ngFor="let tld of allTlds">{{tld.name}}</option></select>
+        </div>
+        <div class="form-group left modal-form-group count">
+          <label>ICANN Report Period*:</label><br>
+          <p-calendar [(ngModel)]="icannTld.date" name="date" id="date" dateFormat="dd/mm/yyyy" required></p-calendar>
+        </div>
+        <span class="clear"></span>
+        <div class="form-group left modal-form-group count">
+          <label>Transfer Disputes Won*:</label>
+          <input type="number" *ngIf="icannTld" [(ngModel)]="icannTld.transferDisputedWonCount" name="wonCount" id="wonCount" class="form-control" required/>
+        </div>
+        <div class="form-group left modal-form-group count">
+          <label>Transfer Disputes Lost*:</label>
+          <input type="number" *ngIf="icannTld" [(ngModel)]="icannTld.transferDisputedLostCount" name="lostCount" id="lostCount" class="form-control" required/>
+        </div>
+        <div class="form-group left modal-form-group count">
+          <label>Transfer Disputes No d ecision*:</label>
+          <input type="number" *ngIf="icannTld" [(ngModel)]="icannTld.transferDisputedNondecisionCount" name="nonDecisionCount" id="nonDecisionCount" class="form-control" required/>
+        </div>
+        <div class="form-group left modal-form-group count">
+          <label>AGP Exemption Requests*:</label>
+          <input type="number" *ngIf="icannTld" [(ngModel)]="icannTld.agpExemptionRequestsCount" name="reqCount" id="reqCount" class="form-control" required/>
+        </div>
+        <div class="form-group left modal-form-group count">
+          <label>AGP Exemptions Granted*:</label>
+          <input type="number" *ngIf="icannTld" [(ngModel)]="icannTld.agpExemptionsGrantedCount" name="greantedCount" id="greantedCount" class="form-control" required/>
+        </div>
+        <div class="form-group left modal-form-group count">
+          <label>AGP Exempt Domains*:</label>
+          <input type="number" *ngIf="icannTld" [(ngModel)]="icannTld.agpExemptedDomainsCount" name="domainsCount" id="domainsCount" class="form-control" required/>
+        </div>
+      </div>
+      <button class="modal-footer" type="submit" class="btn btn-primary left">Submit</button>
+    </form>
+</div>
+

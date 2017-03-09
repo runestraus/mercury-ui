@@ -13,7 +13,6 @@
 // limitations under the License.
 
 import { Component, OnInit, Input } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
 import { Domain } from '../../model/domain.model';
 
 @Component({

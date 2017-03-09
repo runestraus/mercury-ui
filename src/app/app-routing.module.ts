@@ -18,6 +18,9 @@ import { DashboardComponent } from './dashboard/dashboard.component';
 import { TldsIndexComponent } from './tlds/tlds-index/tlds-index.component';
 import { TldsCreateComponent } from './tlds/tlds-create/tlds-create.component';
 import { SearchComponent } from './search/search.component';
+import { IcannRegistrarComponent } from './icann/icann-registrar/icann-registrar.component';
+import { IcannDnsComponent } from './icann/icann-dns/icann-dns.component';
+import { IcannTldComponent } from './icann/icann-tld/icann-tld.component';
 import { UsersComponent } from './users/users.component';
 
 export const routes: Routes = [
@@ -32,8 +35,12 @@ export const routes: Routes = [
           }
         ]
     },
-    { path: 'search/:query', component: SearchComponent, children: [] },
-    { path: 'users', component: UsersComponent, children: [] }
+  { path: 'search/:query', component: SearchComponent, children: [] },
+  { path: 'icann/icanntld', component: IcannTldComponent, children: [] },
+  { path: 'icann/icanndns', component: IcannDnsComponent, children: [] },
+  { path: 'icann/icannregistrar', component: IcannRegistrarComponent, children: [] },
+  { path: 'search/:query', component: SearchComponent, children: [] },
+  { path: 'users', component: UsersComponent, children: [] }
 ];
 
 @NgModule({

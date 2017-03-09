@@ -9,7 +9,11 @@
   <p-column id="tld" field="tld" header="TLD" [sortable]="true"></p-column>
   <p-column id="status" field="status" header="Status" [sortable]="true"></p-column>
   <p-column id="systemTags" field="systemTags" header="System Tags" [sortable]="true"></p-column>
-  <p-column id="price" field="price" header="Price" [sortable]="true"></p-column>
+  <p-column id="price" field="price" header="Price" [sortable]="true">
+    <template let-col let-domain="rowData" pTemplate="body">
+      <span class="text-right right">{{domain[col.field].value  | currency:'USD':true:'1.2-2'}}</span>
+    </template>
+  </p-column>
   <p-column id="category" field="priceCategory" header="Category" [sortable]="true"></p-column>
   <p-column id="iannaNumber" field="iannaNumber" header="Ianna ID" [sortable]="true"></p-column>
   <p-column id="registrarName" field="registrar" header="Registrar" [sortable]="true"></p-column>

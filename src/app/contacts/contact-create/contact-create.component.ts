@@ -1,13 +1,11 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { CustomValidator } from '../../validators/customValidator';
 import { ContactEppService } from '../contactepp.service';
 import { MeService } from '../../service/me.service';
-import { User } from '../../model/user.model';
 import { Md5 } from 'ts-md5/dist/md5';
-import { PENDING } from '@angular/forms/src/model';
 import { COUNTRIES } from '../../model/country.model';
-import { ActivatedRoute, Params } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 import { ContactDetail } from '../contact.model';
 
 /**

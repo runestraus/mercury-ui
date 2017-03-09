@@ -4,6 +4,7 @@ import { Domain } from '../../model/domain.model';
 import { CategorizedPremiumName } from '../../model/categorized-premium-name.model';
 import { ReservedName } from '../../model/reserved-name.model';
 
+
 @Component({
   selector: 'app-dpml',
   templateUrl: './dpml.component.html',

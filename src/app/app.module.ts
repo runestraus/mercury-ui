@@ -11,6 +11,7 @@
 // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 // See the License for the specific language governing permissions and
 // limitations under the License.
+
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
@@ -43,8 +44,12 @@ import { DpmlComponent } from './search/dpml/dpml.component';
 import { DataTableModule } from 'primeng/components/datatable/datatable';
 import { SharedModule } from 'primeng/components/common/shared';
 import { MenuComponent } from './menu/menu.component';
+import { IcannTldComponent } from './icann/icann-tld/icann-tld.component';
+import { IcannDnsComponent } from './icann/icann-dns/icann-dns.component';
+import { IcannRegistrarComponent } from './icann/icann-registrar/icann-registrar.component';
+import { IcannService } from './service/icann.service';
+import { CalendarModule, DropdownModule } from 'primeng/primeng';
 import { UsersComponent } from './users/users.component';
-import { DropdownModule } from 'primeng/components/dropdown/dropdown';
 import { ContactCreateComponent } from './contacts/contact-create/contact-create.component';
 import { ContactEppService } from './contacts/contactepp.service';
 import { TextStringService } from './service/textstring.service';
@@ -67,12 +72,17 @@ import { EppHelperService } from './epp/epphelper.service';
     ReservedNameComponent,
     DpmlComponent,
     MenuComponent,
-    ContactCreateComponent
+    IcannTldComponent,
+    IcannDnsComponent,
+    IcannRegistrarComponent,
+    MenuComponent,
+    ContactCreateComponent,
     UsersComponent
   ],
   imports: [
     DropdownModule,
     DataTableModule,
+    CalendarModule,
     SharedModule,
     DialogModule,
     BrowserModule,
@@ -93,6 +103,7 @@ import { EppHelperService } from './epp/epphelper.service';
     ContactEppService,
     EppHelperService,
     TextStringService,
+    IcannService,
     RolesService
   ],
   entryComponents: [],

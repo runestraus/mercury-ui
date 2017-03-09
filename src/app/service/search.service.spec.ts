@@ -41,7 +41,7 @@ describe('SearchService', () => {
     service = _service;
   }));
 
-  it('should make a request to api/me route', () => {
+  it('should make a request to api/search route', () => {
     mockBackend.connections.subscribe((connection: MockConnection) => {
       expect(connection.request.url).toMatch(/api\/search$/, 'url invalid');
       expect(connection.request.method).toBe(RequestMethod.Post);
