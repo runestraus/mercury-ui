@@ -18,6 +18,7 @@ import { DashboardComponent } from './dashboard/dashboard.component';
 import { TldsIndexComponent } from './tlds/tlds-index/tlds-index.component';
 import { TldsCreateComponent } from './tlds/tlds-create/tlds-create.component';
 import { SearchComponent } from './search/search.component';
+import { UsersComponent } from './users/users.component';
 
 export const routes: Routes = [
   { path: '',  component: DashboardComponent },
@@ -31,7 +32,8 @@ export const routes: Routes = [
           }
         ]
     },
-    { path: 'search/:query', component: SearchComponent, children: [] }
+    { path: 'search/:query', component: SearchComponent, children: [] },
+    { path: 'users', component: UsersComponent, children: [] }
 ];
 
 @NgModule({

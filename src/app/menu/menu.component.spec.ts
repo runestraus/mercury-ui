@@ -1,13 +1,12 @@
 /* tslint:disable:no-unused-variable */
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
-import { DebugElement } from '@angular/core';
+import { DebugElement, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { MenuComponent } from './menu.component';
 import { FormsModule } from '@angular/forms';
 import { MeService } from '../service/me.service';
 import 'rxjs/add/operator/toPromise';
-import {User} from '../model/user.model';
-import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
+import { User } from '../model/user.model';
 
 describe('MenuComponent', () => {
   let component: MenuComponent;

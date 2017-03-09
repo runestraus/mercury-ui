@@ -32,6 +32,8 @@ import { LoginComponent } from './login/login.component';
 import { OAuthModule } from 'angular-oauth2-oidc';
 import { SessionService } from './service/session.service';
 import { MeService } from './service/me.service';
+import { UsersService } from './service/users.service';
+import { RolesService } from './service/roles.service';
 import { HttpClient } from './shared/http.client';
 import { PermissionService } from './service/permission.service';
 import { DomainComponent } from './search/domain/domain.component';
@@ -43,6 +45,8 @@ import { DpmlComponent } from './search/dpml/dpml.component';
 import { DataTableModule } from 'primeng/components/datatable/datatable';
 import { SharedModule } from 'primeng/components/common/shared';
 import { MenuComponent } from './menu/menu.component';
+import { UsersComponent } from './users/users.component';
+import { DropdownModule } from 'primeng/components/dropdown/dropdown';
 
 @NgModule({
   declarations: [
@@ -60,11 +64,13 @@ import { MenuComponent } from './menu/menu.component';
     PremiumNameComponent,
     ReservedNameComponent,
     DpmlComponent,
-    MenuComponent
+    MenuComponent,
+    UsersComponent
   ],
   imports: [
-    SharedModule,
+    DropdownModule,
     DataTableModule,
+    SharedModule,
     DialogModule,
     BrowserModule,
     FormsModule,
@@ -73,7 +79,7 @@ import { MenuComponent } from './menu/menu.component';
     OAuthModule.forRoot(),
     AppRoutingModule
   ],
-  providers: [SearchService, TldService, SessionService, MeService, PermissionService, HttpClient],
+  providers: [SearchService, TldService, UsersService, SessionService, MeService, PermissionService, HttpClient, RolesService],
   entryComponents: [],
   bootstrap: [AppComponent]
 })
