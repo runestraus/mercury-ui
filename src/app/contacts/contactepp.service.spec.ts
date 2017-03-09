@@ -1,15 +1,10 @@
 import { ContactEppService } from './contactepp.service';
-import { ContactDetail } from './contact.model';
 import { HttpClient } from '../shared/http.client';
 import { TextStringService } from '../service/textstring.service';
 import { EppHelperService } from '../epp/epphelper.service';
-
-import { async, fakeAsync, tick } from '@angular/core/testing';
-import { TestBed, inject } from '@angular/core/testing';
-import { MockBackend, MockConnection } from '@angular/http/testing';
-import {
-  HttpModule, XHRBackend, RequestMethod, Response, ResponseOptions
-} from '@angular/http';
+import { fakeAsync, tick, TestBed, inject } from '@angular/core/testing';
+import { MockBackend } from '@angular/http/testing';
+import { HttpModule, XHRBackend, Response, ResponseOptions } from '@angular/http';
 import { OAuthService } from 'angular-oauth2-oidc';
 
 describe('A ContactEppService', () => {

@@ -1,0 +1,75 @@
+<p-dialog [(visible)]="showDialog" modal="modal" width="600" responsive="true" [(header)]="modalHeader">
+  <form [formGroup]="contactForm" (submit)="onSubmit()" novalidate>
+    <div *ngIf="error" class="alert alert-danger" role="alert">{{error.message}}</div>
+    <div>
+      <div class="form-group" *ngIf="isEditForm">
+        <label class="modal-label">Contact ID*:</label>
+        <input id="newContactId" type="text" placeholder="Contact ID" class="form-control modal-form-control" formControlName="id"/>
+        <p id="customizeContactIDButton" *ngIf="useSystemContactId" class="btn btn-primary" (click)="customizeContactId()">Customize Contact ID</p>
+        <p class="help-block"  *ngIf="formErrors.id">{{formErrors.id}}</p>
+      </div>
+      <div class="form-group left modal-form-group" style="width:48%;margin-right:20px;">
+        <label class="modal-label">Name*:</label>
+        <input id="contact-name" type="text" placeholder="Name" class="form-control modal-form-control" formControlName="name" />
+        <p class="help-block" id="name-error" *ngIf="formErrors.name">{{formErrors.name}}</p>
+      </div>
+      <div class="form-group left modal-form-group" style="width:48%;">
+        <label class="modal-label">Email*:</label>
+        <input id="contact-email" type="text" placeholder="Email" class="form-control modal-form-control" formControlName="email"/>
+        <p class="help-block" id="email-error" *ngIf="formErrors.email">{{formErrors.email}}</p>
+      </div>
+      <span class="clear"></span>
+
+      <div class="form-group modal-form-group">
+        <label class="modal-label">Street 1:</label>
+        <input id="contact-street1" type="text" placeholder="Street 1" class="form-control modal-form-control" formControlName="street1" />
+      </div>
+      <div class="form-group modal-form-group">
+        <label class="modal-label">Street 2:</label>
+        <input id="contact-street2" type="text" placeholder="Street 2" class="form-control modal-form-control" formControlName="street2" />
+      </div>
+      <div class="form-group modal-form-group">
+        <label class="modal-label">Street 3:</label>
+        <input id="contact-street3" type="text" placeholder="Street 3" class="form-control modal-form-control" formControlName="street3" />
+      </div>
+      <div class="form-group left modal-form-group" style="width:48%;margin-right:20px;">
+        <label class="modal-label">City*:</label>
+        <input id="contact-city" type="text" placeholder="City" class="form-control modal-form-control" formControlName="city"/>
+        <p class="help-block" *ngIf="formErrors.city">{{formErrors.city}}</p>
+      </div>
+      <div class="form-group left modal-form-group" style="width:48%;">
+        <label class="modal-label">State / Province / Prefecture:</label>
+        <input id="contact-state" type="text" placeholder="State" class="form-control modal-form-control" formControlName="state"/>
+      </div>
+      <span class="clear"></span>
+
+      <div class="form-group left modal-form-group" style="width:23%;margin-right:10px;">
+        <label class="modal-label">Postal/Zip Code:</label>
+        <input id="contact-zip" type="text" placeholder="Postal Code" class="form-control modal-form-control" formControlName="zip" />
+      </div>
+      <div class="form-group left modal-form-group" style="width:23%;margin-right:20px;">
+        <label class="modal-label">Country Code:</label>
+        <select id="contact-country-code" class="form-control modal-form-control" formControlName="countryCode">
+          <option *ngFor="let country of availableCountries" [value]="country.abbr">{{country.name}}</option>
+        </select>
+        <!--<input type="text" placeholder="Country Code" class="form-control modal-form-control" data-ng-model="ctrl.dialogResult.countryCode"/>-->
+        <p class="help-block" *ngIf="formErrors.countryCode">{{formErrors.countryCode}}</p>
+      </div>
+      <div class="form-group left modal-form-group" style="width:48%;">
+        <label class="modal-label">Phone:</label>
+        <input id="contact-phone" type="text" placeholder="+1.2061234567" class="form-control modal-form-control" formControlName="phone"  />
+      </div>
+      <div class="form-group left modal-form-group" style="width:48%;">
+        <label class="modal-label">Fax:</label>
+        <input id="contact-fax" type="text" placeholder="+1.2061234567" class="form-control modal-form-control" formControlName="fax" />
+      </div>
+    </div>
+    <span class="clear"></span>
+    <p-footer>
+      <div class="ui-dialog-buttonpane ui-widget-content ui-helper-clearfix">
+        <button id="contact-create-cancel-button" type="button" class="btn btn-default">Cancel</button>
+        <button id="contact-create-submit-button" [disabled]="!contactForm.valid" type="submit" class="btn btn-primary">Submit</button>
+      </div>
+    </p-footer>
+  </form>
+</p-dialog>

@@ -11,7 +11,6 @@
 // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 // See the License for the specific language governing permissions and
 // limitations under the License.
-
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
@@ -20,7 +19,6 @@ import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
 import { NavbarComponent } from './navbar/navbar.component';
 import { SearchBarComponent } from './search-bar/search-bar.component';
-import { RouterModule } from '@angular/router';
 import { SearchComponent } from './search/search.component';
 import { SearchService } from './service/search.service';
 import { DashboardComponent } from './dashboard/dashboard.component';
@@ -47,6 +45,10 @@ import { SharedModule } from 'primeng/components/common/shared';
 import { MenuComponent } from './menu/menu.component';
 import { UsersComponent } from './users/users.component';
 import { DropdownModule } from 'primeng/components/dropdown/dropdown';
+import { ContactCreateComponent } from './contacts/contact-create/contact-create.component';
+import { ContactEppService } from './contacts/contactepp.service';
+import { TextStringService } from './service/textstring.service';
+import { EppHelperService } from './epp/epphelper.service';
 
 @NgModule({
   declarations: [
@@ -65,6 +67,7 @@ import { DropdownModule } from 'primeng/components/dropdown/dropdown';
     ReservedNameComponent,
     DpmlComponent,
     MenuComponent,
+    ContactCreateComponent
     UsersComponent
   ],
   imports: [
@@ -79,7 +82,19 @@ import { DropdownModule } from 'primeng/components/dropdown/dropdown';
     OAuthModule.forRoot(),
     AppRoutingModule
   ],
-  providers: [SearchService, TldService, UsersService, SessionService, MeService, PermissionService, HttpClient, RolesService],
+  providers: [
+    SearchService,
+    TldService,
+    UsersService,
+    SessionService,
+    MeService,
+    PermissionService,
+    HttpClient,
+    ContactEppService,
+    EppHelperService,
+    TextStringService,
+    RolesService
+  ],
   entryComponents: [],
   bootstrap: [AppComponent]
 })

@@ -1,16 +1,16 @@
 import { Injectable } from '@angular/core';
-import * as xml2json from 'xml2json';
-
 import { TextStringService } from '../service/textstring.service';
 import { EppHelperService, EppMessageAndStatus } from '../epp/epphelper.service';
 import * as contactepp from '../epp/contactepp.template';
 import {
-  ContactDetail, ContactPostalInfo, ContactAddress,
-  ContactDisclose, ContactAuthInfo, ContactCheckResponse,
+  ContactDetail,
+  ContactPostalInfo,
+  ContactAddress,
+  ContactDisclose,
+  ContactAuthInfo,
+  ContactCheckResponse
 } from './contact.model';
-import {
-  extractExtension, extractText, extractStatuses, extractType, extractAvail
-} from '../epp/epputil';
+import { extractExtension, extractText, extractStatuses, extractType, extractAvail } from '../epp/epputil';
 
 /**
  * Contacts epp service

@@ -16,6 +16,9 @@
     "target": "es5",
     "typeRoots": [
       "../node_modules/@types"
-    ]
+    ],
+    "paths": {
+      "handlebars": ["../node_modules/handlebars/dist/handlebars.js"]
+    }
   }
 }
