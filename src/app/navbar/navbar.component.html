@@ -4,14 +4,14 @@
   <app-menu></app-menu>
   <ul class="nav navbar-nav navbar-right">
       <li class="dropdown" [class.open]="menuOpen">
-        <a href="#" class="dropdown-toggle" id="logout-menu" (click)="openMenu()">
+        <a class="dropdown-toggle" id="logout-menu" (click)="openMenu()">
           <img class="img-circle" id="user-image" src="{{profile.picture}}" />
         </a>
       <ul class="dropdown-menu">
         <li class="dropdown-text">{{profile.name}}</li>
         <li class="dropdown-text">{{profile.email}}</li>
         <li role="separator" class="divider"></li>
-        <li><a id="logout" (click)="logout()" href="#">Logout</a></li>
+        <li><a id="logout" (click)="logout()">Logout</a></li>
       </ul>
     </li>
   </ul>
