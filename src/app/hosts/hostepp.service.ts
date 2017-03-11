@@ -1,13 +1,9 @@
 import { Injectable } from '@angular/core';
-import * as xml2json from 'xml2json';
-
 import { TextStringService } from '../service/textstring.service';
 import { EppHelperService, EppMessageAndStatus } from '../epp/epphelper.service';
 import * as hostepp from '../epp/hostepp.template';
 import { HostDetail, HostCheckResult } from './host.model';
-import {
-  extractExtension, extractText, extractStatuses, extractType, extractAvail
-} from '../epp/epputil';
+import { extractText, extractStatuses, extractAvail } from '../epp/epputil';
 
 /**
  * Hosts epp service

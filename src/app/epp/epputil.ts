@@ -16,8 +16,33 @@ export function extractExtension(result: any, path: string): string {
   * @param path Path to field
   * @return Value of text content if found, otherwise empty string.
   */
-export function extractText(result: any, path: string): string {
-  return extractField(result, path, 'keyValue');
+export function extractText(result: any, ...path: string[]): string {
+  return extractField(result, ...path, 'keyValue');
+}
+
+/**
+ * Attempt to get a boolean value at the specified path
+ *
+ * @param result Result object that may contain the field value
+ * @param path Path to field
+ * @returns {boolean} true if value is 'true' else false
+ */
+export function extractBoolean(result: any, ...path: string[]): boolean {
+  const value = extractField(result, ...path);
+  return value === 'true';
+}
+
+export function extractArray(result: any, ...path: string[]): string[] {
+  if (path.length === 1) {
+    if (!Array.isArray(result[path[0]])) {
+      return [result[path[0]]];
+    }
+    return result[path[0]].map(item => extractText(item));
+  }
+  if (!result[path[0]]) {
+    return [];
+  }
+  return extractArray(result[path[0]], ...path.slice(1, path.length + 1));
 }
 
 /**
@@ -47,8 +72,28 @@ export function extractStatuses(result: any, path: string): Array<string> {
   * @param path Path to field
   * @return Value of @type if found, otherwise empty string.
   */
-export function extractType(result: any, path: string): string {
-  return extractField(result, path, '@type');
+export function extractType(result: any, ...path: string[]): string {
+  return extractField(result, ...path, '@type');
+}
+
+/**
+ * Attempt to get a set of types and values at a specified path
+ *
+ * @param result Result object that may contain the field value
+ * @param path Path to field containing array of types
+ * @return type: value dictionary
+ */
+export function extractTypes(result: any, ...path: string[]): any {
+  if (path.length === 1) {
+    return result[path[0]].reduce((o, item) => {
+      o[extractType(item)] = extractText(item);
+      return o;
+    }, {});
+  }
+  if (!result[path[0]]) {
+    return {};
+  }
+  return extractTypes(result[path[0]], ...path.slice(1, path.length + 1));
 }
 
 /**
@@ -62,9 +107,14 @@ export function extractAvail(result: any, path: string): boolean {
   return extractField(result, path, '@avail') === 'true';
 }
 
-function extractField(result: any, path: string, fieldKey: string): string {
-  if (result[path]) {
-    return result[path][fieldKey] || '';
+export function extractField(result: any, ...path: string[]): string {
+  // element we were looking for so return
+  if (path.length === 1) {
+    return result[path[0]] || '';
   }
-  return '';
+  // element isn't in the result so return an empty string
+  if (!result[path[0]]) {
+    return '';
+  }
+  return extractField(result[path[0]], ...path.slice(1, path.length + 1));
 }

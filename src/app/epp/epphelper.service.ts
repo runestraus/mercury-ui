@@ -47,8 +47,6 @@ export class EppHelperService {
       try {
         return Observable.throw(this.getEppMessageAndStatus(err));
       } catch (e) {
-        console.log(e);
-        console.error(err);
         return Observable.throw(this.setEppErrorMessageAndStatus());
       }
     });

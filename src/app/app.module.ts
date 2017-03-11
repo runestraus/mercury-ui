@@ -54,6 +54,7 @@ import { ContactCreateComponent } from './contacts/contact-create/contact-create
 import { ContactEppService } from './contacts/contactepp.service';
 import { TextStringService } from './service/textstring.service';
 import { EppHelperService } from './epp/epphelper.service';
+import { DomainEppService } from './service/domain-epp.service';
 
 @NgModule({
   declarations: [
@@ -104,7 +105,8 @@ import { EppHelperService } from './epp/epphelper.service';
     EppHelperService,
     TextStringService,
     IcannService,
-    RolesService
+    RolesService,
+    DomainEppService
   ],
   entryComponents: [],
   bootstrap: [AppComponent]

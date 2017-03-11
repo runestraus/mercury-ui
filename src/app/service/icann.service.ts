@@ -54,11 +54,9 @@ export class IcannService {
   submitIcannDns(dialogResult: IcannDns) {
     return this.http.post('/api/icann/dns', dialogResult).toPromise()
       .then(res => {
-        console.log(res);
         return res.json() as IcannDns;
       })
       .catch(error => {
-        console.log('icannService : ' + error.json().message);
         return Promise.reject(error.json().message || error);
       });
   };

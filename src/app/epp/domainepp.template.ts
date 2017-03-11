@@ -1,5 +1,6 @@
 import * as Handlebars from 'handlebars';
 import * as helpers from './helpers.template';
+import { DomainInfo } from '../model/domain.model';
 
 // load helpers module
 helpers.init();
@@ -226,7 +227,7 @@ const CREATE_TEMPLATE = Handlebars.compile(`<epp xmlns="urn:ietf:params:xml:ns:e
  * @param item Domain creation data
  * @param clTrid Client transaction id
  */
-export function domainCreate(item: any, clTrid: string): string {
+export function domainCreate(item: DomainInfo, clTrid: string): string {
   return CREATE_TEMPLATE({item: item, clTrid: clTrid});
 }
 
