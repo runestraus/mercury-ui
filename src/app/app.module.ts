@@ -73,6 +73,8 @@ import { DomainEppService } from './service/domain-epp.service';
     ReservedNameComponent,
     DpmlComponent,
     MenuComponent,
+    ContactCreateComponent,
+    UsersComponent,
     IcannTldComponent,
     IcannDnsComponent,
     IcannRegistrarComponent,

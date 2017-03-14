@@ -3,24 +3,23 @@ import { DebugElement, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import 'rxjs/add/operator/toPromise';
-import { UsersService } from '../service/users.service';
-import { RolesService } from '../service/roles.service';
-import { User } from '../model/users.model';
-import { Role } from '../model/roles.model';
-import { UsersComponent } from './users.component';
+import { TldService } from '../../service/tld.service';
+import { Tld } from '../../model/tld.model';
+import { TldsIndexComponent } from './tlds-index.component';
 import { DialogModule } from 'primeng/components/dialog/dialog';
 import { DataTableModule } from 'primeng/components/datatable/datatable';
 import { HttpModule } from '@angular/http';
-import { HttpClient } from '../shared/http.client';
-import { MeService } from '../service/me.service';
+import { HttpClient } from '../../shared/http.client';
+import { MeService } from '../../service/me.service';
 import { OAuthService } from 'angular-oauth2-oidc';
+import { Pipe, PipeTransform } from '@angular/core';
 
-describe('UsersComponent', () => {
-  let component: UsersComponent;
-  let fixture: ComponentFixture<UsersComponent>;
+describe('TldsIndexComponent', () => {
+  let component: TldsIndexComponent;
+  let fixture: ComponentFixture<TldsIndexComponent>;
 
-  let deTable, deHeader, deEmailTitle, deCSVButton: DebugElement;
-  let elTable, elHeader, elEmailTitle, elCSVButton: HTMLElement;
+  let deTable, deHeader, deNameTitle, deCSVButton: DebugElement;
+  let elTable, elHeader, elNameTitle, elCSVButton: HTMLElement;
 
   const mockMeService = {
    get: jasmine.createSpy('get')
@@ -32,10 +31,10 @@ describe('UsersComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ UsersComponent ],
+      declarations: [ TldsIndexComponent ],
       schemas: [ CUSTOM_ELEMENTS_SCHEMA ],
       imports: [ FormsModule, DialogModule, DataTableModule, HttpModule ],
-      providers: [ HttpClient, UsersService, RolesService,
+      providers: [ HttpClient, TldService,
        { provide: MeService, useValue: mockMeService },
        { provide: OAuthService, useValue: mockOauthService} ]
     })
@@ -43,29 +42,29 @@ describe('UsersComponent', () => {
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(UsersComponent);
+    fixture = TestBed.createComponent(TldsIndexComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
     deHeader = fixture.debugElement.query(By.css('.page-header'));
-    deTable = fixture.debugElement.query(By.css('#usersTable'));
-    deEmailTitle = fixture.debugElement.query(By.css('.ui-column-title'));
+    deTable = fixture.debugElement.query(By.css('#tldsTable'));
+    deNameTitle = fixture.debugElement.query(By.css('.ui-column-title'));
     deCSVButton = fixture.debugElement.query(By.css('.left'));
 
     elCSVButton = deCSVButton.nativeElement;
     elHeader = deHeader.nativeElement;
     elTable = deTable.nativeElement;
-    elEmailTitle = deEmailTitle.nativeElement;
+    elNameTitle = deNameTitle.nativeElement;
   });
 
   it('should create', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should display users table.', () => {
+  xit('should display TLDs table.', () => {
     expect(elHeader).toBeTruthy();
-    expect(elHeader.innerText).toEqual('Manage Users');
+    expect(elHeader.innerText).toEqual('Manage TLDs');
     expect(elTable).toBeTruthy();
-    expect(elEmailTitle.innerText).toEqual('Google Account');
+    expect(elNameTitle.innerText).toEqual('TLD');
     expect(elCSVButton.getAttribute('label')).toEqual('CSV');
   });
 });

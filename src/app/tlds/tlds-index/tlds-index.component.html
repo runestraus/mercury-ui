@@ -1,73 +1,85 @@
-<div id="page-wrapper">
-  <div class="row">
-    <div class="col-lg-12">
-      <h1 class="page-header">Manage TLDs</h1>
-    </div>
-    <!-- /.col-lg-12 -->
-  </div>
-  <div class="row">
-    <div class="col-lg-12">
-      <div class="panel panel-default">
-        <div class="panel-heading">
-          <button type="button" class="btn btn-xs btn-primary pull-left" data-ng-click="ctrl.downloadCSV()" data-ng-hide="ctrl.showList">
-            <i class="fa fa-download"></i>
-            Download CSV
-          </button>
-          <button id="create-new-tld" type="button" class="btn btn-xs btn-success pull-right" (click)="createNewTld()">
-            <i class="fa fa-plus"></i>
-            Create new TLD
-          </button><br>
-        </div>
-        <div class="panel-body" data-ng-show="ctrl.showError" data-ng-class="{'has-error': ctrl.showError}">
-          <p class="help-block">{{ errorMsg }}</p>
-        </div>
-        <!-- END ERROR -->
-        <div class="panel-body" data-ng-hide="ctrl.showList">
-          <table id="tlds-info" st-table="ctrl.displayItems" st-safe-src="ctrl.tldList" class="table table-striped">
-            <thead>
-            <tr>
-              <th st-sort-default="true" st-skip-natural="true" st-sort="name" class="columnSorter">TLD</th>
-              <th st-skip-natural="true" st-sort="state" class="columnSorter">State</th>
-              <th st-skip-natural="true" st-sort="delegationDate" class="columnSorter">Delegation Date</th>
-              <th st-skip-natural="true" st-sort="createBillingCost.value" class="columnSorter text-right">Create</th>
-              <th st-skip-natural="true" st-sort="restoreBillingCost.value" class="columnSorter text-right">Restore</th>
-              <th></th>
-            </tr>
-            </thead>
-            <tbody>
-            <tr *ngFor="let row of tldList">
-              <td>{{row.name}}</td>
-              <td>{{row.state}}</td>
-              <td>{{row.delegationDate | date:"yyyy-MM-dd HH:mm:ss"}}</td>
-              <td class="text-right">{{row.createBillingCost.value | currency:'USD':true}}</td>
-              <td class="text-right">{{row.restoreBillingCost.value | currency:'USD':true}}</td>
-              <td>
-                <a data-ng-show="ctrl.showUpdateDeleteButtons" tooltip="Edit TLD" class="label label-warning button-margin"
-                   data-ng-click="ctrl.openListItemInDialog($index, 'CreateTldCtrl', 'reload', 'tldUpdate', 'update')">
-                  <i class="fa fa-edit"></i>
-                </a>
-                <a data-ng-show="ctrl.showUpdateDeleteButtons" tooltip="View Phases" class="label label-primary button-margin"
-                   data-ng-click="ctrl.openListItemInDialog($index, 'CreateTldCtrl', null, 'tldStateList', 'update')">
-                  <i class="fa fa-list"></i>
-                </a>
-              </td>
-            </tr>
-            </tbody>
-            <tfoot>
-            <tr>
-              <td colspan="8" class="text-center">
-                <div st-pagination="" st-items-by-page="ctrl.itemsByPage" st-displayed-pages="5"></div>
-              </td>
-            </tr>
-            </tfoot>
-          </table>
-        </div>
-        <!-- /.panel-body -->
+<h1 class="page-header">Manage TLDs</h1>
+<p-dataTable #dt [value]="tlds" selectionMode="single" [(selection)]="selectedTld"  (onRowSelect)="onRowSelect($event)" [paginator]="true" rows="35" [responsive]="true" exportFilename="Tlds" sortMode="multiple" id="tldsTable">
+   <p-header>
+     <div class="ui-helper-clearfix">
+       <button type="button" pButton icon="fa-file-o" iconPos="left" label="CSV" (click)="dt.exportCSV()" lavel="CSV" class="left"></button>
+       <button type="button" pButton icon="fa-plus" class="ui-button-success right" (click)="showDialogToAdd()" label="Create new TLD"></button>
+     </div>
+   </p-header>
+   <p-column id="name" field="name" header="TLD" [sortable]="true"></p-column>
+   <p-column id="state" field="state" header="State" [sortable]="true"></p-column>
+   <p-column id="delegationDate" field="delegationDate" header="Delegation Date" [sortable]="true"></p-column>
+   <p-column id="createBillingCost" field="createBillingCost" header="Create" [sortable]="true">
+     <template let-col let-tld="rowData" pTemplate="body">
+       <span class="right">{{tld[col.field].value | currency:'USD':true:'1.2-2'}}</span>
+     </template>
+   </p-column>
+   <p-column id="restoreBillingCost" field="restoreBillingCost" header="Restore" [sortable]="true">
+     <template let-col let-tld="rowData" pTemplate="body">
+       <span class="right">{{tld[col.field].value | currency:'USD':true:'1.2-2'}}</span>
+     </template>
+   </p-column>
+   <p-column styleClass="col-button">
+        <template pTemplate="header">
+            Action
+        </template>
+        <template let-tld="rowData" pTemplate="body">
+          <span tooltip="View Phases">
+          <button type="button" tooltip="View Phases" (click)="showTransitions(tld)" pButton icon="fa-list"></button>
+          </span>
+        </template>
+  </p-column>
+</p-dataTable>
+
+ <p-dialog header="TLD Details: {{tld.name}}" [(visible)]="displayDialog" [responsive]="true" [width]="600" showEffect="fade" [modal]="true" [closable]="false">
+  <p class="error" *ngIf="error"><i class="fa fa-error"></i> {{error}}</p>
+  <form name="tldsForm" (ngSubmit)="save()">
+    <div class="ui-grid ui-grid-responsive ui-fluid">
+      <div class="form-group" *ngIf="createTld">
+        <label>TLD Name*:</label>
+        <input id="tld-state" type="text" name="name" placeholder="NEW" required class="form-control" [(ngModel)]="tld.name"/>
       </div>
-      <!-- /.panel -->
+      <div class="form-group" *ngIf="!createTld">
+        <label>State:</label>
+        <input id="tld-state" type="text" name="state" class="form-control" [(ngModel)]="tld.state"/>
+      </div>
+      <div class="form-group">
+          <label>Create*:</label>
+          <div class="input-group">
+          <span class="input-group-addon">USD</span>
+          <input class="form-control" name="createBillingCost" type="number" id="createBillingCost" required placeholder="1.00" [(ngModel)]="createBillingCost" min="0" max="100000000" step="0.01"/>
+        </div>
+       </div>
+        <div class="form-group">
+          <label>Restore*:</label>
+          <div class="input-group">
+          <span class="input-group-addon">USD</span>
+          <input class="form-control" name="restoreBillingCost" type="number" id="restoreBillingCost" required placeholder="1.00" [(ngModel)]="restoreBillingCost" min="0" max="100000000" step="0.01"/>
+        </div>
+       </div>
     </div>
-    <!-- /.col-lg-12 -->
-  </div>
-  <!-- /.row -->
-</div>
-<router-outlet></router-outlet>
+    <p-footer>
+        <div class="ui-dialog-buttonpane ui-widget-content ui-helper-clearfix">
+            <button type="submit" pButton icon="fa-check" label="Save"></button>
+            <button type="button" pButton (click)="cancelDialog()" label="Cancel" class="ui-button-secondary"></button>
+        </div>
+    </p-footer>
+</form>
+</p-dialog>
+
+<p-dialog header="TLD Transition State: {{tld.name}}" [(visible)]="displayTransitionsDialog" [responsive]="true" [width]="600" showEffect="fade" [modal]="true">
+  <p class="error" *ngIf="error"><i class="fa fa-error"></i> {{error}}</p>
+  <table class="table table-striped">
+    <th>State</th>
+    <th>Start Date</th>
+    <tr *ngFor="let tr of stateTransitions">
+      <td>{{tr.value}}</td>
+      <td>{{tr.key | date:"yyyy-MM-dd HH:mm:ss"}} UTC</td>
+    </tr>
+  </table>
+  <p-footer>
+    <div class="ui-dialog-buttonpane ui-widget-content ui-helper-clearfix">
+      <button type="button" pButton label="Close" (click)="cancelDialog()" class="ui-button-secondary"></button>
+    </div>
+  </p-footer>
+</p-dialog>

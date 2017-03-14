@@ -2,11 +2,8 @@
 <p-dataTable #dt [value]="users" selectionMode="single" [(selection)]="selectedUser"  (onRowSelect)="onRowSelect($event)" [paginator]="true" rows="35" [responsive]="true" exportFilename="Users" sortMode="multiple" id="usersTable">
    <p-header>
      <div class="ui-helper-clearfix">
-       <button type="button" pButton icon="fa-file-o" iconPos="left" label="CSV" (click)="dt.exportCSV()" class="btn btn-xs btn-primary left"><i class="fa fa-file-o"></i> CSV</button>
-       <button type="button" class="btn btn-xs btn-success pull-right" (click)="showDialogToAdd()">
-            <i class="fa fa-plus"></i>
-            Create new user
-       </button>
+       <button type="button" pButton icon="fa-file-o" iconPos="left" label="CSV" (click)="dt.exportCSV()" class="left"></button>
+       <button type="button" pButton label="Create new user" icon="fa-plus" class="ui-button-success right" (click)="showDialogToAdd()"></button>
      </div>
    </p-header>
    <p-column id="googleAccount" field="email" header="Google Account" [sortable]="true"></p-column>
@@ -15,7 +12,7 @@
    <p-column id="isActive" field="isActive" header="Is Active" [sortable]="true"></p-column>
    <p-column id="securityPhrase" field="securityPhrase" header="Security Phrase" [sortable]="true"></p-column>
    <p-column id="role" field="role" header="Role" [sortable]="true"></p-column>
- </p-dataTable>
+</p-dataTable>
 
  <p-dialog header="User Details" [(visible)]="displayDialog" [responsive]="true" [width]="600" showEffect="fade" [modal]="true" [closable]="false">
      <p class="error" *ngIf="error"><i class="fa fa-error"></i> {{error}}</p>
@@ -60,8 +57,8 @@
         </div>
         <p-footer>
             <div class="ui-dialog-buttonpane ui-widget-content ui-helper-clearfix">
-                <button type="submit" pButton icon="fa-check" label="Add" class="btn btn-xs btn-primary"><i class="fa fa-plus"></i> Save</button>
-                <button type="button" pButton icon="fa-check" (click)="cancelDialog()" label="Cancel" class="btn btn-xs btn-default"> Cancel</button>
+                <button type="submit" pButton icon="fa-check" label="Save"></button>
+                <button type="button" pButton (click)="cancelDialog()" label="Cancel" class="ui-button-secondary"></button>
             </div>
         </p-footer>
     </form>
