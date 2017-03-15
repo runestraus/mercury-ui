@@ -60,7 +60,7 @@ describe('TldsIndexComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  xit('should display TLDs table.', () => {
+  it('should display TLDs table.', () => {
     expect(elHeader).toBeTruthy();
     expect(elHeader.innerText).toEqual('Manage TLDs');
     expect(elTable).toBeTruthy();

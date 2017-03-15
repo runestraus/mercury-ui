@@ -37,7 +37,7 @@
     <div class="ui-grid ui-grid-responsive ui-fluid">
       <div class="form-group" *ngIf="createTld">
         <label>TLD Name*:</label>
-        <input id="tld-state" type="text" name="name" placeholder="NEW" required class="form-control" [(ngModel)]="tld.name"/>
+        <input id="tld-name" type="text" name="name" placeholder="NEW" required class="form-control" [(ngModel)]="tld.name"/>
       </div>
       <div class="form-group" *ngIf="!createTld">
         <label>State:</label>
@@ -47,14 +47,14 @@
           <label>Create*:</label>
           <div class="input-group">
           <span class="input-group-addon">USD</span>
-          <input class="form-control" name="createBillingCost" type="number" id="createBillingCost" required placeholder="1.00" [(ngModel)]="createBillingCost" min="0" max="100000000" step="0.01"/>
+          <input class="form-control" name="createBillingCostDetail" type="number" id="createBillingCostDetail" required placeholder="1.00" [(ngModel)]="createBillingCost" min="0" max="100000000" step="0.01"/>
         </div>
        </div>
         <div class="form-group">
           <label>Restore*:</label>
           <div class="input-group">
           <span class="input-group-addon">USD</span>
-          <input class="form-control" name="restoreBillingCost" type="number" id="restoreBillingCost" required placeholder="1.00" [(ngModel)]="restoreBillingCost" min="0" max="100000000" step="0.01"/>
+          <input class="form-control" name="restoreBillingCostDetail" type="number" id="restoreBillingCostDetail" required placeholder="1.00" [(ngModel)]="restoreBillingCost" min="0" max="100000000" step="0.01"/>
         </div>
        </div>
     </div>
