@@ -7,7 +7,11 @@
   </p-header>
   <p-column id="premiumDomainName" field="name" header="Domain" [sortable]="true"></p-column>
   <p-column id="premiumDomainCategory" field="category" header="Category" [sortable]="true"></p-column>
-  <p-column id="premiumDomainPrice" field="price" header="Amount" [sortable]="true"></p-column>
+  <p-column id="premiumDomainPrice" field="price" header="Amount" [sortable]="true">
+    <template let-col let-premiumName="rowData" pTemplate="body">
+      <span class="text-right right">{{premiumName[col.field].value  | currency:'USD':true:'1.2-2'}}</span>
+    </template>
+  </p-column>
   <p-column id="premiumDomainFutureCategory" field="futureCategory" header="Future Category" [sortable]="true"></p-column>
   <p-column id="premiumDomainChangeDate" field="changeDate" header="Change Date" [sortable]="true"></p-column>
 </p-dataTable>
