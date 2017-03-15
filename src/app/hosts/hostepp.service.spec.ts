@@ -237,7 +237,7 @@ describe('A ContactEppService', () => {
     <create>
       <host:create xmlns:host="urn:ietf:params:xml:ns:host-1.0">
         <host:name>ns4.holy.cow</host:name>
-            <host:addr ip="4">127.0.0.1</host:addr>
+            <host:addr ip="v4">127.0.0.1</host:addr>
       </host:create>
     </create>
     <clTRID>WBP-00000</clTRID>
@@ -281,7 +281,7 @@ describe('A ContactEppService', () => {
     <create>
       <host:create xmlns:host="urn:ietf:params:xml:ns:host-1.0">
         <host:name>ns99.holy.cow</host:name>
-            <host:addr ip="4">127.0.0.1</host:addr>
+            <host:addr ip="v4">127.0.0.1</host:addr>
       </host:create>
     </create>
     <clTRID>WBP-00000</clTRID>
@@ -324,11 +324,11 @@ describe('A ContactEppService', () => {
       <host:update xmlns:host="urn:ietf:params:xml:ns:host-1.0">
         <host:name>ns4.holy.cow</host:name>
         <host:add>
-          <host:addr ip="4">127.0.0.1</host:addr>
+          <host:addr ip="v4">127.0.0.1</host:addr>
           <host:status s="clientUpdateProhibited"/>
         </host:add>
         <host:rem>
-          <host:addr ip="4">10.0.0.1</host:addr>
+          <host:addr ip="v4">10.0.0.1</host:addr>
           <host:status s="serverUpdateProhibited"/>
         </host:rem>
       </host:update>
@@ -374,11 +374,11 @@ describe('A ContactEppService', () => {
       <host:update xmlns:host="urn:ietf:params:xml:ns:host-1.0">
         <host:name>ns99.holy.cow</host:name>
         <host:add>
-          <host:addr ip="4">127.0.0.1</host:addr>
+          <host:addr ip="v4">127.0.0.1</host:addr>
           <host:status s="clientUpdateProhibited"/>
         </host:add>
         <host:rem>
-          <host:addr ip="4">10.0.0.1</host:addr>
+          <host:addr ip="v4">10.0.0.1</host:addr>
           <host:status s="serverUpdateProhibited"/>
         </host:rem>
       </host:update>

@@ -54,6 +54,8 @@ import { ContactCreateComponent } from './contacts/contact-create/contact-create
 import { ContactEppService } from './contacts/contactepp.service';
 import { TextStringService } from './service/textstring.service';
 import { EppHelperService } from './epp/epphelper.service';
+import { HostCreateComponent } from './hosts/host-create/host-create.component';
+import { HostEppService } from './hosts/hostepp.service';
 import { DomainEppService } from './service/domain-epp.service';
 
 @NgModule({
@@ -80,7 +82,8 @@ import { DomainEppService } from './service/domain-epp.service';
     IcannRegistrarComponent,
     MenuComponent,
     ContactCreateComponent,
-    UsersComponent
+    UsersComponent,
+    HostCreateComponent
   ],
   imports: [
     DropdownModule,
@@ -104,6 +107,7 @@ import { DomainEppService } from './service/domain-epp.service';
     PermissionService,
     HttpClient,
     ContactEppService,
+    HostEppService,
     EppHelperService,
     TextStringService,
     IcannService,

@@ -24,7 +24,7 @@ Handlebars.registerHelper('ipVersion', function(value: string) {
     return 'NULL_IP_ADDRESS';
   }
   if (value.indexOf(':') > -1) {
-    return '6';
+    return 'v6';
   }
-  return '4';
+  return 'v4';
 });

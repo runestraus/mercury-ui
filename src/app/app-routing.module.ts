@@ -22,6 +22,7 @@ import { IcannRegistrarComponent } from './icann/icann-registrar/icann-registrar
 import { IcannDnsComponent } from './icann/icann-dns/icann-dns.component';
 import { IcannTldComponent } from './icann/icann-tld/icann-tld.component';
 import { UsersComponent } from './users/users.component';
+import { HostCreateComponent } from './hosts/host-create/host-create.component';
 
 export const routes: Routes = [
   { path: '',  component: DashboardComponent },
@@ -39,8 +40,8 @@ export const routes: Routes = [
   { path: 'icann/icanntld', component: IcannTldComponent, children: [] },
   { path: 'icann/icanndns', component: IcannDnsComponent, children: [] },
   { path: 'icann/icannregistrar', component: IcannRegistrarComponent, children: [] },
-  { path: 'search/:query', component: SearchComponent, children: [] },
-  { path: 'users', component: UsersComponent, children: [] }
+  { path: 'users', component: UsersComponent, children: [] },
+  { path: 'hosts/:fullyQualifiedHostName', component: HostCreateComponent, children: [] }
 ];
 
 @NgModule({

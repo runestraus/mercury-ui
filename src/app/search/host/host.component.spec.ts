@@ -2,6 +2,7 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { HostComponent } from './host.component';
 import { DebugElement, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { By } from '@angular/platform-browser';
+import { Router } from '@angular/router';
 
 describe('HostComponent', () => {
   let component: HostComponent;
@@ -9,9 +10,18 @@ describe('HostComponent', () => {
   let deTable, deName: DebugElement;
   let elTable, elName: HTMLElement;
 
+  const mockRoute = {
+    navigate : {}
+  };
+
+  const route;
+
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [ HostComponent ],
+      providers: [
+        { provide: Router, useValue: mockRoute }
+        ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA]
     })
     .compileComponents();

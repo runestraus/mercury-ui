@@ -14,6 +14,7 @@
 
 import { Component, OnInit, Input } from '@angular/core';
 import { Host } from '../../model/host.model';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'app-host',
@@ -22,10 +23,15 @@ import { Host } from '../../model/host.model';
 })
 export class HostComponent implements OnInit {
   errorMessage: string;
+
   @Input() hosts: Host[];
-  constructor() { }
+  constructor(private router: Router) { }
 
   ngOnInit() {
+  }
+
+  showDialog(host: Host) {
+    this.router.navigate(['/hosts', host.fullyQualifiedHostName]);
   }
 
 }

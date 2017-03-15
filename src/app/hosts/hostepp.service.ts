@@ -19,7 +19,6 @@ export class HostEppService {
   constructor(private text: TextStringService,
     private eppHelper: EppHelperService) {}
 
-
   /**
    * Host info epp command
    *

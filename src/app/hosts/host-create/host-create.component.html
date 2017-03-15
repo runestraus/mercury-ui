@@ -1,0 +1,31 @@
+<p-dialog [(visible)]="showHostDialog" [responsive]="true" [width]="600" showEffect="fade" [modal]="true" [closable]="false" [(header)]="modalHeader">
+  <form [formGroup]="hostForm" (submit)="onSubmit()" novalidate>
+    <fieldset>
+      <div *ngIf="error" class="alert alert-danger" role="alert">{{error}}</div>
+        <div class="modal-body" *ngIf="isEditForm">
+          <label class="modal-label">Host Name:</label>
+          <input id="createHostName" autofocus type="text" placeholder="Host Name" class="form-control modal-form-control" formControlName="fullyQualifiedHostName" required/>
+          <p class="help-block"  *ngIf="formErrors.fullyQualifiedHostName">{{formErrors.fullyQualifiedHostName}}</p>
+          <div formArrayName="inetAddresses">
+            <div *ngFor="let inetAddress of inetAddresses.controls; let i=index">
+              <label>Ip Address:</label>
+              <input placeholder="127.0.0.1" formControlName="{{i}}" class="form-control modal-form-control" required>
+                <button (click)="removeInetAddress(i)" class="btn btn-default">
+                    <i class="fa fa-times-circle"></i>
+                </button>
+              <p class="help-block"  *ngIf="formErrors.inetAddresses">{{formErrors.inetAddresses}}</p>
+            </div>
+            <button (click)="addInetAddress()" type="button" class="btn btn-default">Add a IP Address</button>
+          </div>
+        <span class="clear"></span>
+
+        <p-footer>
+          <div class="ui-dialog-buttonpane ui-widget-content ui-helper-clearfix">
+            <button type="submit" pButton icon="fa-check" [disabled]="hostForm.invalid" label="Save"></button>
+            <button type="button" pButton icon="fa-check" (click)="cancelDialog()" class="ui-button-secondary" label="Cancel"></button>
+          </div>
+        </p-footer>
+      </div>
+    </fieldset>
+  </form>
+</p-dialog>

@@ -5,5 +5,9 @@
       <button type="button" pButton icon="fa-file-o" iconPos="left" label="CSV" (click)="dt.exportCSV()" style="float:left"></button>
     </div>
   </p-header>
-  <p-column id="hostName" field="fullyQualifiedHostName" header="Host" [sortable]="true"></p-column>
+  <p-column id="hostName" field="fullyQualifiedHostName" header="Host" [sortable]="true">
+    <template let-col let-host="rowData" pTemplate="body">
+      <a routerLink="/hosts" routerLinkActive="active" (click)="showDialog(host)">{{host[col.field]}}</a>
+    </template>
+  </p-column>
 </p-dataTable>

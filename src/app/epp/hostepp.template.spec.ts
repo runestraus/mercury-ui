@@ -33,7 +33,7 @@ describe('Host EPP Templates', () => {
     <create>
       <host:create xmlns:host="urn:ietf:params:xml:ns:host-1.0">
         <host:name>foo.bar.com</host:name>
-            <host:addr ip="4">127.0.0.1</host:addr>
+            <host:addr ip="v4">127.0.0.1</host:addr>
       </host:create>
     </create>
     <clTRID>TEST-1234</clTRID>
@@ -56,7 +56,7 @@ describe('Host EPP Templates', () => {
     <create>
       <host:create xmlns:host="urn:ietf:params:xml:ns:host-1.0">
         <host:name>foo.bar.com</host:name>
-            <host:addr ip="6">::1</host:addr>
+            <host:addr ip="v6">::1</host:addr>
       </host:create>
     </create>
     <clTRID>TEST-1234</clTRID>
@@ -121,8 +121,8 @@ describe('Host EPP Templates', () => {
       <host:update xmlns:host="urn:ietf:params:xml:ns:host-1.0">
         <host:name>foo.bar.com</host:name>
         <host:add>
-          <host:addr ip="4">127.0.0.1</host:addr>
-          <host:addr ip="6">::1</host:addr>
+          <host:addr ip="v4">127.0.0.1</host:addr>
+          <host:addr ip="v6">::1</host:addr>
         </host:add>
       </host:update>
     </update>
@@ -149,8 +149,8 @@ describe('Host EPP Templates', () => {
       <host:update xmlns:host="urn:ietf:params:xml:ns:host-1.0">
         <host:name>foo.bar.com</host:name>
         <host:rem>
-          <host:addr ip="4">127.0.0.1</host:addr>
-          <host:addr ip="6">::1</host:addr>
+          <host:addr ip="v4">127.0.0.1</host:addr>
+          <host:addr ip="v6">::1</host:addr>
         </host:rem>
       </host:update>
     </update>
