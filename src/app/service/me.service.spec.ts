@@ -5,24 +5,25 @@ import { HttpClient } from '../shared/http.client';
 import { HttpModule, XHRBackend, RequestMethod } from '@angular/http';
 import { MockBackend, MockConnection } from '@angular/http/testing';
 import { OAuthService } from 'angular-oauth2-oidc';
+import { SessionService } from './session.service';
 
 describe('MeService', () => {
   let mockBackend: MockBackend;
   let service: MeService;
-  const mockOauthService = {
+  const mockSessionService = {
     getAccessToken: jasmine.createSpy('getAccessToken')
   };
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [HttpModule],
       providers: [MeService, HttpClient, { provide: XHRBackend, useClass: MockBackend },
-        { provide: OAuthService, useValue: mockOauthService}]
+        { provide: SessionService, useValue: mockSessionService}]
     });
   });
 
   beforeEach(inject([XHRBackend, MeService], (_mockBackend, _service) => {
     mockBackend = _mockBackend;
-    mockOauthService.getAccessToken.and.returnValue('mock-token');
+    mockSessionService.getAccessToken.and.returnValue('mock-token');
     service = _service;
   }));
 

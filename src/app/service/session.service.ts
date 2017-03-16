@@ -1,66 +1,67 @@
 import { Injectable } from '@angular/core';
-import { OAuthService } from 'angular-oauth2-oidc';
-import { environment } from '../../environments/environment';
-import { Subject } from 'rxjs/Subject';
 import { MeService } from './me.service';
-import { User } from '../model/user.model';
-import { Profile } from '../model/profile.model';
+import { GoogleOauthService } from './google-oauth.service';
+import { UserData, Profile } from '../model/profile.model';
+import { Subscription } from 'rxjs/Subscription';
+import { Subject } from 'rxjs/Subject';
 
 @Injectable()
 export class SessionService {
 
-  private loginEvent = new Subject<User>();
+  private _signInObserver: Subject<UserData> = new Subject<UserData>();
+  private _signedOutObserver:  Subject<void> = new Subject<void>();
+  private _signInFailedObserver: Subject<Error> = new Subject<Error>();
 
-  constructor(private oauthService: OAuthService, private meService: MeService) { }
+  constructor(private meService: MeService, private googleService: GoogleOauthService) { }
 
   initialize() {
-    this.oauthService.redirectUri = window.location.origin;
+    this.googleService.onSignedIn((profile) => {
+      localStorage.setItem('access_token', this.googleService.getAccessToken());
+      this.meService.get()
+        .then(data => {
+          const user = {
+            user: data,
+            profile: profile
+          } as UserData;
 
-    this.oauthService.clientId = environment.clientId;
-    this.oauthService.oidc = true;
-    this.oauthService.scope = 'https://www.googleapis.com/auth/userinfo.profile ' +
-      'https://www.googleapis.com/auth/userinfo.email openid email profile';
-
-    this.oauthService.issuer = 'https://accounts.google.com';
-
-    this.oauthService.loadDiscoveryDocument().then(() => {
-      this.oauthService.tryLogin({
-        onTokenReceived: () => {
-          this.meService.get()
-            .then(data => {
-              this.loginEvent.next(data);
-            })
-            .catch(err => {
-              this.oauthService.logOut();
-              this.loginEvent.error(err);
-            });
-        }
-      });
+          this._signInObserver.next(user);
+        })
+        .catch(err => {
+          this._signInFailedObserver.next(err);
+        });
+    });
+    this.googleService.onSignedOut(() => {
+      this._signedOutObserver.next();
     });
   }
 
-  isLoggedIn(): boolean {
-    return this.oauthService.hasValidAccessToken();
+  getAccessToken(): string {
+    return this.googleService.getAccessToken();
   }
 
-  initOauthFlow() {
-    this.oauthService.initImplicitFlow();
+  signIn() {
+    return this.googleService.signIn();
   }
 
-  loginObservable() {
-    return this.loginEvent.asObservable();
+  onSignIn(fn: (user: UserData) => void): Subscription {
+    return this._signInObserver.subscribe(fn);
+  }
+
+  onSignedOut(fn: () => void): Subscription {
+    return this._signedOutObserver.subscribe(fn);
+  }
+
+  onSignInFailure(fn: () => void): Subscription {
+    return this._signInFailedObserver.subscribe(fn);
   }
 
   getUserProfile(): Profile {
-    return JSON.parse(localStorage.getItem('id_token_claims_obj')) as Profile;
+    return this.googleService.getProfile();
   }
 
-  logOut(): Promise<any> {
+  signOut(): Promise<any> {
     return this.meService.logout()
-      .then(() => this.oauthService.logOut())
-      .catch(() => {
-        // swallow error and log out locally
-        this.oauthService.logOut();
-      });
+      .then(() => this.googleService.signOut())
+      .then(() => this._signedOutObserver.next());
   }
 }

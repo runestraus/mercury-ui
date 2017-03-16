@@ -2,19 +2,23 @@ import { TestBed, async, ComponentFixture } from '@angular/core/testing';
 import { SessionService } from '../service/session.service';
 import { NavbarComponent } from './navbar.component';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
-import { SearchBarComponent } from '../search-bar/search-bar.component';
-import { Profile } from '../model/profile.model';
+import { SearchBarComponent } from './search-bar/search-bar.component';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { By } from '@angular/platform-browser';
+import { UserData } from '../model/profile.model';
 
 describe('NavbarComponent', () => {
   let component: NavbarComponent;
   let fixture: ComponentFixture<NavbarComponent>;
   let page: Page;
   const mockSessionService = {
-    getUserProfile: jasmine.createSpy('sessionService.getUserProfile'),
-    logOut: jasmine.createSpy('sessionService.logOut')
+    signOut: jasmine.createSpy('sessionService.logOut')
+  };
+  const profile = {
+    'getEmail': () => 'test@donuts.email',
+    getName: () => 'Donny Donuts',
+    getImageUrl: () => 'http://donuts.co'
   };
 
   const mockRouter = {
@@ -33,13 +37,12 @@ describe('NavbarComponent', () => {
   }));
 
   beforeEach(() => {
-    const profile = new Profile();
-    profile.email = 'test@donuts.email';
-    profile.name = 'Donny Donuts';
-    profile.picture = 'http://donuts.co';
-    mockSessionService.getUserProfile.and.returnValue(profile);
     fixture = TestBed.createComponent(NavbarComponent);
     component = fixture.componentInstance;
+    component.userInfo = {
+      profile: profile,
+      user: null
+    } as UserData;
     fixture.detectChanges();
     page = new Page();
   });
@@ -52,7 +55,7 @@ describe('NavbarComponent', () => {
 
   it('should call logout on Logout click', () => {
     page.logoutBtn.click();
-    expect(mockSessionService.logOut).toHaveBeenCalled();
+    expect(mockSessionService.signOut).toHaveBeenCalled();
   });
 
   class Page {

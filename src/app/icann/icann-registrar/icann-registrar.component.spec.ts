@@ -7,7 +7,6 @@ import { CalendarModule } from 'primeng/components/calendar/calendar';
 import { IcannService } from '../../service/icann.service';
 import { HttpClient } from '../../shared/http.client';
 import { MeService } from '../../service/me.service';
-import { OAuthService } from 'angular-oauth2-oidc';
 import { By } from '@angular/platform-browser';
 
 describe('IcannRegistrarComponent', () => {
@@ -30,18 +29,13 @@ describe('IcannRegistrarComponent', () => {
     get: jasmine.createSpy('meService.get')
   };
 
-  const mockOauthService = {
-    getAccessToken: jasmine.createSpy('getAccessToken')
-  };
-
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [ IcannRegistrarComponent ],
       imports:      [ FormsModule, HttpModule, CalendarModule ],
       providers: [
         IcannService, HttpClient,
-        { provide: MeService, useValue: mockMeService },
-        { provide: OAuthService, useValue: mockOauthService}
+        { provide: MeService, useValue: mockMeService }
       ],
       schemas: [ CUSTOM_ELEMENTS_SCHEMA ]
     })

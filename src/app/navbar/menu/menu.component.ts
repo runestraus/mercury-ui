@@ -11,33 +11,25 @@
 // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 // See the License for the specific language governing permissions and
 // limitations under the License.
-
-import { Component, OnInit} from '@angular/core';
-import { MeService } from '../service/me.service';
+import { Component, Input } from '@angular/core';
 import 'rxjs/add/operator/toPromise';
-import {User} from '../model/user.model';
+import { UserData } from '../../model/profile.model';
+import { User } from '../../model/user.model';
+import { RegistrarUser } from '../../model/users.model';
 
 @Component({
   selector: 'app-menu',
-  templateUrl: './menu.component.html',
-  styleUrls: ['./menu.component.css']
+  templateUrl: 'menu.component.html',
+  styleUrls: ['menu.component.css']
 })
-export class MenuComponent implements OnInit {
+export class MenuComponent {
   isActive: boolean;
-  user: User;
   errorMessage: string;
-
-  constructor(private meService: MeService) {}
+  @Input() user: User;
+  constructor() {}
 
   showNavItem(permission): boolean {
     return this.user.permissions.some(perm => perm === permission);
-  }
-
-  ngOnInit() {
-    this.meService.get()
-      .then(user => {
-        this.user = user;
-      });
   }
 
   toggle() {

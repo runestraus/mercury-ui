@@ -1,4 +1,4 @@
-export class User {
+export class RegistrarUser {
   email: string;
   securityPhrase: string;
   isActive?: boolean;

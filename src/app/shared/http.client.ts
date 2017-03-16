@@ -1,19 +1,18 @@
 import { Injectable } from '@angular/core';
 import { Http, Headers, Response } from '@angular/http';
-import { OAuthService } from 'angular-oauth2-oidc';
 import { Observable } from 'rxjs/Observable';
 import { environment } from '../../environments/environment';
 
 @Injectable()
 export class HttpClient {
 
-  constructor(private http: Http, private oauthService: OAuthService) { }
+  constructor(private http: Http) { }
 
   private addAuthorizationToHeaders(headers: Headers): Headers {
     if (!headers) {
       headers = new Headers({});
     }
-    headers.set('Authorization', `Bearer ${this.oauthService.getAccessToken()}`);
+    headers.set('Authorization', `Bearer ${localStorage.getItem('access_token')}`);
     return headers;
   }
 

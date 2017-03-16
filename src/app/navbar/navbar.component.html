@@ -1,15 +1,15 @@
 <!-- Navigation -->
 <nav class="navbar navbar-default navbar-static-top" role="navigation">
  <div class="container-fluid">
-  <app-menu></app-menu>
-  <ul class="nav navbar-nav navbar-right">
+  <app-menu [user]="userInfo.user"></app-menu>
+  <ul class="nav navbar-nav navbar-right" (appClickOutside)="closeMenu()">
       <li class="dropdown" [class.open]="menuOpen">
         <a class="dropdown-toggle" id="logout-menu" (click)="openMenu()">
-          <img class="img-circle" id="user-image" src="{{profile.picture}}" />
+          <img class="img-circle" id="user-image" src="{{userInfo.profile.getImageUrl()}}" />
         </a>
       <ul class="dropdown-menu">
-        <li class="dropdown-text">{{profile.name}}</li>
-        <li class="dropdown-text">{{profile.email}}</li>
+        <li class="dropdown-text">{{userInfo.profile.getName()}}</li>
+        <li class="dropdown-text">{{userInfo.profile.getEmail()}}</li>
         <li role="separator" class="divider"></li>
         <li><a id="logout" (click)="logout()">Logout</a></li>
       </ul>

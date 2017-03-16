@@ -1,27 +1,21 @@
 import { EppHelperService } from './epphelper.service';
 import { HttpClient } from '../shared/http.client';
 import { TextStringService } from '../service/textstring.service';
-import { async, fakeAsync, tick } from '@angular/core/testing';
-import { TestBed, inject } from '@angular/core/testing';
-import { MockBackend, MockConnection } from '@angular/http/testing';
-import { HttpModule, XHRBackend, RequestMethod, Response, ResponseOptions } from '@angular/http';
-import { OAuthService } from 'angular-oauth2-oidc';
+import { fakeAsync, tick, TestBed, inject } from '@angular/core/testing';
+import { MockBackend } from '@angular/http/testing';
+import { HttpModule, XHRBackend, Response, ResponseOptions } from '@angular/http';
 
 describe('An EppHelper', () => {
   let mockBackend: MockBackend;
   let service: EppHelperService;
   let lastConnection: any;
-  const mockOauthService = {
-    getAccessToken: jasmine.createSpy('getAccessToken')
-  };
 
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [HttpModule],
       providers: [
         EppHelperService, HttpClient, TextStringService,
-        { provide: XHRBackend, useClass: MockBackend },
-        { provide: OAuthService, useValue: mockOauthService }
+        { provide: XHRBackend, useClass: MockBackend }
       ]
     });
   });

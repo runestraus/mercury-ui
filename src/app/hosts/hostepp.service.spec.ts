@@ -11,23 +11,18 @@ import { MockBackend, MockConnection } from '@angular/http/testing';
 import {
   HttpModule, XHRBackend, RequestMethod, Response, ResponseOptions
 } from '@angular/http';
-import { OAuthService } from 'angular-oauth2-oidc';
 
-describe('A ContactEppService', () => {
+describe('A HostEppService', () => {
   let mockBackend: MockBackend;
   let service: HostEppService;
   let lastConnection: MockConnection;
-  const mockOauthService = {
-    getAccessToken: jasmine.createSpy('getAccessToken')
-  };
 
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [HttpModule],
       providers: [
         HostEppService, EppHelperService, HttpClient, TextStringService,
-        { provide: XHRBackend, useClass: MockBackend },
-        { provide: OAuthService, useValue: mockOauthService }
+        { provide: XHRBackend, useClass: MockBackend }
       ]
     });
   });

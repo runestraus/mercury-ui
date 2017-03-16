@@ -14,7 +14,7 @@
 
 import { Injectable } from '@angular/core';
 import { HttpClient } from '../shared/http.client';
-import { User } from '../model/users.model';
+import { RegistrarUser } from '../model/users.model';
 import 'rxjs/add/operator/toPromise';
 
 @Injectable()
@@ -25,33 +25,33 @@ export class UsersService {
   /**
    * Gets the users.
    *
-   * @returns {Promise<User>}
+   * @returns {Promise<RegistrarUser>}
    */
-  get(): Promise<User[]> {
+  get(): Promise<RegistrarUser[]> {
     return this.http.get('/api/user').toPromise()
-      .then(res => res.json() as User[])
+      .then(res => res.json() as RegistrarUser[])
       .catch(this.handleError);
   }
 
     /**
    * Creates a new user.
    *
-   * @returns {Promise<User>}
+   * @returns {Promise<RegistrarUser>}
    */
-  post(user: User): Promise<User[]> {
+  post(user: RegistrarUser): Promise<RegistrarUser[]> {
     return this.http.post('/api/user', user).toPromise()
-      .then(res => res.json() as User[])
+      .then(res => res.json() as RegistrarUser[])
       .catch(this.handleError);
   }
 
       /**
    * Update a user.
    *
-   * @returns {Promise<User>}
+   * @returns {Promise<RegistrarUser>}
    */
-  put(email: string, user: User): Promise<User[]> {
+  put(email: string, user: RegistrarUser): Promise<RegistrarUser[]> {
     return this.http.put('/api/user/' + email, user).toPromise()
-      .then(res => res.json() as User[])
+      .then(res => res.json() as RegistrarUser[])
       .catch(this.handleError);
   }
 

@@ -11,6 +11,7 @@ import {
   ContactCheckResponse
 } from './contact.model';
 import { extractExtension, extractText, extractStatuses, extractType, extractAvail } from '../epp/epputil';
+import 'rxjs/add/observable/throw';
 
 /**
  * Contacts epp service

@@ -17,7 +17,7 @@ import { FormsModule } from '@angular/forms';
 import { UsersService } from '../service/users.service';
 import { RolesService } from '../service/roles.service';
 import 'rxjs/add/operator/toPromise';
-import { User } from '../model/users.model';
+import { RegistrarUser } from '../model/users.model';
 import { Role } from '../model/roles.model';
 
 @Component({
@@ -27,15 +27,15 @@ import { Role } from '../model/roles.model';
 })
 export class UsersComponent implements OnInit {
   displayDialog: boolean;
-  user: User = new User();
-  selectedUser: User;
+  user: RegistrarUser = new RegistrarUser();
+  selectedUser: RegistrarUser;
   createUser: boolean;
-  users: User[];
+  users: RegistrarUser[];
   role: Role;
-  selectedRole: string;
   error: string;
 
-  constructor(private usersService: UsersService, private rolesService: RolesService) {}
+  constructor(private usersService: UsersService, private rolesService: RolesService) {
+  }
 
   ngOnInit() {
     this.usersService.get()
@@ -43,7 +43,7 @@ export class UsersComponent implements OnInit {
         this.users = users;
       });
 
-      this.rolesService.get()
+    this.rolesService.get()
       .then(roles => {
         this.role = roles;
       });
@@ -55,7 +55,7 @@ export class UsersComponent implements OnInit {
     this.displayDialog = true;
   }
 
-  cloneUser(u: User): User {
+  cloneUser(u: RegistrarUser): RegistrarUser {
     const user = this.selectedUser;
     for (const prop in u) {
       if (u.hasOwnProperty(prop)) {
@@ -71,7 +71,7 @@ export class UsersComponent implements OnInit {
   }
 
   cancelDialog() {
-    this.user = new User();
+    this.user = new RegistrarUser();
     this.displayDialog = false;
     this.error = null;
   }
@@ -80,22 +80,22 @@ export class UsersComponent implements OnInit {
     if (this.createUser) {
       this.users.push(this.user);
       this.usersService.post(this.user)
-      .then()
-      .catch(error => {
-        this.displayDialog = true;
-        this.error = error;
-      });
+        .then()
+        .catch(error => {
+          this.displayDialog = true;
+          this.error = error;
+        });
     } else {
       this.usersService.put(this.user.email, this.user)
-      .then()
-      .catch(error => {
-        this.displayDialog = true;
-        this.error = error;
-      });
+        .then()
+        .catch(error => {
+          this.displayDialog = true;
+          this.error = error;
+        });
       this.users[this.findSelectedUserIndex()] = this.user;
-      this.user = new User();
+      this.user = new RegistrarUser();
     }
-      this.displayDialog = false;
+    this.displayDialog = false;
   }
 
   findSelectedUserIndex(): number {

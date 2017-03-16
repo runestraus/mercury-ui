@@ -6,7 +6,6 @@ import { By } from '@angular/platform-browser';
 import { IcannService } from '../../service/icann.service';
 import { HttpClient } from '../../shared/http.client';
 import { HttpModule } from '@angular/http';
-import { OAuthService } from 'angular-oauth2-oidc';
 import { CalendarModule } from 'primeng/primeng';
 
 describe('IcannDnsComponent', () => {
@@ -15,17 +14,12 @@ describe('IcannDnsComponent', () => {
   let deTldInput, deDate, deDnsReceivedCount, deDnsRespondedCount, deTcpReceivedCount, deTcpRespondedCount: DebugElement;
   let elTldInput, elDate, elDnsReceivedCount, elDnsRespondedCount, elTcpReceivedCount, elTcpRespondedCount: HTMLElement;
 
-  const mockOauthService = {
-    getAccessToken: jasmine.createSpy('getAccessToken')
-  };
-
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [ IcannDnsComponent ],
       imports:      [ FormsModule, HttpModule, CalendarModule ],
       providers: [
-        IcannService, HttpClient,
-        { provide: OAuthService, useValue: mockOauthService}
+        IcannService, HttpClient
       ],
       schemas: [ CUSTOM_ELEMENTS_SCHEMA ]
     })

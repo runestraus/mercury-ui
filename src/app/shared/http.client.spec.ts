@@ -4,22 +4,18 @@ import { HttpClient } from './http.client';
 import { HttpModule, XHRBackend, RequestMethod, Headers } from '@angular/http';
 import { MockBackend, MockConnection } from '@angular/http/testing';
 import { Injector } from '@angular/core';
-import { OAuthService } from 'angular-oauth2-oidc';
 
 describe('HttpClient', () => {
   let mockBackend: MockBackend;
   let client: HttpClient;
   let injector: Injector;
-  const mockOauthService = {
-    getAccessToken: jasmine.createSpy('getAccessToken')
-  };
+
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [HttpModule],
       providers: [
         { provide: XHRBackend, useClass: MockBackend },
-        HttpClient,
-        { provide: OAuthService, useValue: mockOauthService }
+        HttpClient
       ]
     });
     injector = getTestBed();
@@ -28,7 +24,6 @@ describe('HttpClient', () => {
   beforeEach(inject([XHRBackend, HttpClient], (_mockBackend, _client) => {
     mockBackend = _mockBackend;
     client = _client;
-    mockOauthService.getAccessToken.and.returnValue('mock-token');
   }));
 
   it('get() should make a get request to provided url', () => {

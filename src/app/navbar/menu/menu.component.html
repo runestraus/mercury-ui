@@ -5,8 +5,7 @@
     <app-search-bar></app-search-bar>
 </div>
 <label class="registrarName" *ngIf="user">
-    Registrar: {{user.clientId}}
-    IANA ID: {{user.ianaId}}
+    {{user.clientId}} ({{user.ianaId}})
 </label>
 <p class="error" *ngIf="errorMessage">{{errorMessage}}</p>
 <div class="navbar-default sidebar" role="navigation" *ngIf="isActive">

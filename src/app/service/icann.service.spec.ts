@@ -2,14 +2,14 @@ import { TestBed, inject } from '@angular/core/testing';
 import { IcannService } from './icann.service';
 import { HttpClient } from '../shared/http.client';
 import { HttpModule, XHRBackend, RequestMethod } from '@angular/http';
-import { OAuthService } from 'angular-oauth2-oidc';
 import { MockBackend, MockConnection } from '@angular/http/testing';
 import { IcannDns } from '../model/icannDns.counter.model';
 import { Tld } from '../model/tld.model';
 import { IcannRegistrar } from '../model/icannRegistrar.counter.model';
 import { IcannTld } from '../model/icannTld.counter.model';
+import { SessionService } from './session.service';
 
-const mockOauthService = {
+const mockSessionService = {
   getAccessToken: jasmine.createSpy('getAccessToken')
 };
 
@@ -17,16 +17,13 @@ describe('IcannService', () => {
   let mockBackend: MockBackend;
   let service: IcannService;
   let tlds: Promise<Tld[]>;
-  const icannDns = IcannDns;
-  const icannRegistrar = IcannRegistrar;
-  const icannTld = IcannTld;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports:      [ HttpModule ],
       providers: [IcannService, HttpClient,
         { provide: XHRBackend, useClass: MockBackend },
-        { provide: OAuthService, useValue: mockOauthService}]
+        { provide: SessionService, useValue: mockSessionService}]
     });
 
     this.icannDns = new IcannDns();
@@ -61,7 +58,7 @@ describe('IcannService', () => {
 
   beforeEach(inject([XHRBackend, IcannService], (_mockBackend, _service) => {
     mockBackend = _mockBackend;
-    mockOauthService.getAccessToken.and.returnValue('mock-token');
+    mockSessionService.getAccessToken.and.returnValue('mock-token');
     service = _service;
   }));
 

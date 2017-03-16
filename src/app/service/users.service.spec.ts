@@ -15,7 +15,7 @@
 import { TestBed, async, inject } from '@angular/core/testing';
 import { UsersService } from './users.service';
 import { HttpClient } from '../shared/http.client';
-import { User } from '../model/users.model';
+import { RegistrarUser } from '../model/users.model';
 import 'rxjs/add/operator/toPromise';
 import { XHRBackend, RequestMethod, HttpModule } from '@angular/http';
 import { MockBackend, MockConnection } from '@angular/http/testing';
@@ -23,7 +23,7 @@ import { MockBackend, MockConnection } from '@angular/http/testing';
 describe('UsersService', () => {
   let service: UsersService;
   let mockBackend: MockBackend;
-  let mockUser: User;
+  let mockUser: RegistrarUser;
 
   const mockUsersService = {
     get: jasmine.createSpy('get')
@@ -37,7 +37,7 @@ describe('UsersService', () => {
 
   beforeEach(inject([UsersService, XHRBackend], (_service, _mockBackend) => {
     mockBackend = _mockBackend;
-    mockUser = new User;
+    mockUser = new RegistrarUser;
     mockUser.email = 'someuser@gmail.com';
     mockUser.clientId = 'brodaddy';
     mockUsersService.get.and.returnValue(Promise.resolve(mockUser));

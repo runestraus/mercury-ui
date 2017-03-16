@@ -11,7 +11,6 @@
 // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 // See the License for the specific language governing permissions and
 // limitations under the License.
-
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
@@ -19,7 +18,7 @@ import { HttpModule } from '@angular/http';
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
 import { NavbarComponent } from './navbar/navbar.component';
-import { SearchBarComponent } from './search-bar/search-bar.component';
+import { SearchBarComponent } from './navbar/search-bar/search-bar.component';
 import { SearchComponent } from './search/search.component';
 import { SearchService } from './service/search.service';
 import { DashboardComponent } from './dashboard/dashboard.component';
@@ -28,7 +27,6 @@ import { TldService } from './service/tld.service';
 import { TldsCreateComponent } from './tlds/tlds-create/tlds-create.component';
 import { DialogModule } from 'primeng/components/dialog/dialog';
 import { LoginComponent } from './login/login.component';
-import { OAuthModule } from 'angular-oauth2-oidc';
 import { SessionService } from './service/session.service';
 import { MeService } from './service/me.service';
 import { UsersService } from './service/users.service';
@@ -43,7 +41,7 @@ import { ReservedNameComponent } from './search/reserved-name/reserved-name.comp
 import { DpmlComponent } from './search/dpml/dpml.component';
 import { DataTableModule } from 'primeng/components/datatable/datatable';
 import { SharedModule } from 'primeng/components/common/shared';
-import { MenuComponent } from './menu/menu.component';
+import { MenuComponent } from './navbar/menu/menu.component';
 import { IcannTldComponent } from './icann/icann-tld/icann-tld.component';
 import { IcannDnsComponent } from './icann/icann-dns/icann-dns.component';
 import { IcannRegistrarComponent } from './icann/icann-registrar/icann-registrar.component';
@@ -57,6 +55,9 @@ import { EppHelperService } from './epp/epphelper.service';
 import { HostCreateComponent } from './hosts/host-create/host-create.component';
 import { HostEppService } from './hosts/hostepp.service';
 import { DomainEppService } from './service/domain-epp.service';
+import { GoogleOauthService } from './service/google-oauth.service';
+import { GapiLoader } from './service/gapi-loader.service';
+import { ClickOutsideDirective } from './shared/directives/click-outside.directive';
 
 @NgModule({
   declarations: [
@@ -83,7 +84,8 @@ import { DomainEppService } from './service/domain-epp.service';
     MenuComponent,
     ContactCreateComponent,
     UsersComponent,
-    HostCreateComponent
+    HostCreateComponent,
+    ClickOutsideDirective
   ],
   imports: [
     DropdownModule,
@@ -95,7 +97,6 @@ import { DomainEppService } from './service/domain-epp.service';
     FormsModule,
     HttpModule,
     ReactiveFormsModule,
-    OAuthModule.forRoot(),
     AppRoutingModule
   ],
   providers: [
@@ -112,7 +113,9 @@ import { DomainEppService } from './service/domain-epp.service';
     TextStringService,
     IcannService,
     RolesService,
-    DomainEppService
+    DomainEppService,
+    GoogleOauthService,
+    GapiLoader
   ],
   entryComponents: [],
   bootstrap: [AppComponent]

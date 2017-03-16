@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { SessionService } from '../service/session.service';
+import { environment } from '../../environments/environment';
 
 @Component({
   selector: 'app-login',
@@ -8,20 +9,16 @@ import { SessionService } from '../service/session.service';
 })
 export class LoginComponent implements OnInit {
   loginFailed = false;
-
+  environment = environment.name;
   constructor(private sessionService: SessionService) {}
 
   ngOnInit() {
-    this.sessionService.loginObservable().subscribe(
-      () => {}, // Successful Event
-      () => {   // Error
-        this.loginFailed = true;
-      },
-      () => {}  // Done
-    );
+    this.sessionService.onSignInFailure(() => {
+      this.loginFailed = true;
+    });
   }
 
   login() {
-    this.sessionService.initOauthFlow();
+    this.sessionService.signIn();
   }
 }

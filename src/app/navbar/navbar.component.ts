@@ -1,6 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input, HostListener } from '@angular/core';
 import { SessionService } from '../service/session.service';
-import { Profile } from '../model/profile.model';
+import { Profile, UserData } from '../model/profile.model';
 
 @Component({
   selector: 'app-navbar',
@@ -9,19 +9,21 @@ import { Profile } from '../model/profile.model';
 })
 export class NavbarComponent implements OnInit {
   menuOpen = false;
-  profile: Profile;
+  @Input() userInfo: UserData;
   constructor(private sessionService: SessionService) { }
 
-  ngOnInit() {
-    this.profile = this.sessionService.getUserProfile();
-  }
+  ngOnInit() {}
 
   openMenu() {
     this.menuOpen = !this.menuOpen;
   }
 
+  closeMenu() {
+    this.menuOpen = false;
+  }
+
   logout() {
-    this.sessionService.logOut();
+    this.sessionService.signOut();
   }
 
 }

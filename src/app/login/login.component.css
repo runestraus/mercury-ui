@@ -3,3 +3,18 @@
   padding: 15px;
   margin: 0 auto;
 }
+
+.sign-in button {
+  background-color: #f5f5f5;
+}
+.header {
+  border-bottom: 1px solid #eee;
+}
+.login-logo {
+  width: 196px;
+  margin: 0 auto;
+  padding-bottom: 20px;
+}
+.login-logo img {
+   width: 196px;
+ }

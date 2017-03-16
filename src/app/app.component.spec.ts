@@ -7,8 +7,9 @@ describe('AppComponent', () => {
   let component: AppComponent;
   let fixture: ComponentFixture<AppComponent>;
   const mockSessionService = {
-    isLoggedIn: jasmine.createSpy('isLoggedIn'),
-    initialize: jasmine.createSpy('initialize')
+    onSignIn: jasmine.createSpy('onSignIn'),
+    initialize: jasmine.createSpy('initialize'),
+    onSignedOut: jasmine.createSpy('onSignedOut')
   };
   const mockRouter = {
     navigate: jasmine.createSpy('navigate')
@@ -31,7 +32,7 @@ describe('AppComponent', () => {
 
   it('isLoggedIn() should call sessionService.isLoggedIn', () => {
     component.isLoggedIn();
-    expect(mockSessionService.isLoggedIn).toHaveBeenCalled();
+    expect(mockSessionService.onSignIn).toHaveBeenCalled();
   });
 
 });

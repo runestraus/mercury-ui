@@ -6,5 +6,6 @@
 export const environment = {
   production: false,
   clientId: '901762014784-uindcll68mofnd3a62hat18oddlg5jhk.apps.googleusercontent.com',
-  baseRoute: 'http://localhost:8080'
+  baseRoute: 'http://localhost:8080',
+  name: 'Dev'
 };

@@ -4,15 +4,10 @@ import { FormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import 'rxjs/add/operator/toPromise';
 import { TldService } from '../../service/tld.service';
-import { Tld } from '../../model/tld.model';
 import { TldsIndexComponent } from './tlds-index.component';
 import { DialogModule } from 'primeng/components/dialog/dialog';
 import { DataTableModule } from 'primeng/components/datatable/datatable';
 import { HttpModule } from '@angular/http';
-import { HttpClient } from '../../shared/http.client';
-import { MeService } from '../../service/me.service';
-import { OAuthService } from 'angular-oauth2-oidc';
-import { Pipe, PipeTransform } from '@angular/core';
 
 describe('TldsIndexComponent', () => {
   let component: TldsIndexComponent;
@@ -21,27 +16,23 @@ describe('TldsIndexComponent', () => {
   let deTable, deHeader, deNameTitle, deCSVButton: DebugElement;
   let elTable, elHeader, elNameTitle, elCSVButton: HTMLElement;
 
-  const mockMeService = {
-   get: jasmine.createSpy('get')
+  const mockTldService = {
+    get: jasmine.createSpy('get')
   };
-
- const mockOauthService = {
-   getAccessToken: jasmine.createSpy('getAccessToken')
- };
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ TldsIndexComponent ],
-      schemas: [ CUSTOM_ELEMENTS_SCHEMA ],
-      imports: [ FormsModule, DialogModule, DataTableModule, HttpModule ],
-      providers: [ HttpClient, TldService,
-       { provide: MeService, useValue: mockMeService },
-       { provide: OAuthService, useValue: mockOauthService} ]
+      declarations: [TldsIndexComponent],
+      schemas: [CUSTOM_ELEMENTS_SCHEMA],
+      imports: [FormsModule, DialogModule, DataTableModule, HttpModule],
+      providers: [
+        { provide: TldService, useValue: mockTldService }]
     })
-    .compileComponents();
+      .compileComponents();
   }));
 
   beforeEach(() => {
+    mockTldService.get.and.returnValue(Promise.resolve());
     fixture = TestBed.createComponent(TldsIndexComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();

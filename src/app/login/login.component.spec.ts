@@ -6,19 +6,16 @@ import { By } from '@angular/platform-browser';
 import { AbstractMockObservableService } from '../service/testing/abstract-mock-observable-service.test';
 
 describe('LoginComponent', () => {
-  let mockSessionService;
-
-  class MockSessionService extends AbstractMockObservableService {
-    loginObservable() {
-      return this;
-    }
-
-    initOauthFlow() {}
-  }
+  let signInFunc;
+  const mockSessionService = {
+    onSignInFailure: (fn: () => void) => {
+      signInFunc = fn;
+    },
+    signIn: jasmine.createSpy('sessionService.signIn')
+  };
 
   beforeEach(async(() => {
-    mockSessionService = new MockSessionService();
-    spyOn(mockSessionService, 'initOauthFlow');
+    spyOn(mockSessionService, 'onSignInFailure');
     TestBed.configureTestingModule({
       providers: [{ provide: SessionService, useValue: mockSessionService }],
       declarations: [ LoginComponent ]
@@ -26,20 +23,18 @@ describe('LoginComponent', () => {
     .compileComponents();
   }));
 
-  beforeEach(() => {
-  });
-
-  it('clicking google login should login using session service', async(() => {
+  it('clicking google login should login using session service', () => {
     const fixture = TestBed.createComponent(LoginComponent);
     fixture.detectChanges();
     fixture.debugElement.query(By.css('#google-login')).nativeElement.click();
-    expect(mockSessionService.initOauthFlow).toHaveBeenCalled();
-  }));
+    expect(mockSessionService.signIn).toHaveBeenCalled();
+    expect(mockSessionService.onSignInFailure).toHaveBeenCalled();
+  });
 
   it('should show an error message if login failed', () => {
-    mockSessionService.error = 'its an error';
     const fixture = TestBed.createComponent(LoginComponent);
     const component = fixture.componentInstance;
+    component.loginFailed = true;
     fixture.detectChanges();
     const loginError = fixture.debugElement.query(By.css('#login-error')).nativeElement;
     expect(component.loginFailed).toBeTruthy();
@@ -51,7 +46,9 @@ describe('LoginComponent', () => {
     const fixture = TestBed.createComponent(LoginComponent);
     const component = fixture.componentInstance;
     fixture.detectChanges();
-    expect(component.loginFailed).toBeFalsy();
-    expect(fixture.debugElement.query(By.css('#login-error'))).toBeNull();
+    fixture.whenStable().then(() => {
+      expect(component.loginFailed).toBeFalsy();
+      expect(fixture.debugElement.query(By.css('#login-error'))).toBeNull();
+    });
   });
 });

@@ -7,7 +7,6 @@ import { HttpModule } from '@angular/http';
 import { CalendarModule } from 'primeng/components/calendar/calendar';
 import { IcannService } from '../../service/icann.service';
 import { HttpClient } from '../../shared/http.client';
-import { OAuthService } from 'angular-oauth2-oidc';
 
 describe('IcannTldComponent', () => {
   let component: IcannTldComponent;
@@ -15,17 +14,12 @@ describe('IcannTldComponent', () => {
   let deTldInput, deDate, deWonCount, deLostCount, deNonDecisionCount , deReqCount, deGreantedCount, deDomainsCount: DebugElement;
   let elTldInput, elDate, elWonCount, elLostCount, elNonDecisionCount , elReqCount, elGreantedCount, elDomainsCount: HTMLElement;
 
-  const mockOauthService = {
-    getAccessToken: jasmine.createSpy('getAccessToken')
-  };
-
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [ IcannTldComponent ],
       imports:      [ FormsModule, HttpModule, CalendarModule ],
       providers: [
         IcannService, HttpClient,
-        { provide: OAuthService, useValue: mockOauthService}
       ],
       schemas: [ CUSTOM_ELEMENTS_SCHEMA ]
     })

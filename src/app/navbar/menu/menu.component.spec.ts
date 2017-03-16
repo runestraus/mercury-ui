@@ -1,26 +1,20 @@
 /* tslint:disable:no-unused-variable */
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
-import { DebugElement, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
+import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { MenuComponent } from './menu.component';
-import { FormsModule } from '@angular/forms';
-import { MeService } from '../service/me.service';
 import 'rxjs/add/operator/toPromise';
-import { User } from '../model/user.model';
+import { User } from '../../model/user.model';
 
 describe('MenuComponent', () => {
   let component: MenuComponent;
   let fixture: ComponentFixture<MenuComponent>;
 
-  const mockMeService = {
-    get: jasmine.createSpy('meService.get')
-  };
-
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [ MenuComponent ],
       schemas: [ CUSTOM_ELEMENTS_SCHEMA ],
-      providers: [ { provide: MeService, useValue: mockMeService } ]
+      providers: [ ]
     })
     .compileComponents();
   }));
@@ -32,9 +26,9 @@ describe('MenuComponent', () => {
     user.isRegistrarLogin = true;
     user.permissions = ['CRU_REGISTRY_ADMIN'];
     user.ianaId = 9999;
-    mockMeService.get.and.returnValue(Promise.resolve(user));
     fixture = TestBed.createComponent(MenuComponent);
     component = fixture.componentInstance;
+    component.user = user;
     fixture.detectChanges();
   });
 

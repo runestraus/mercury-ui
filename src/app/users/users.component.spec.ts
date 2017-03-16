@@ -5,15 +5,10 @@ import { By } from '@angular/platform-browser';
 import 'rxjs/add/operator/toPromise';
 import { UsersService } from '../service/users.service';
 import { RolesService } from '../service/roles.service';
-import { User } from '../model/users.model';
-import { Role } from '../model/roles.model';
 import { UsersComponent } from './users.component';
 import { DialogModule } from 'primeng/components/dialog/dialog';
 import { DataTableModule } from 'primeng/components/datatable/datatable';
 import { HttpModule } from '@angular/http';
-import { HttpClient } from '../shared/http.client';
-import { MeService } from '../service/me.service';
-import { OAuthService } from 'angular-oauth2-oidc';
 
 describe('UsersComponent', () => {
   let component: UsersComponent;
@@ -22,27 +17,28 @@ describe('UsersComponent', () => {
   let deTable, deHeader, deEmailTitle, deCSVButton: DebugElement;
   let elTable, elHeader, elEmailTitle, elCSVButton: HTMLElement;
 
-  const mockMeService = {
+  const mockRolesService = {
    get: jasmine.createSpy('get')
   };
 
- const mockOauthService = {
-   getAccessToken: jasmine.createSpy('getAccessToken')
+ const mockUsersService = {
+   get: jasmine.createSpy('get')
  };
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [ UsersComponent ],
-      schemas: [ CUSTOM_ELEMENTS_SCHEMA ],
       imports: [ FormsModule, DialogModule, DataTableModule, HttpModule ],
-      providers: [ HttpClient, UsersService, RolesService,
-       { provide: MeService, useValue: mockMeService },
-       { provide: OAuthService, useValue: mockOauthService} ]
+      providers: [
+       { provide: RolesService, useValue: mockRolesService },
+       { provide: UsersService, useValue: mockUsersService} ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
+    mockUsersService.get.and.returnValue(Promise.resolve());
+    mockRolesService.get.and.returnValue(Promise.resolve());
     fixture = TestBed.createComponent(UsersComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
@@ -55,10 +51,6 @@ describe('UsersComponent', () => {
     elHeader = deHeader.nativeElement;
     elTable = deTable.nativeElement;
     elEmailTitle = deEmailTitle.nativeElement;
-  });
-
-  it('should create', () => {
-    expect(component).toBeTruthy();
   });
 
   it('should display users table.', () => {

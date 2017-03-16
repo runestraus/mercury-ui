@@ -1,4 +1,11 @@
+
 <div class="sign-in">
-  <button class="btn btn-lg btn-primary btn-block" id="google-login" (click)="login()">Sign-in with Google</button>
+  <div class="header">
+    <div class="login-logo">
+      <img src="/assets/images/donuts-logo.png" class="img-responsive" alt="Donuts Logo">
+    </div>
+  </div>
+  <h3 class="text-center text-muted">Donuts Registry Admin Portal <span *ngIf="environment">({{environment}})</span></h3>
+  <button class="btn btn-lg btn-default btn-block" id="google-login" (click)="login()"><span class="fa fa-google fa-align-left" aria-hidden="true"></span> Sign-in with Google</button>
   <div *ngIf="loginFailed" class="alert alert-danger" id="login-error" role="alert">You are not authorized to access this application.</div>
 </div>
