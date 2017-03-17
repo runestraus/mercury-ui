@@ -6,8 +6,8 @@ import { By } from '@angular/platform-browser';
 describe('DomainComponent', () => {
   let component: DomainComponent;
   let fixture: ComponentFixture<DomainComponent>;
-  let deTable, deName, deTld, deStatus, deSystemTags, dePrice, deCategory, deIannaNumber, deRegistrarName: DebugElement;
-  let elTable, elName, elTld, elStatus, elSystemTags, elPrice, elCategory, elIannaNumber, elRegistrarName: HTMLElement;
+  let deTable, deName, deTld, deStatus, deSystemTags, dePrice, deCategory, deIanaNumber, deRegistrarName: DebugElement;
+  let elTable, elName, elTld, elStatus, elSystemTags, elPrice, elCategory, elIanaNumber, elRegistrarName: HTMLElement;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -28,7 +28,7 @@ describe('DomainComponent', () => {
     deSystemTags = fixture.debugElement.query(By.css('#systemTags'));
     dePrice = fixture.debugElement.query(By.css('#price'));
     deCategory = fixture.debugElement.query(By.css('#category'));
-    deIannaNumber = fixture.debugElement.query(By.css('#iannaNumber'));
+    deIanaNumber = fixture.debugElement.query(By.css('#ianaNumber'));
     deRegistrarName = fixture.debugElement.query(By.css('#registrarName'));
 
     elTable = deTable.nativeElement;
@@ -38,7 +38,7 @@ describe('DomainComponent', () => {
     elSystemTags = deSystemTags.nativeElement;
     elPrice = dePrice.nativeElement;
     elCategory = deCategory.nativeElement;
-    elIannaNumber = deIannaNumber.nativeElement;
+    elIanaNumber = deIanaNumber.nativeElement;
     elRegistrarName = deRegistrarName.nativeElement;
   });
 
@@ -47,7 +47,7 @@ describe('DomainComponent', () => {
   });
 
   it('should display table and have eight fields: DomainName, tld, status, System Tags, Price, Category, ' +
-    'Ianna Number and Registrar.', () => {
+    'Iana Number and Registrar.', () => {
     expect(elTable).toBeTruthy();
     expect(elName).toBeTruthy();
     expect(elTld).toBeTruthy();
@@ -55,7 +55,7 @@ describe('DomainComponent', () => {
     expect(elSystemTags).toBeTruthy();
     expect(elPrice).toBeTruthy();
     expect(elCategory).toBeTruthy();
-    expect(elIannaNumber).toBeTruthy();
+    expect(elIanaNumber).toBeTruthy();
     expect(elRegistrarName).toBeTruthy();
   });
 });
