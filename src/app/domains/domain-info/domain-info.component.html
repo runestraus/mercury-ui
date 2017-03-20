@@ -1,0 +1,15 @@
+<p-dialog [(visible)]="showDialog" modal="modal" width="600" responsive="true" [header]="domainName">
+	<div *ngIf="error" class="alert alert-danger" role="alert" id="domainInfoError">{{error}}</div>
+  <div id="domainInfoLoading" class="text-align-center" *ngIf="loading">
+    <i class="fa fa-circle-o-notch fa-spin fa-5x"></i>
+  </div>
+  <div *ngIf="!loading && domainDetail" id="domainDetail">
+    <app-domain-info-status [domain]="domainDetail"></app-domain-info-status>
+    <app-domain-info-separator></app-domain-info-separator>
+  </div>
+  <p-footer>
+    <div class="ui-dialog-buttonpane ui-widget-content ui-helper-clearfix">
+      <button type="button" class="btn btn-default" id="domainInfoClose" (click)="onCloseClicked()">Close</button>
+    </div>
+  </p-footer>
+</p-dialog>

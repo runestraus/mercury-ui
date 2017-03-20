@@ -5,7 +5,11 @@
       <button type="button" pButton icon="fa-file-o" iconPos="left" label="CSV" (click)="dt.exportCSV()" style="float:left"></button>
     </div>
   </p-header>
-  <p-column id="domainName" field="domainName" header="Domain" [sortable]="true"></p-column>
+  <p-column id="domainName" field="domainName" header="Domain" [sortable]="true">
+    <template let-col let-domain="rowData" pTemplate="body">
+      <a routerLink="domains/{{domain[col.field]}}">{{domain[col.field]}}</a>
+    </template>
+  </p-column>
   <p-column id="tld" field="tld" header="TLD" [sortable]="true"></p-column>
   <p-column id="status" field="status" header="Status" [sortable]="true"></p-column>
   <p-column id="systemTags" field="systemTags" header="System Tags" [sortable]="true"></p-column>

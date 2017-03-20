@@ -1,4 +1,5 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { RouterModule } from '@angular/router';
 import { DomainComponent } from './domain.component';
 import { DebugElement, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { By } from '@angular/platform-browser';
@@ -12,7 +13,8 @@ describe('DomainComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [ DomainComponent ],
-      schemas: [CUSTOM_ELEMENTS_SCHEMA]
+      schemas: [CUSTOM_ELEMENTS_SCHEMA],
+      imports: [RouterModule],
     })
     .compileComponents();
   }));

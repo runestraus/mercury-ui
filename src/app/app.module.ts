@@ -46,7 +46,7 @@ import { IcannTldComponent } from './icann/icann-tld/icann-tld.component';
 import { IcannDnsComponent } from './icann/icann-dns/icann-dns.component';
 import { IcannRegistrarComponent } from './icann/icann-registrar/icann-registrar.component';
 import { IcannService } from './service/icann.service';
-import { CalendarModule, DropdownModule } from 'primeng/primeng';
+import { CalendarModule, DropdownModule, TooltipModule } from 'primeng/primeng';
 import { UsersComponent } from './users/users.component';
 import { ContactCreateComponent } from './contacts/contact-create/contact-create.component';
 import { ContactEppService } from './contacts/contactepp.service';
@@ -58,6 +58,9 @@ import { DomainEppService } from './service/domain-epp.service';
 import { GoogleOauthService } from './service/google-oauth.service';
 import { GapiLoader } from './service/gapi-loader.service';
 import { ClickOutsideDirective } from './shared/directives/click-outside.directive';
+import { DomainInfoComponent } from './domains/domain-info/domain-info.component';
+import { DomainInfoStatusComponent } from './domains/domain-info/domain-info-status/domain-info-status.component';
+import { DomainInfoSeparatorComponent } from './domains/domain-info/domain-info-separator/domain-info-separator.component';
 
 @NgModule({
   declarations: [
@@ -85,7 +88,10 @@ import { ClickOutsideDirective } from './shared/directives/click-outside.directi
     ContactCreateComponent,
     UsersComponent,
     HostCreateComponent,
-    ClickOutsideDirective
+    ClickOutsideDirective,
+    DomainInfoComponent,
+    DomainInfoStatusComponent,
+    DomainInfoSeparatorComponent,
   ],
   imports: [
     DropdownModule,
@@ -97,7 +103,8 @@ import { ClickOutsideDirective } from './shared/directives/click-outside.directi
     FormsModule,
     HttpModule,
     ReactiveFormsModule,
-    AppRoutingModule
+    AppRoutingModule,
+    TooltipModule,
   ],
   providers: [
     SearchService,

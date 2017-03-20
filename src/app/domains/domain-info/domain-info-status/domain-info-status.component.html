@@ -1,0 +1,39 @@
+<h4 id="domainInfoRegistrar" class="modalSectionHeader spanLink">{{domain.currentSponsorClientId}}</h4>
+<ul class="webconsole-ul noPaddingElement">
+  <!--
+  TODO:
+  need to use both user permissions and item status to set these items
+  style="margin-top:3px"
+  -->
+  <li>
+    <!-- TODO: wire these up to permissions -->
+    <span class="left fa-stack statusIcons" *ngIf="checkStatus(['ok', 'inactive'])">
+      <i id="domainStatusIconOK" *ngIf="checkStatus(['ok'])" class="fa fa-smile-o fa-2x" pTooltip="Domain Status: OK"></i>
+      <i id="domainStatusIconInactive" *ngIf="checkStatus(['inactive'])" class="fa fa-meh-o fa-2x" pTooltip="Domain Status: Inactive"></i>
+    </span>
+    <span id="domainStatusTransfer" class="left fa-stack statusIcons iconAdjust" pTooltip="{{getTransferTooltipMessage()}}">
+      <i (click)="openDomainTransferDialog()" id="domainStatusIconTransfer" class="fa fa-exchange"
+        [ngClass]="{'fa-stack-1x': checkStatus(['clientTransferProhibited']), 'fa-2x': !checkStatus(['clientTransferProhibited'])}"></i>
+      <i id="domainStatusIconTransferProhibited" *ngIf="checkStatus(['clientTransferProhibited'])" class="fa fa-ban fa-stack-2x text-danger statusProhibited"></i>
+    </span>
+    <span id="domainStatusRenew" class="left fa-stack statusIcons" pTooltip="{{getRenewTooltipMessage()}}">
+      <i (click)="openDomainRenewDialog()" id="domainStatusIconRenew" class="fa fa-calendar"
+         [ngClass]="{'fa-stack-1x' : checkStatus(['clientRenewProhibited']), 'fa-2x': !checkStatus(['clientRenewProhibited'])}"></i>
+      <i id="domainStatusIconRenewProhibited" *ngIf="checkStatus(['clientRenewProhibited'])" class="fa fa-ban fa-stack-2x text-danger statusProhibited"></i>
+    </span>
+    <span id="domainStatusRestore" class="left fa-stack statusIcons" pTooltip="{{getRestoreTooltipMessage()}}">
+      <i (click)="openDomainRestoreDialog()" id="domainStatusIconRestore" class="fa fa-unlock fa-2x"></i>
+    </span>
+    <span id="domainStatusDelete" class="left fa-stack statusIcons" pTooltip="{{getDeleteTooltipMessage()}}">
+      <i (click)="openDomainDeleteDialog()" id="domainStatusIconDelete" class="fa fa-trash"
+         [ngClass]="{'fa-stack-1x' : checkStatus(['clientDeleteProhibited']), 'fa-2x': !checkStatus(['clientDeleteProhibited'])}"></i>
+      <i id="domainStatusIconDeleteProhibited" *ngIf="checkStatus(['clientDeleteProhibited'])" class="fa fa-ban fa-stack-2x text-danger statusProhibited"></i>
+    </span>
+    <span id="domainStatusServerStatus" class="left fa-stack statusIcons" pTooltip="Edit Domain Server Status">
+      <i (click)="openDomainServerStatusDialog()" id="domainStatusIconServerStatus" class="fa fa-check-square-o fa-2x"></i>
+    </span>
+    <span (click)="openDomainStatusDialog()" class="right statusIcons" pTooltip="Edit Domain Statuses">
+      <i class="fa fa-pencil-square-o fa-2x"></i>
+    </span>
+  </li>
+</ul>
