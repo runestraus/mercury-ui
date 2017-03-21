@@ -56,4 +56,28 @@ describe('EPP utility functions', () => {
     expect(epputil.extractType(data, 'foo:bar')).toBe('foobar');
     expect(epputil.extractType(data, 'foo:bazz')).toBe('');
   });
+
+  it('should extract a key/value map of type to keyValue', () => {
+    const data = {
+      'domain:contact': [
+        {
+          '@type': 'admin',
+          'keyValue': 'donuts_300'
+        },
+        {
+          '@type': 'tech',
+          'keyValue': 'donuts_300'
+        },
+      ]
+    };
+    expect(epputil.extractTypes(data, 'domain:contact')).toEqual({
+      'admin': 'donuts_300',
+      'tech': 'donuts_300',
+    });
+  });
+
+  it('should extract an empty key/value map of type to keyValue for nonexistent paths', () => {
+    const data = {};
+    expect(epputil.extractTypes(data, 'domain:contact')).toEqual({});
+  });
 });

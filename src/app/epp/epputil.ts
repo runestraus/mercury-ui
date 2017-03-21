@@ -83,16 +83,17 @@ export function extractType(result: any, ...path: string[]): string {
  * @param path Path to field containing array of types
  * @return type: value dictionary
  */
-export function extractTypes(result: any, ...path: string[]): any {
+export function extractTypes(result: any, ...path: string[]): {[key: string]: string} {
   if (path.length === 1) {
+    if (!result[path[0]]) {
+      return {};
+    }
     return result[path[0]].reduce((o, item) => {
       o[extractType(item)] = extractText(item);
       return o;
     }, {});
   }
-  if (!result[path[0]]) {
-    return {};
-  }
+
   return extractTypes(result[path[0]], ...path.slice(1, path.length + 1));
 }
 

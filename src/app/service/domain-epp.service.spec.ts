@@ -130,9 +130,9 @@ describe('DomainEppService', () => {
         expect(result.nameservers).toContain('ns2.domain.domain');
         expect(result.subordinateHosts).toContain('www.domain.domain');
         expect(result.subordinateHosts).toContain('mail.domain.domain');
-        expect(result.contacts.admin).toBe('donuts_300');
-        expect(result.contacts.tech).toBe('donuts_300');
-        expect(result.contacts.billing).toBe('donuts_300');
+        expect(result.contacts['admin']).toBe('donuts_300');
+        expect(result.contacts['tech']).toBe('donuts_300');
+        expect(result.contacts['billing']).toBe('donuts_300');
         expect(result.rgpStatus).toBe('');
         expect(result.domainPrices.renew).toBeDefined();
         expect(result.domainPrices.renew.currency).toBe('USD');
