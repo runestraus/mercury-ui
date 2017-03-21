@@ -1,0 +1,11 @@
+<span id="update-domain-contacts-link" class="right statusIcons marginTop10" pTooltip="Edit Domain Contacts" (click)="openUpdateContactsDialog()"><i class="fa fa-pencil-square-o fa-2x"></i></span>
+<!-- TODO: ng2-clipboard this thing -->
+<span id="copy-domain-contacts-link" class="right statusIcons marginTop10" pTooltip="Copy Contact Info"><i class="fa fa-clipboard fa-2x"></i></span>
+<h4 class="modalSectionHeader">Contacts</h4>
+<span class="clear"></span>
+<ul class="webconsole-ul noPaddingElement marginTop10 marginBottom0">
+  <li *ngFor="let contact of contacts" id="item-contact-{{contact.contactId}}">
+    <span (click)="openUpdateContactDialog(contact)" id="contact-name-{{contact.contactId}}" class="spanLink">{{getContactDisplayValue(contact)}}</span>
+    <span id="contact-type-{{contact.contactId}}" class="right">{{getContactTypes(contact)}}</span>
+  </li>
+</ul>

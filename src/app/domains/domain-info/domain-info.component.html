@@ -1,4 +1,10 @@
-<p-dialog [(visible)]="showDialog" modal="modal" width="600" responsive="true" [header]="domainName">
+<p-dialog [(visible)]="showDialog" modal="modal" width="600" responsive="true" [closable]="false">
+  <p-header>
+    <button id="buttonCloseX" tooltip="Close" type="button" class="close" (click)="onCloseClicked()" aria-hidden="true">&times;</button>
+    <i *ngIf="!loading && domainDetail" (click)="openDetailsDialog()" id="domainInfoIcon" class="right fa fa-info-circle fa-2x statusIcons" pTooltip="Domain Information" style="margin-top:5px;margin-right:10px;"></i>
+    <span *ngIf="domainDetail?.registrationExpirationTime" class="domainExpirationHeader">Expires: {{domainDetail.registrationExpirationTime | date:'yyyy MMM d'}}</span><br/>
+    <h3 id="domain-info-header" class="modal-title wordBreak">{{domainName}}</h3>
+  </p-header>
 	<div *ngIf="error" class="alert alert-danger" role="alert" id="domainInfoError">{{error}}</div>
   <div id="domainInfoLoading" class="text-align-center" *ngIf="loading">
     <i class="fa fa-circle-o-notch fa-spin fa-5x"></i>
@@ -6,6 +12,9 @@
   <div *ngIf="!loading && domainDetail" id="domainDetail">
     <app-domain-info-status [domain]="domainDetail"></app-domain-info-status>
     <app-domain-info-separator></app-domain-info-separator>
+    <app-domain-info-contacts [domain]="domainDetail"></app-domain-info-contacts>
+    <app-domain-info-separator></app-domain-info-separator>
+    <app-domain-info-hosts [domain]="domainDetail"></app-domain-info-hosts>
   </div>
   <p-footer>
     <div class="ui-dialog-buttonpane ui-widget-content ui-helper-clearfix">

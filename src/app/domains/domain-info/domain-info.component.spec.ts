@@ -7,10 +7,38 @@ import { Observer } from 'rxjs/Observer';
 
 import { DomainEppService } from '../../service/domain-epp.service';
 import { DomainInfoComponent } from './domain-info.component';
+import { DocQuery } from '../../shared/testutils';
+
+class Page {
+  query: DocQuery<DomainInfoComponent>;
+
+  constructor(private fixture: ComponentFixture<DomainInfoComponent>) {
+    this.query = new DocQuery(fixture);
+  }
+
+  getErrorMessage(): string {
+    const el = this.query.getElementByCss('#domainInfoError');
+    return el ? el.nativeElement.textContent : null;
+  }
+
+  isLoading(): boolean {
+    return this.query.getElementByCss('#domainInfoLoading') != null;
+  }
+
+  hasInfoIcon(): boolean {
+    return this.query.getElementByCss('#domainInfoIcon') != null;
+  }
+
+  getDomainExpiration(): string {
+    const el = this.query.getElementByCss('.domainExpirationHeader');
+    return el ? el.nativeElement.textContent : null;
+  }
+}
 
 describe('DomainInfoComponent', () => {
   let component: DomainInfoComponent;
   let fixture: ComponentFixture<DomainInfoComponent>;
+  let page: Page;
 
   const mockDomainEppService = {
     info: jasmine.createSpy('info'),
@@ -39,6 +67,7 @@ describe('DomainInfoComponent', () => {
       fullyQualifiedDomainName: 'holy.cow',
       status: statuses,
       currentSponsorClientId: 'brodaddy',
+      registrationExpirationTime: '2010-01-01T00:00:00Z',
     }));
   }
 
@@ -50,7 +79,7 @@ describe('DomainInfoComponent', () => {
   }
 
   function verifyNoErrorMessage() {
-    expect(fixture.debugElement.query(By.css('#domainInfoError'))).toBeFalsy('Expected no error message');
+    expect(page.getErrorMessage()).toBeFalsy('Expected no error message');
   }
 
   beforeEach(() => {
@@ -73,26 +102,39 @@ describe('DomainInfoComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(DomainInfoComponent);
     component = fixture.componentInstance;
+    page = new Page(fixture);
   });
 
-  it('should be in an initial loading state', () => {
+  it('should be in an initial loading state', async(() => {
     resolveDomain(['ok']);
     fixture.detectChanges();
-    expect(fixture.debugElement.query(By.css('div#domainInfoLoading'))).toBeTruthy('Expected loading div');
-  });
+    fixture.whenStable().then(() => {
+      expect(page.isLoading()).toBeTruthy('Page should be loading');
+      expect(page.getDomainExpiration()).toBeFalsy('Expected no expiration in header');
+      expect(page.hasInfoIcon()).toBeFalsy('Expected no info icon');
+    });
+
+  }));
 
   it('should not be in loading state after service promise resolves', async(() => {
     resolveDomain(['ok']);
     fixture.detectChanges();
-    // expect(fixture.debugElement.query(By.css('div#domainInfoLoading'))).toBeFalsy('Expected no loading div');
     fixture.whenStable().then(() => {
       fixture.detectChanges();
-      expect(fixture.debugElement.query(By.css('div#domainInfoLoading'))).toBeFalsy('Expected no loading div');
+      expect(page.isLoading()).toBeFalsy('Expected no loading div');
       verifyNoErrorMessage();
     });
   }));
 
-
+  it('should show domain expiration and info icon in header after service promise resolves', async(() => {
+    resolveDomain(['ok']);
+    fixture.detectChanges();
+    fixture.whenStable().then(() => {
+      fixture.detectChanges();
+      expect(page.getDomainExpiration()).toBe('Expires: 2009 Dec 31');
+      expect(page.hasInfoIcon()).toBeTruthy('Expected info icon');
+    });
+  }));
 
   it('should navigate back to search on dialog close', async(() => {
     resolveDomain(['ok']);
@@ -112,7 +154,10 @@ describe('DomainInfoComponent', () => {
     fixture.detectChanges();
     fixture.whenStable().then(() => {
       fixture.detectChanges();
-      expect(fixture.debugElement.query(By.css('#domainInfoError')).nativeElement.textContent).toBe('You broke it!');
+      expect(page.getErrorMessage()).toBe('You broke it!');
     });
   }));
+
+  // TODO: test click domain info icon
+
 });

@@ -31,10 +31,8 @@ export class DomainInfoComponent implements OnInit {
     this.domainEppService.info(this.domainName, null).then(domainDetail => {
       this.loading = false;
       this.domainDetail = domainDetail;
-      // console.log('domain detail: ' + JSON.stringify(domainDetail, null, 2));
     }).catch(err => {
       this.loading = false;
-      // switch these blocks of code to test out the partial domain info display
       if (err.code && err.message) {
         this.error = err.message;
       } else {
@@ -51,5 +49,9 @@ export class DomainInfoComponent implements OnInit {
       segments => '/' + segments.join('/'))
     .forEach(
       url => this.router.navigate([url]));
+  }
+
+  openDetailsDialog(): void {
+    alert('Not yet implemented');
   }
 }

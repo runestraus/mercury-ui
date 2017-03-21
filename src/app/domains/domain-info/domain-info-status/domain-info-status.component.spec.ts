@@ -5,10 +5,45 @@ import { TooltipModule } from 'primeng/primeng';
 
 import { DomainInfoStatusComponent } from './domain-info-status.component';
 import { DomainDetail } from '../../../model/domain.model';
+import { DocQuery } from '../../../shared/testutils';
+
+class Page {
+  query: DocQuery<DomainInfoStatusComponent>;
+
+  constructor(private fixture: ComponentFixture<DomainInfoStatusComponent>) {
+    this.query = new DocQuery(fixture);
+  }
+
+  hasSmileyIcon() {
+    return this.query.getElementByCss('#domainStatusIconOK') != null;
+  }
+
+  hasMehIcon() {
+    return this.query.getElementByCss('#domainStatusIconInactive') != null;
+  }
+
+  getOperationIconSize(operationName: string): string {
+    const el = this.query.getElementByCss(`#domainStatusIcon${operationName}`);
+    if (!el) {
+      return null;
+    }
+    if (el.classes['fa-2x']) {
+      return 'normal';
+    } else if (el.classes['fa-stack-1x']) {
+      return 'small';
+    }
+    return 'unknown';
+  }
+
+  isOperationProhibited(operationName: string): boolean {
+    return this.query.getElementByCss(`#domainStatusIcon${operationName}Prohibited`) != null;
+  }
+}
 
 describe('DomainInfoStatusComponent', () => {
   let component: DomainInfoStatusComponent;
   let fixture: ComponentFixture<DomainInfoStatusComponent>;
+  let page: Page;
 
   function getDomainData(statuses: Array<string>): DomainDetail {
     return {
@@ -16,10 +51,6 @@ describe('DomainInfoStatusComponent', () => {
       status: statuses,
       currentSponsorClientId: 'brodaddy',
     } as DomainDetail;
-  }
-
-  function getElementByCss(selector: string): DebugElement {
-    return fixture.debugElement.query(By.css(selector));
   }
 
   beforeEach(async(() => {
@@ -33,34 +64,35 @@ describe('DomainInfoStatusComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(DomainInfoStatusComponent);
     component = fixture.componentInstance;
+    page = new Page(fixture);
   });
 
   it('should show a smiley icon for active domain', () => {
     component.domain = getDomainData(['ok']);
     fixture.detectChanges();
-    expect(getElementByCss('#domainStatusIconOK')).toBeTruthy('Expected active smiley icon');
-    expect(getElementByCss('#domainStatusIconInactive')).toBeFalsy('Expected no inactive meh icon');
+    expect(page.hasSmileyIcon()).toBeTruthy('Expected active smiley icon');
+    expect(page.hasMehIcon()).toBeFalsy('Expected no inactive meh icon');
   });
 
   it('should show a meh icon for inactive domain', () => {
     component.domain = getDomainData(['inactive']);
     fixture.detectChanges();
-    expect(getElementByCss('#domainStatusIconInactive')).toBeTruthy('Expected active smiley icon');
-    expect(getElementByCss('#domainStatusIconOK')).toBeFalsy('Expected no active smiley icon');
+    expect(page.hasMehIcon()).toBeTruthy('Expected active smiley icon');
+    expect(page.hasSmileyIcon()).toBeFalsy('Expected no active smiley icon');
   });
 
   it('should show a normal domain transfer icon when transfer is not prohibited', () => {
     component.domain = getDomainData(['ok']);
     fixture.detectChanges();
-    expect(getElementByCss('#domainStatusIconTransfer').classes['fa-2x']).toBeTruthy();
-    expect(getElementByCss('#domainStatusIconTransferProhibited')).toBeFalsy();
+    expect(page.getOperationIconSize('Transfer')).toBe('normal');
+    expect(page.isOperationProhibited('Transfer')).toBeFalsy();
   });
 
   it('should show a prohibited transfer icon when transfer is prohibited', () => {
     component.domain = getDomainData(['ok', 'clientTransferProhibited']);
     fixture.detectChanges();
-    expect(getElementByCss('#domainStatusIconTransfer').classes['fa-stack-1x']).toBeTruthy();
-    expect(getElementByCss('#domainStatusIconTransferProhibited')).toBeTruthy();
+    expect(page.getOperationIconSize('Transfer')).toBe('small');
+    expect(page.isOperationProhibited('Transfer')).toBeTruthy();
   });
 
   // TODO: test transfer click navigates to modal
@@ -68,15 +100,15 @@ describe('DomainInfoStatusComponent', () => {
   it('should show a normal domain renew icon when renew is not prohibited', () => {
     component.domain = getDomainData(['ok']);
     fixture.detectChanges();
-    expect(getElementByCss('#domainStatusIconRenew').classes['fa-2x']).toBeTruthy();
-    expect(getElementByCss('#domainStatusIconRenewProhibited')).toBeFalsy();
+    expect(page.getOperationIconSize('Renew')).toBe('normal');
+    expect(page.isOperationProhibited('Renew')).toBeFalsy();
   });
 
   it('should show a prohibited renew icon when renew is prohibited', () => {
     component.domain = getDomainData(['ok', 'clientRenewProhibited']);
     fixture.detectChanges();
-    expect(getElementByCss('#domainStatusIconRenew').classes['fa-stack-1x']).toBeTruthy();
-    expect(getElementByCss('#domainStatusIconRenewProhibited')).toBeTruthy();
+    expect(page.getOperationIconSize('Renew')).toBe('small');
+    expect(page.isOperationProhibited('Renew')).toBeTruthy();
   });
 
   // TODO: test renew click navigates to modal
@@ -86,15 +118,15 @@ describe('DomainInfoStatusComponent', () => {
   it('should show a normal domain delete icon when delete is not prohibited', () => {
     component.domain = getDomainData(['ok']);
     fixture.detectChanges();
-    expect(getElementByCss('#domainStatusIconDelete').classes['fa-2x']).toBeTruthy();
-    expect(getElementByCss('#domainStatusIconDeleteProhibited')).toBeFalsy();
+    expect(page.getOperationIconSize('Delete')).toBe('normal');
+    expect(page.isOperationProhibited('Delete')).toBeFalsy();
   });
 
   it('should show a prohibited delete icon when delete is prohibited', () => {
     component.domain = getDomainData(['ok', 'clientDeleteProhibited']);
     fixture.detectChanges();
-    expect(getElementByCss('#domainStatusIconDelete').classes['fa-stack-1x']).toBeTruthy();
-    expect(getElementByCss('#domainStatusIconDeleteProhibited')).toBeTruthy();
+    expect(page.getOperationIconSize('Delete')).toBe('small');
+    expect(page.isOperationProhibited('Delete')).toBeTruthy();
   });
 
   // TODO: test domain server status click navigates to modal

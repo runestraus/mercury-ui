@@ -38,14 +38,14 @@ export class DomainDetail {
   currentSponsorClientId: string;
   creationClientId: string;
   creationTime: string;
-  lastEppUpdateClientId: string;
-  lastEppUpdateTime: string;
-  lastTransferTime: string;
+  lastEppUpdateClientId?: string;
+  lastEppUpdateTime?: string;
+  lastTransferTime?: string;
   registrationExpirationTime: string;
   authInfo: string;
   nameservers: string[];
   subordinateHosts: string[];
-  contacts: any;
+  contacts: { [key: string]: string };
   rgpStatus: string;
   domainPrices: any;
 }

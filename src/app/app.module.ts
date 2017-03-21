@@ -61,6 +61,9 @@ import { ClickOutsideDirective } from './shared/directives/click-outside.directi
 import { DomainInfoComponent } from './domains/domain-info/domain-info.component';
 import { DomainInfoStatusComponent } from './domains/domain-info/domain-info-status/domain-info-status.component';
 import { DomainInfoSeparatorComponent } from './domains/domain-info/domain-info-separator/domain-info-separator.component';
+import { DomainInfoContactsComponent } from './domains/domain-info/domain-info-contacts/domain-info-contacts.component';
+import { DomainInfoHostsComponent } from './domains/domain-info/domain-info-hosts/domain-info-hosts.component';
+import { DisplayListComponent } from './shared/components/display-list/display-list.component';
 
 @NgModule({
   declarations: [
@@ -92,6 +95,9 @@ import { DomainInfoSeparatorComponent } from './domains/domain-info/domain-info-
     DomainInfoComponent,
     DomainInfoStatusComponent,
     DomainInfoSeparatorComponent,
+    DomainInfoContactsComponent,
+    DomainInfoHostsComponent,
+    DisplayListComponent,
   ],
   imports: [
     DropdownModule,

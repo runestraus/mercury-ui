@@ -1,0 +1,8 @@
+<span *ngFor="let listItem of displayedItems; let i = index">
+  <span *ngIf="i > 0" data-role="separator">{{separator}}</span>
+  <span class="spanLink" id="list-item-{{i}}" (click)="onClickListItem(listItem)" data-role="list-item">{{listItem}}</span>
+</span>
+<span *ngIf="moreListItems">
+  <span data-role="separator">{{separator}}</span>
+  <span class="spanLink" (click)="onClickMoreListItems()" data-role="more-list-items">{{moreListItems}} more...</span>
+</span>
