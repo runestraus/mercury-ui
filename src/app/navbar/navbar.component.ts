@@ -1,6 +1,6 @@
-import { Component, OnInit, Input, HostListener } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 import { SessionService } from '../service/session.service';
-import { Profile, UserData } from '../model/profile.model';
+import { UserData } from '../model/profile.model';
 
 @Component({
   selector: 'app-navbar',

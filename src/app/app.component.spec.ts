@@ -29,11 +29,5 @@ describe('AppComponent', () => {
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
-
-  it('isLoggedIn() should call sessionService.isLoggedIn', () => {
-    component.isLoggedIn();
-    expect(mockSessionService.onSignIn).toHaveBeenCalled();
-  });
-
 });
 

@@ -5,11 +5,11 @@
   <ul class="nav navbar-nav navbar-right" (appClickOutside)="closeMenu()">
       <li class="dropdown" [class.open]="menuOpen">
         <a class="dropdown-toggle" id="logout-menu" (click)="openMenu()">
-          <img class="img-circle" id="user-image" src="{{userInfo.profile.getImageUrl()}}" />
+          <img class="img-circle" id="user-image" src="{{userInfo.profile.imageUrl}}" />
         </a>
       <ul class="dropdown-menu">
-        <li class="dropdown-text">{{userInfo.profile.getName()}}</li>
-        <li class="dropdown-text">{{userInfo.profile.getEmail()}}</li>
+        <li class="dropdown-text">{{userInfo.profile.name}}</li>
+        <li class="dropdown-text">{{userInfo.profile.email}}</li>
         <li role="separator" class="divider"></li>
         <li><a id="logout" (click)="logout()">Logout</a></li>
       </ul>

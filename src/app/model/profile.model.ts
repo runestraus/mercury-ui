@@ -1,20 +1,21 @@
 import { User } from './user.model';
-// export class Profile {
-//   name: string;
-//   picture: string;
-//   email: string;
-// }
-
 export class UserData {
   profile: Profile;
   user: User;
 }
-
+export class Profile {
+  id: string;
+  name: string;
+  givenName: string;
+  familyName: string;
+  imageUrl: string;
+  email: string;
+}
 // Echoes typings
 export interface GoogleApiAuthBasic {
   get(): any;
 }
-export interface Profile {
+export interface GoogleProfile {
   getId(): string;
   getName(): string;
   getGivenName(): string;
@@ -40,7 +41,7 @@ export interface GoogleAuthCurrentUser extends GoogleApiAuthBasic {
   listen(listener: (GoogleUser: any) => any);
   getId(): string;
   isSignedIn(): boolean;
-  getBasicProfile(): Profile;
+  getBasicProfile(): GoogleProfile;
   getAuthResponse(): GoogleAuthResponse;
   reloadAuthResponse(): Promise<GoogleAuthResponse>;
 }

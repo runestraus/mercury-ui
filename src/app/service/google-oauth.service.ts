@@ -1,5 +1,5 @@
 import { Injectable, NgZone } from '@angular/core';
-import { GoogleAuthResponse, GoogleAuthCurrentUser, Profile } from '../model/profile.model';
+import { GoogleAuthResponse, GoogleAuthCurrentUser, GoogleProfile } from '../model/profile.model';
 import { GapiLoader } from './gapi-loader.service';
 import { environment } from '../../environments/environment';
 import { Subscription } from 'rxjs/Subscription';
@@ -19,8 +19,8 @@ export class GoogleOauthService {
   private _googleAuth: GoogleAuthResponse;
   private _accessToken: string;
   private autoSignInTimer: Subscription;
-  private _profile: Profile;
-  private _successfulSignInObserver: Subject<Profile> = new Subject();
+  private _profile: GoogleProfile;
+  private _successfulSignInObserver: Subject<GoogleProfile> = new Subject();
   private _signedOutObserver: Subject<void> = new Subject<void>();
 
   constructor(private zone: NgZone,
@@ -129,7 +129,7 @@ export class GoogleOauthService {
     });
   }
 
-  getProfile(): Profile {
+  getProfile(): GoogleProfile {
     return this.zone.run(() => {
       return this._profile;
     });

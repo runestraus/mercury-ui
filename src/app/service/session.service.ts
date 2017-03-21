@@ -1,13 +1,13 @@
 import { Injectable } from '@angular/core';
 import { MeService } from './me.service';
 import { GoogleOauthService } from './google-oauth.service';
-import { UserData, Profile } from '../model/profile.model';
+import { UserData, GoogleProfile, Profile } from '../model/profile.model';
 import { Subscription } from 'rxjs/Subscription';
 import { Subject } from 'rxjs/Subject';
 
 @Injectable()
 export class SessionService {
-
+  static readonly CURRENT_USER = 'CURRENT_USER';
   private _signInObserver: Subject<UserData> = new Subject<UserData>();
   private _signedOutObserver:  Subject<void> = new Subject<void>();
   private _signInFailedObserver: Subject<Error> = new Subject<Error>();
@@ -15,15 +15,22 @@ export class SessionService {
   constructor(private meService: MeService, private googleService: GoogleOauthService) { }
 
   initialize() {
-    this.googleService.onSignedIn((profile) => {
+    this.googleService.onSignedIn(profile => {
       localStorage.setItem('access_token', this.googleService.getAccessToken());
       this.meService.get()
         .then(data => {
           const user = {
             user: data,
-            profile: profile
+            profile: {
+              id: profile.getId(),
+              name: profile.getName(),
+              givenName: profile.getGivenName(),
+              familyName: profile.getFamilyName(),
+              imageUrl: profile.getImageUrl(),
+              email: profile.getEmail()
+            } as Profile
           } as UserData;
-
+          localStorage.setItem(SessionService.CURRENT_USER, JSON.stringify(user));
           this._signInObserver.next(user);
         })
         .catch(err => {
@@ -31,8 +38,17 @@ export class SessionService {
         });
     });
     this.googleService.onSignedOut(() => {
+      localStorage.clear();
       this._signedOutObserver.next();
     });
+  }
+
+  tryGetCurrentUser(): UserData {
+    const localUser = localStorage.getItem(SessionService.CURRENT_USER);
+    if (localUser) {
+      return JSON.parse(localUser);
+    }
+    return null;
   }
 
   getAccessToken(): string {
@@ -55,7 +71,7 @@ export class SessionService {
     return this._signInFailedObserver.subscribe(fn);
   }
 
-  getUserProfile(): Profile {
+  getUserProfile(): GoogleProfile {
     return this.googleService.getProfile();
   }
 
