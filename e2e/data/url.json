@@ -1,0 +1,22 @@
+{
+  "note": "urls used for test",
+  "test": "https://webportal-dot-mercury-donuts.appspot.com",
+  "alpha": "https://webportal-dot-mercury-donuts-alpha.appspot.com",
+  "local": "http://localhost:8080",
+  "login": "/login/#/",
+  "webportal": "/#/webportal",
+  "manage_users": "/#/webportal/users-manage",
+  "domains_manage": "/#/webportal/domains-manage",
+  "hosts_manage": "/#/webportal/hosts-manage",
+  "premium_lists": "/#/webportal/premium-price",
+  "reserved_domains": "/#/webportal/reserved-domains",
+  "price_categories": "/#/webportal/price-categories-manage",
+  "contacts_manage": "/#/webportal/contacts-manage",
+  "domains_transfer": "/#/webportal/domains-transfer",
+  "tlds_manage": "/#/webportal/tlds-manage",
+  "search_results": "/#/webportal/search-results",
+  "google": "http://www.google.com",
+  "google_accounts": "https://mail.google.com",
+  "google_logout": "https://accounts.google.com/Logout",
+  "google_account_chooser": "https://accounts.google.com/AccountChooser"
+}

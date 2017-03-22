@@ -1,0 +1,66 @@
+{
+  "note": "google accounts for testing",
+  "reg_admin": {
+    "email": "reg-admin@hg.team",
+    "password": "X6&KLq6gdH=3",
+    "role": "REGISTRY_ADMIN",
+    "registrar": "tldsrus",
+    "iana_id": "9999"
+  },
+  "reg_user01": {
+    "email": "reg-user01@hg.team",
+    "password": "Heavy-Mercury-80",
+    "role": "REGISTRY_USER",
+    "registrar": "tldsrus",
+    "iana_id": "9999"
+  },
+  "reg_user02": {
+    "email": "reg-user02@hg.team",
+    "password": "Heavy-Mercury-80",
+    "role": "REGISTRY_USER",
+    "registrar": "tldsrus",
+    "iana_id": "9999"
+  },
+  "rar01_admin": {
+    "email": "rar01-admin@hg.team",
+    "password": "Heavy-Mercury-80",
+    "role": "REGISTRAR_ADMIN",
+    "registrar": "brodaddy",
+    "iana_id": "5678"
+  },
+  "rar01_user01": {
+    "email": "rar01-user01@hg.team",
+    "password": "Heavy-Mercury-80",
+    "role": "REGISTRAR_USER",
+    "registrar": "brodaddy",
+    "iana_id": "5678"
+  },
+  "rar01_user02": {
+    "email": "rar01-user02@hg.team",
+    "password": "Heavy-Mercury-80",
+    "role": "REGISTRAR_USER",
+    "registrar": "brodaddy",
+    "iana_id": "5678"
+  },
+  "rar02_admin": {
+    "email": "rar02-admin@hg.team",
+    "password": "Heavy-Mercury-80",
+    "role": "REGISTRAR_ADMIN",
+    "registrar": "tubulls",
+    "iana_id": "2001"
+  },
+  "rar02_user01": {
+    "email": "rar02-user01@hg.team",
+    "password": "Heavy-Mercury-80",
+    "role": "REGISTRAR_USER",
+    "registrar": "tubulls",
+    "iana_id": "2001"
+  },
+  "rar02_user02": {
+    "email": "rar02-user02@hg.team",
+    "password": "Heavy-Mercury-80",
+    "role": "REGISTRAR_USER",
+    "registrar": "tubulls",
+    "iana_id": "2001"
+  }
+}
