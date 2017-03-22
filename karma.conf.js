@@ -3,22 +3,24 @@
 
 module.exports = function (config) {
   // Browsers to run on Sauce Labs
-  var customLaunchers = {
-    'SL_Chrome': {
-      base: 'SauceLabs',
-      browserName: 'chrome',
-      version: '54.0',
-      platform: 'Mac'
-    }
-  };
+  // var customLaunchers = {
+  //   'SL_Chrome': {
+  //     base: 'SauceLabs',
+  //     browserName: 'chrome',
+  //     version: '54.0',
+  //     platform: 'Mac'
+  //   }
+  // };
   config.set({
     basePath: '',
     frameworks: ['jasmine', '@angular/cli'],
     plugins: [
       require('karma-jasmine'),
+      require('karma-phantomjs-launcher'),
       require('karma-chrome-launcher'),
       require('karma-sauce-launcher'),
       require('karma-coverage-istanbul-reporter'),
+      require('karma-spec-reporter'),
       require('@angular/cli/plugins/karma')
     ],
     files: [
@@ -45,8 +47,8 @@ module.exports = function (config) {
     colors: true,
     logLevel: config.LOG_INFO,
     autoWatch: true,
-    customLaunchers: customLaunchers,
-    browsers: ['Chrome'],
+    // customLaunchers: customLaunchers,
+    browsers: ['PhantomJS'],
     singleRun: false
   });
 };

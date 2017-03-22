@@ -12,7 +12,7 @@ node('master') {
         stage('Test') {
             sh 'npm install'
             sauce('e75a1b30-bdd4-48f5-8947-acba29c8df9c') {
-                sh 'ng test --browsers SL_Chrome --watch=false'
+                sh 'ng test --watch=false'
             }
         }
         if (env.BRANCH_NAME == 'master') {
