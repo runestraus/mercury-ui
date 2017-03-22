@@ -52,6 +52,8 @@ import { ContactCreateComponent } from './contacts/contact-create/contact-create
 import { ContactEppService } from './contacts/contactepp.service';
 import { TextStringService } from './service/textstring.service';
 import { EppHelperService } from './epp/epphelper.service';
+import { PriceCategoriesComponent } from './price-categories/price-categories.component';
+import { PriceCategoriesService } from './service/price-categories.service';
 import { HostCreateComponent } from './hosts/host-create/host-create.component';
 import { HostEppService } from './hosts/hostepp.service';
 import { DomainEppService } from './service/domain-epp.service';
@@ -90,6 +92,7 @@ import { DisplayListComponent } from './shared/components/display-list/display-l
     MenuComponent,
     ContactCreateComponent,
     UsersComponent,
+    PriceCategoriesComponent,
     HostCreateComponent,
     ClickOutsideDirective,
     DomainInfoComponent,
@@ -126,6 +129,7 @@ import { DisplayListComponent } from './shared/components/display-list/display-l
     TextStringService,
     IcannService,
     RolesService,
+    PriceCategoriesService,
     DomainEppService,
     GoogleOauthService,
     GapiLoader
