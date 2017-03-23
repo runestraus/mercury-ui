@@ -23,7 +23,7 @@ describe('Mercury UI App Search Smoke Test', function() {
     page = new UniversalSearchPage();
     const address = new Address();
     browser.get(address.getBaseUrl());
-    jasmine.DEFAULT_TIMEOUT_INTERVAL = 30000;
+    jasmine.DEFAULT_TIMEOUT_INTERVAL = 60000;
     setTimeout(function () {
       done();
     }, 10000);
