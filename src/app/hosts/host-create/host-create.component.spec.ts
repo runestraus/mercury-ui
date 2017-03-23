@@ -14,7 +14,7 @@ describe('HostCreateComponent', () => {
   const mockEppService = {
     createHost: jasmine.createSpy('eppService.createHost'),
     infoHost: jasmine.createSpy('eppService.infoHost'),
-    updateHost: jasmine.createSpy('eppService.updateHost')
+    updateHost: jasmine.createSpy('eppService.updateHost'),
   };
 
   const mockRouter = {
@@ -131,10 +131,9 @@ describe('HostCreateComponent', () => {
             value: address
           } as AddrInfo;
         });
-        const hostRemoveAddr: AddrInfo[];
         const hostUpdateInfo: HostUpdateInfo = {
           addAddrs: hostAddAddr,
-          remAddrs: hostRemoveAddr
+          remAddrs: undefined
         };
         expect(component.isEditForm).toBeTruthy();
         expect(eppService.updateHost).toHaveBeenCalledWith('host.example.dev', hostUpdateInfo);

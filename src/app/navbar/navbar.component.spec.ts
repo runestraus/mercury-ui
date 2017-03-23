@@ -15,12 +15,24 @@ describe('NavbarComponent', () => {
   const mockSessionService = {
     signOut: jasmine.createSpy('sessionService.logOut')
   };
-  const profile = {
+  const profileEntity = {
+    id: '1234',
+    name: 'Bobby Brown',
+    givenName: 'Bobby',
+    familyName: 'Brown',
+    imageUrl: '/image/img.jpg',
+    email: 'BobbyBrown@donuts.co',
     'getEmail': () => 'test@donuts.email',
     getName: () => 'Donny Donuts',
     getImageUrl: () => 'http://donuts.co'
   };
-
+  const userEntity = {
+    email: 'BobbyBrown@donuts.co',
+    clientId: '1234',
+    isRegistrarLogin: true,
+    permissions: [],
+    ianaId: 9999,
+  };
   const mockRouter = {
     navigate: jasmine.createSpy('navigate')
   };
@@ -40,8 +52,8 @@ describe('NavbarComponent', () => {
     fixture = TestBed.createComponent(NavbarComponent);
     component = fixture.componentInstance;
     component.userInfo = {
-      profile: profile,
-      user: null
+      profile: profileEntity,
+      user: userEntity,
     } as UserData;
     fixture.detectChanges();
     page = new Page();

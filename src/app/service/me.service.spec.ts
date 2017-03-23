@@ -4,7 +4,6 @@ import { MeService } from './me.service';
 import { HttpClient } from '../shared/http.client';
 import { HttpModule, XHRBackend, RequestMethod } from '@angular/http';
 import { MockBackend, MockConnection } from '@angular/http/testing';
-import { OAuthService } from 'angular-oauth2-oidc';
 import { SessionService } from './session.service';
 
 describe('MeService', () => {

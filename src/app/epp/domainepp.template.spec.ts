@@ -92,9 +92,11 @@ describe('Domain EPP Templates', () => {
 
   it('should generate a domain create command', () => {
     const domainInfo = {
+      clientId: 'brodaddy',
       fullyQualifiedDomainName: 'foo.com',
-      registrationPeriod: 1,
+      registrationPeriod: '1',
       authInfo: 'abc123',
+      domainNameserversArray: undefined,
     };
     expect(domainepp.domainCreate(domainInfo, 'TEST-1234')).toBe(
       `<epp xmlns="urn:ietf:params:xml:ns:epp-1.0">
@@ -115,8 +117,9 @@ describe('Domain EPP Templates', () => {
 
   it('should generate a domain create command with nameservers', () => {
     const domainInfo = {
+      clientId: 'brodaddy',
       fullyQualifiedDomainName: 'foo.com',
-      registrationPeriod: 1,
+      registrationPeriod: '1',
       authInfo: 'abc123',
       domainNameserversArray: ['ns1.foo.com', 'ns2.foo.com'],
     };
@@ -143,10 +146,12 @@ describe('Domain EPP Templates', () => {
 
   it('should generate a domain create command with registrant contact', () => {
     const domainInfo = {
+      clientId: 'brodaddy',
       fullyQualifiedDomainName: 'foo.com',
-      registrationPeriod: 1,
+      registrationPeriod: '1',
       authInfo: 'abc123',
       registrantContact: 'the-registrant',
+      domainNameserversArray: undefined,
     };
     expect(domainepp.domainCreate(domainInfo, 'TEST-1234')).toBe(
       `<epp xmlns="urn:ietf:params:xml:ns:epp-1.0">
@@ -168,13 +173,15 @@ describe('Domain EPP Templates', () => {
 
   it('should generate a domain create command with contacts list', () => {
     const domainInfo = {
+      clientId: 'brodaddy',
       fullyQualifiedDomainName: 'foo.com',
-      registrationPeriod: 1,
+      registrationPeriod: '1',
       authInfo: 'abc123',
       contacts: [
         {type: 'admin', value: 'the-admin'},
         {type: 'tech', value: 'the-tech'},
       ],
+      domainNameserversArray: undefined,
     };
     expect(domainepp.domainCreate(domainInfo, 'TEST-1234')).toBe(
       `<epp xmlns="urn:ietf:params:xml:ns:epp-1.0">
@@ -197,11 +204,13 @@ describe('Domain EPP Templates', () => {
 
   it('should generate a domain create command with smdSignature', () => {
     const domainInfo = {
+      clientId: 'brodaddy',
       fullyQualifiedDomainName: 'foo.com',
-      registrationPeriod: 1,
+      registrationPeriod: '1',
       authInfo: 'abc123',
       fee: '25.00',
       smdSignature: 'abcdefg',
+      domainNameserversArray: undefined,
     };
     expect(domainepp.domainCreate(domainInfo, 'TEST-1234')).toBe(
       `<epp xmlns="urn:ietf:params:xml:ns:epp-1.0">
@@ -234,11 +243,13 @@ describe('Domain EPP Templates', () => {
 
   it('should generate a domain create command with premium price', () => {
     const domainInfo = {
+      clientId: 'brodaddy',
       fullyQualifiedDomainName: 'foo.com',
-      registrationPeriod: 1,
+      registrationPeriod: '1',
       authInfo: 'abc123',
       premiumCurrency: 'USD',
       premiumPrice: '200.00',
+      domainNameserversArray: []
     };
     expect(domainepp.domainCreate(domainInfo, 'TEST-1234')).toBe(
       `<epp xmlns="urn:ietf:params:xml:ns:epp-1.0">
@@ -261,7 +272,7 @@ describe('Domain EPP Templates', () => {
     <clTRID>TEST-1234</clTRID>
   </command>
 </epp>`);
-  });
+        });
 
   it('should generate a domain delete command', () => {
     expect(domainepp.domainDelete('foo.com', 'TEST-1234')).toBe(

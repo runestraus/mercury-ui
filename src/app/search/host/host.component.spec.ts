@@ -13,9 +13,6 @@ describe('HostComponent', () => {
   const mockRoute = {
     navigate : {}
   };
-
-  const route;
-
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [ HostComponent ],
