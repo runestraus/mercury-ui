@@ -6,6 +6,7 @@
     <h3 id="domain-info-header" class="modal-title wordBreak">{{domainName}}</h3>
   </p-header>
 	<div *ngIf="error" class="alert alert-danger" role="alert" id="domainInfoError">{{error}}</div>
+  <app-domain-create *ngIf="createDomain" [domainName]="domainName" (onCreated)="getDomain()"></app-domain-create>
   <div id="domainInfoLoading" class="text-align-center" *ngIf="loading">
     <i class="fa fa-circle-o-notch fa-spin fa-5x"></i>
   </div>

@@ -1,0 +1,34 @@
+<form [formGroup]="domainForm" (submit)="onSubmit()" novalidate>
+  <div class="alert alert-info">
+    This domain does not exist. Would you like to create it?
+  </div>
+  <div class="form-group">
+    <label for="registrationPeriod">Registration Period</label>
+    <select id="registrationPeriod" class="form-control modal-form-control" formControlName="registrationPeriod">
+      <option *ngFor="let period of registrationPeriods" [value]="period.value">{{period.label}}</option>
+    </select>
+  </div>
+  <div class="form-group">
+    <label for="registrantContact">Registrant Contact* <a class="fa fa-user-plus" aria-hidden="true" (click)="addContact('registrantContact')"></a></label>
+    <input id="registrantContact" class="form-control modal-form-control" type="text" formControlName="registrantContact" />
+    <p class="help-block" *ngIf="formErrors.registrantContact">{{formErrors.registrantContact}}</p>
+  </div>
+  <div class="form-group">
+    <label for="adminContact">Admin Contact* <a class="fa fa-user-plus" aria-hidden="true" (click)="addContact('adminContact')"></a></label>
+    <input id="adminContact" class="form-control modal-form-control" type="text" formControlName="adminContact" />
+    <p class="help-block" *ngIf="formErrors.adminContact">{{formErrors.adminContact}}</p>
+  </div>
+  <div class="form-group">
+    <label for="techContact">Tech Contact* <a class="fa fa-user-plus" aria-hidden="true" (click)="addContact('techContact')"></a></label>
+    <input id="techContact" class="form-control modal-form-control" type="text" formControlName="techContact" />
+    <p class="help-block" *ngIf="formErrors.techContact">{{formErrors.techContact}}</p>
+  </div>
+  <div class="form-group">
+    <label for="billingContact">Billing Contact* <a class="fa fa-user-plus" aria-hidden="true" (click)="addContact('billingContact')"></a></label>
+    <input id="billingContact" class="form-control modal-form-control" type="text" formControlName="billingContact" />
+    <p class="help-block" *ngIf="formErrors.billingContact">{{formErrors.billingContact}}</p>
+  </div>
+  <div class="form-group pull-right">
+    <button [disabled]="!domainForm.valid" type="submit" class="btn btn-primary">Submit</button>
+  </div>
+</form>

@@ -66,6 +66,7 @@ import { DomainInfoSeparatorComponent } from './domains/domain-info/domain-info-
 import { DomainInfoContactsComponent } from './domains/domain-info/domain-info-contacts/domain-info-contacts.component';
 import { DomainInfoHostsComponent } from './domains/domain-info/domain-info-hosts/domain-info-hosts.component';
 import { DisplayListComponent } from './shared/components/display-list/display-list.component';
+import { DomainCreateComponent } from './domains/domain-create/domain-create.component';
 
 @NgModule({
   declarations: [
@@ -101,6 +102,7 @@ import { DisplayListComponent } from './shared/components/display-list/display-l
     DomainInfoContactsComponent,
     DomainInfoHostsComponent,
     DisplayListComponent,
+    DomainCreateComponent,
   ],
   imports: [
     DropdownModule,

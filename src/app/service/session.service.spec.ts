@@ -1,5 +1,5 @@
 /* tslint:disable:no-unused-variable */
-import { TestBed, inject, async, fakeAsync, tick } from '@angular/core/testing';
+import { TestBed, inject } from '@angular/core/testing';
 import { SessionService } from './session.service';
 import { MeService } from './me.service';
 import { User } from '../model/user.model';

@@ -1,8 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { Location } from '@angular/common';
 import { ActivatedRoute, Router } from '@angular/router';
-
-import { Domain, DomainDetail } from '../../model/domain.model';
+import { DomainDetail } from '../../model/domain.model';
 import { DomainEppService } from '../../service/domain-epp.service';
 
 @Component({
@@ -17,6 +15,7 @@ export class DomainInfoComponent implements OnInit {
   showDialog = true;
   loading = true;
   error: string = null;
+  createDomain = false;
 
   constructor(
     private route: ActivatedRoute,
@@ -28,12 +27,20 @@ export class DomainInfoComponent implements OnInit {
     if (!this.domainName) {
       this.domainName = this.route.parent.snapshot.params['domainName'];
     }
+    this.getDomain();
+  }
+
+  getDomain() {
     this.domainEppService.info(this.domainName, null).then(domainDetail => {
       this.loading = false;
       this.domainDetail = domainDetail;
+      this.createDomain = false;
     }).catch(err => {
       this.loading = false;
-      if (err.code && err.message) {
+      // switch these blocks of code to test out the partial domain info display
+      if (err.code === '2303') {
+        this.createDomain = true;
+      } else if (err.code && err.message) {
         this.error = err.message;
       } else {
         console.error(err);
