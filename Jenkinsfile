@@ -1,4 +1,4 @@
-node('master') {
+node('javascript') {
     nodejs(nodeJSInstallationName: 'default') {
         stage('Checkout') {
             checkout scm

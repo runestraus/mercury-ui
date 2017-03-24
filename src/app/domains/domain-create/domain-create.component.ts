@@ -95,7 +95,7 @@ export class DomainCreateComponent implements OnInit {
     };
   }
 
-  addContact() {
+  addContact(contactType: string) {
 
   }
 
