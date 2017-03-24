@@ -76,8 +76,7 @@ export class SessionService {
   }
 
   signOut(): Promise<any> {
-    return this.meService.logout()
-      .then(() => this.googleService.signOut())
+    return this.googleService.signOut()
       .then(() => this._signedOutObserver.next());
   }
 }

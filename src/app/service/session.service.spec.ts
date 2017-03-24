@@ -22,7 +22,6 @@ describe('SessionService', () => {
 
   const mockMeService = {
     get: jasmine.createSpy('get'),
-    logout: jasmine.createSpy('logout')
   };
 
   beforeEach(() => {
@@ -46,10 +45,9 @@ describe('SessionService', () => {
   });
 
   it('logOut() should call logout on meService then logout from oauthService', done => {
-    mockMeService.logout.and.returnValue(Promise.resolve(new User()));
+    mockOAuthService.signOut.and.returnValue(Promise.resolve());
 
     sessionService.signOut().then(() => {
-      expect(mockMeService.logout).toHaveBeenCalled();
       expect(mockOAuthService.signOut).toHaveBeenCalled();
       done();
     });

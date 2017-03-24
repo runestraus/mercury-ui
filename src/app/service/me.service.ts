@@ -33,16 +33,6 @@ export class MeService {
       .catch(this.handleError);
   }
 
-  /**
-   * Sends logout request to api
-   *
-   * @returns {any}
-   */
-  logout() {
-    return this.http.get('/api/me/logout').toPromise()
-      .catch(this.handleError);
-  }
-
   private handleError(error: any): Promise<any> {
     return Promise.reject(error.message || error);
   }

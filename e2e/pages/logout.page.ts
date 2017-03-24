@@ -28,9 +28,9 @@ export class LogoutPage {
     browser.get(address.getBaseUrl());
     this.clicklogoutMenu();
     this.clicklogoutOption();
-
+    browser.wait(this.googleLoginButton.isPresent());
     expect(browser.getTitle()).toEqual('WebportalUi');
-    expect(this.googleLoginButton.isPresent());
+    expect(this.googleLoginButton.isPresent()).toBeTruthy();
   }
 }
 

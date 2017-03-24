@@ -19,7 +19,6 @@ exports.config = {
     platform: 'OS X 10.11',
     name: "mercury-ui-test"
   },
-  baseUrl: 'https://admin.alpha.hg.team/',
   framework: 'jasmine',
   jasmineNodeOpts: {
     showColors: true,
