@@ -29,13 +29,13 @@ node('javascript') {
         if (env.BRANCH_NAME == 'master') {
             stage('Smoke Test') {
               sh 'npm install'
-              sh 'webdriver-manager update'
-                  withCredentials([[$class: 'UsernamePasswordMultiBinding',
-                                              credentialsId: '307b5bf3-2937-4864-82eb-78c895ec885a',
-                                              passwordVariable: 'SAUCE_ACCESS_KEY',
-                                              usernameVariable: 'SAUCE_USERNAME']]) {
-                    sh 'ng e2e --watch=false'
-                  }
+              sh 'node_modules/protractor/node_modules/webdriver-manager/bin/webdriver-manager update'
+              withCredentials([[$class: 'UsernamePasswordMultiBinding',
+                                          credentialsId: '307b5bf3-2937-4864-82eb-78c895ec885a',
+                                          passwordVariable: 'SAUCE_ACCESS_KEY',
+                                          usernameVariable: 'SAUCE_USERNAME']]) {
+                sh 'ng e2e'
+              }
             }
         }
     }
