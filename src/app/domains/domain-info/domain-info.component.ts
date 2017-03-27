@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { DomainDetail } from '../../model/domain.model';
 import { DomainEppService } from '../../service/domain-epp.service';
+import { getParentRouteUrl } from '../../shared/routeutils';
 
 @Component({
   selector: 'app-domain-info',
@@ -50,12 +51,7 @@ export class DomainInfoComponent implements OnInit {
   }
 
   onCloseClicked() {
-    // Navigate to parent route
-    // this works even when the parent isn't in the browser history
-    this.route.parent.url.map(
-      segments => '/' + segments.join('/'))
-    .forEach(
-      url => this.router.navigate([url]));
+    this.router.navigate([getParentRouteUrl(this.route)]);
   }
 
   openDetailsDialog(): void {
