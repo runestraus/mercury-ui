@@ -5,7 +5,7 @@ import { getParentRouteUrl } from './routeutils';
 
 /** Creates a mock route that should resemble what is expected from angular */
 function createRoute(path: Array<string>): ActivatedRoute {
-  if (path.length == 0) {
+  if (path.length === 0) {
     return null;
   }
   const urlSegments = path[path.length - 1].split('/').map(pathSegment => {
@@ -28,11 +28,11 @@ describe('getParentRouteUrl', () => {
   });
 
   it('should return parent url for a route with one parent', () => {
-    expect(getParentRouteUrl(createRoute(['foo/bar', 'bazz']))).toBe('/foo/bar')
+    expect(getParentRouteUrl(createRoute(['foo/bar', 'bazz']))).toBe('/foo/bar');
   });
 
   it('should return parent url for a route with two parents', () => {
-    expect(getParentRouteUrl(createRoute(['foo/bar', 'bazz', '123/info']))).toBe('/foo/bar/bazz')
+    expect(getParentRouteUrl(createRoute(['foo/bar', 'bazz', '123/info']))).toBe('/foo/bar/bazz');
   });
 
   it('should return parent url for a route with a ridiculously large number of segments', () => {
