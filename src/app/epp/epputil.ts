@@ -32,15 +32,24 @@ export function extractBoolean(result: any, ...path: string[]): boolean {
   return value === 'true';
 }
 
+/**
+ * Attempt to get an array value at the specified path
+ *
+ * @param result Result object that may contain the field value
+ * @param path Path to field
+ * @returns string[] found or an empty array
+ */
 export function extractArray(result: any, ...path: string[]): string[] {
+  // element isn't in the result so return an empty array
+  if (!(path[0] in result)) {
+    return [];
+  }
+  // element we were looking for so return
   if (path.length === 1) {
     if (!Array.isArray(result[path[0]])) {
       return [result[path[0]]];
     }
     return result[path[0]].map(item => extractText(item));
-  }
-  if (!result[path[0]]) {
-    return [];
   }
   return extractArray(result[path[0]], ...path.slice(1, path.length + 1));
 }
@@ -53,6 +62,7 @@ export function extractArray(result: any, ...path: string[]): string[] {
   * @return Array of any statuses found, or an empty array if none were found.
   */
 export function extractStatuses(result: any, path: string): Array<string> {
+  // element isn't in the result so return an empty array
   if (!(path in result)) {
     return [];
   }
@@ -81,19 +91,20 @@ export function extractType(result: any, ...path: string[]): string {
  *
  * @param result Result object that may contain the field value
  * @param path Path to field containing array of types
- * @return type: value dictionary
+ * @return type: value dictionary (string:string)
  */
 export function extractTypes(result: any, ...path: string[]): {[key: string]: string} {
+  // element isn't in the result so return an empty dictionary
+  if (!(path[0] in result)) {
+    return {};
+  }
+  // element we were looking for so return
   if (path.length === 1) {
-    if (!result[path[0]]) {
-      return {};
-    }
     return result[path[0]].reduce((o, item) => {
       o[extractType(item)] = extractText(item);
       return o;
     }, {});
   }
-
   return extractTypes(result[path[0]], ...path.slice(1, path.length + 1));
 }
 
@@ -108,14 +119,21 @@ export function extractAvail(result: any, path: string): boolean {
   return extractField(result, path, '@avail') === 'true';
 }
 
+/**
+  * Attempt to get the field at the specified path
+  *
+  * @param result Result object that may contain the fields
+  * @param path Path to fields
+  * @return Value of the field if found, otherwise an empty string
+  */
 export function extractField(result: any, ...path: string[]): string {
+  // element isn't in the result so return an empty string
+  if (!(path[0] in result)) {
+    return '';
+  }
   // element we were looking for so return
   if (path.length === 1) {
-    return result[path[0]] || '';
-  }
-  // element isn't in the result so return an empty string
-  if (!result[path[0]]) {
-    return '';
+    return result[path[0]];
   }
   return extractField(result[path[0]], ...path.slice(1, path.length + 1));
 }

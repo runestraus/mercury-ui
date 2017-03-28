@@ -80,4 +80,46 @@ describe('EPP utility functions', () => {
     const data = {};
     expect(epputil.extractTypes(data, 'domain:contact')).toEqual({});
   });
+
+  it('should return an array of length two with correct values from double nested object', () => {
+    const data = {
+      'domain:subordinateHosts': {
+        'domain:subordinateHosts': [
+          {
+            'keyValue': 'donuts_300.cow'
+          },
+          {
+            'keyValue': 'donuts_300.tld'
+          },
+        ]
+      }
+    };
+    expect(epputil.extractArray(data, 'domain:subordinateHosts', 'domain:subordinateHosts')).toEqual(['donuts_300.cow', 'donuts_300.tld']);
+  });
+
+  it('should return an array of length two with correct values', () => {
+    const data = {
+      'domain:subordinateHosts': [
+        {
+          'keyValue': 'donuts_300.cow'
+        },
+        {
+          'keyValue': 'donuts_300.tld'
+        },
+      ]
+    };
+    expect(epputil.extractArray(data, 'domain:subordinateHosts')).toEqual(['donuts_300.cow', 'donuts_300.tld']);
+  });
+
+  it('should return an array of length zero -- data is empty object', () => {
+    const data = {};
+    expect(epputil.extractArray(data, 'domain:subordinateHosts')).toEqual([]);
+  });
+
+  it('should return an array of length zero -- data has empty list', () => {
+    const data = {
+      'domain:subordinateHosts': [],
+    };
+    expect(epputil.extractArray(data, 'domain:subordinateHosts')).toEqual([]);
+  });
 });
