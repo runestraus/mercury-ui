@@ -1,0 +1,14 @@
+<p-dialog [(visible)]="showDialog" width="500" responsive="true" [closable]="false">
+  <div *ngIf="error" class="alert alert-danger" id="domainDeleteError">{{error}}</div>
+  <p-header>
+    <button id="buttonCloseX" tooltip="Close" type="button" class="close" (click)="onCloseClicked()" aria-hidden="true">&times;</button>
+    <h3 id="domain-delete-header" class="modal-title wordBreak">Delete Domain</h3>
+  </p-header>
+  <span>Are you sure you want to delete {{domainName}}?</span>
+  <p-footer>
+    <div class="ui-dialog-buttonpane ui-widget-content ui-helper-clearfix">
+      <button type="button" class="btn btn-default" id="domainDeleteSubmit" (click)="onSubmit()">Delete</button>
+      <button type="button" class="btn btn-default" id="domainDeleteClose" (click)="onCloseClicked()">Cancel</button>
+    </div>
+  </p-footer>
+</p-dialog>

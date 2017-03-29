@@ -1,12 +1,13 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { By } from '@angular/platform-browser';
-import { DebugElement } from '@angular/core/index';
 import { TooltipModule } from 'primeng/primeng';
-
 import { DomainInfoStatusComponent } from './domain-info-status.component';
 import { DomainDetail } from '../../../model/domain.model';
 import { DocQuery } from '../../../shared/testutils';
-
+import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
+import { ActivatedRoute, Router, RouterOutletMap } from '@angular/router';
+import { DomainEppService } from '../../../service/domain-epp.service';
+import { Observable } from 'rxjs/Observable';
+import { Observer } from 'rxjs/Observer';
 class Page {
   query: DocQuery<DomainInfoStatusComponent>;
 
@@ -40,6 +41,28 @@ class Page {
   }
 }
 
+const mockDomainEppService = {
+  info: jasmine.createSpy('info'),
+};
+
+const mockRouter = {
+  navigate: jasmine.createSpy('navigate')
+};
+
+const mockRoute = {
+  snapshot: {
+    params: {
+      'domainName': 'holy.cow',
+    }
+  },
+  parent: {
+    url: Observable.create((observer: Observer<Array<string>>) => {
+      observer.next(['search', 'holy.cow']);
+      observer.complete();
+    })
+  }
+};
+
 describe('DomainInfoStatusComponent', () => {
   let component: DomainInfoStatusComponent;
   let fixture: ComponentFixture<DomainInfoStatusComponent>;
@@ -52,11 +75,17 @@ describe('DomainInfoStatusComponent', () => {
       currentSponsorClientId: 'brodaddy',
     } as DomainDetail;
   }
-
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [ DomainInfoStatusComponent ],
+      providers: [
+        RouterOutletMap,
+        { provide: ActivatedRoute, useValue: mockRoute },
+        { provide: DomainEppService, useValue: mockDomainEppService },
+        { provide: Router, useValue: mockRouter },
+      ],
       imports: [ TooltipModule ],
+      schemas: [CUSTOM_ELEMENTS_SCHEMA]
     })
     .compileComponents();
   }));

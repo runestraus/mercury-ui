@@ -26,6 +26,7 @@ import { PriceCategoriesComponent } from './price-categories/price-categories.co
 import { HostCreateComponent } from './hosts/host-create/host-create.component';
 import { DomainInfoComponent } from './domains/domain-info/domain-info.component';
 import { ContactCreateComponent } from './contacts/contact-create/contact-create.component';
+import { DomainDeleteComponent } from './domains/domain-info/domain-delete/domain-delete.component';
 
 export const routes: Routes = [
   { path: '',  component: DashboardComponent },
@@ -50,6 +51,11 @@ export const routes: Routes = [
                 {
                   path: 'contacts/:contactId',
                   component: ContactCreateComponent,
+                  children: [],
+                },
+                {
+                  path: 'domaindelete',
+                  component: DomainDeleteComponent,
                   children: [],
                 }
               ],

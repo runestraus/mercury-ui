@@ -67,6 +67,7 @@ import { DomainInfoContactsComponent } from './domains/domain-info/domain-info-c
 import { DomainInfoHostsComponent } from './domains/domain-info/domain-info-hosts/domain-info-hosts.component';
 import { DisplayListComponent } from './shared/components/display-list/display-list.component';
 import { DomainCreateComponent } from './domains/domain-create/domain-create.component';
+import { DomainDeleteComponent } from './domains/domain-info/domain-delete/domain-delete.component';
 
 @NgModule({
   declarations: [
@@ -103,6 +104,7 @@ import { DomainCreateComponent } from './domains/domain-create/domain-create.com
     DomainInfoHostsComponent,
     DisplayListComponent,
     DomainCreateComponent,
+    DomainDeleteComponent,
   ],
   imports: [
     DropdownModule,

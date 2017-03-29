@@ -1,6 +1,7 @@
 import { Component, OnInit, Input } from '@angular/core';
 
-import { Domain, DomainDetail } from '../../../model/domain.model';
+import { DomainDetail } from '../../../model/domain.model';
+import { ActivatedRoute, Router} from '@angular/router';
 
 @Component({
   selector: 'app-domain-info-status',
@@ -11,7 +12,8 @@ export class DomainInfoStatusComponent implements OnInit {
 
   @Input() domain: DomainDetail;
 
-  constructor() { }
+  constructor(private route: ActivatedRoute,
+              private router: Router) { }
 
   ngOnInit() {
   }
@@ -54,7 +56,7 @@ export class DomainInfoStatusComponent implements OnInit {
   }
 
   openDomainDeleteDialog(): void {
-    alert('Not yet implemented');
+    this.router.navigate(['domaindelete'], {relativeTo: this.route});
   }
 
   openDomainServerStatusDialog(): void {
