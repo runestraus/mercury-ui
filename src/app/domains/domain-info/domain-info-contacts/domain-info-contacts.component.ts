@@ -1,4 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
 
 import { ContactDetail } from '../../../contacts/contact.model';
 import { ContactEppService } from '../../../contacts/contactepp.service';
@@ -15,7 +16,9 @@ export class DomainInfoContactsComponent implements OnInit {
   contacts: Array<ContactDetail> = [];
   contactTypes: { [key: string]: Array<string> } = {};
 
-  constructor(private contactEppService: ContactEppService) { }
+  constructor(private contactEppService: ContactEppService,
+    private route: ActivatedRoute,
+    private router: Router) { }
 
   ngOnInit() {
     const domainContacts = this.domain.contacts;
@@ -58,6 +61,6 @@ export class DomainInfoContactsComponent implements OnInit {
   }
 
   openUpdateContactDialog(contact: ContactDetail): void {
-    alert('Not yet implemented');
+    this.router.navigate(['contacts', contact.contactId], {relativeTo: this.route});
   }
 }

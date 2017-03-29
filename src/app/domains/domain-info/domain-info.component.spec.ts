@@ -1,5 +1,5 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { Router, ActivatedRoute, RouterModule } from '@angular/router';
+import { Router, ActivatedRoute, RouterModule, RouterOutletMap } from '@angular/router';
 import { By } from '@angular/platform-browser';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
@@ -32,6 +32,14 @@ class Page {
   getDomainExpiration(): string {
     const el = this.query.getElementByCss('.domainExpirationHeader');
     return el ? el.nativeElement.textContent : null;
+  }
+
+  clickCloseButton(): void {
+    this.query.getElementByCss('#domainInfoClose').nativeElement.click();
+  }
+
+  clickHeaderX(): void {
+    this.query.getElementByCss('#buttonCloseX').nativeElement.click();
   }
 }
 
@@ -87,6 +95,7 @@ describe('DomainInfoComponent', () => {
     TestBed.configureTestingModule({
       declarations: [ DomainInfoComponent ],
       providers: [
+        RouterOutletMap,
         { provide: ActivatedRoute, useValue: mockRoute },
         { provide: DomainEppService, useValue: mockDomainEppService },
         { provide: Router, useValue: mockRouter },
@@ -136,12 +145,25 @@ describe('DomainInfoComponent', () => {
     });
   }));
 
-  it('should navigate back to search on dialog close', async(() => {
+  it('should navigate back to search when close is clicked', async(() => {
     resolveDomain(['ok']);
     fixture.detectChanges();
     fixture.whenStable().then(() => {
       fixture.detectChanges();
-      fixture.debugElement.nativeElement.querySelector('#domainInfoClose').click();
+      page.clickCloseButton();
+      fixture.detectChanges();
+      fixture.whenStable().then(() => {
+        expect(mockRouter.navigate).toHaveBeenCalledWith(['/search/holy.cow']);
+      });
+    });
+  }));
+
+  it('should navigate back to search when header X is clicked', async(() => {
+    resolveDomain(['ok']);
+    fixture.detectChanges();
+    fixture.whenStable().then(() => {
+      fixture.detectChanges();
+      page.clickHeaderX();
       fixture.detectChanges();
       fixture.whenStable().then(() => {
         expect(mockRouter.navigate).toHaveBeenCalledWith(['/search/holy.cow']);

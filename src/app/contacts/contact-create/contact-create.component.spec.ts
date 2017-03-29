@@ -5,11 +5,30 @@ import { MeService } from '../../service/me.service';
 import { FormBuilder, ReactiveFormsModule } from '@angular/forms';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { INVALID } from '@angular/forms/src/model';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
+
+import { DocQuery, createMockRoute } from '../../shared/testutils';
+
+class Page {
+  query: DocQuery<ContactCreateComponent>;
+
+  constructor(private fixture: ComponentFixture<ContactCreateComponent>) {
+    this.query = new DocQuery(fixture);
+  }
+
+  clickCancel() {
+    this.query.getElementByCss('#contact-create-cancel-button').nativeElement.click();
+  }
+
+  clickHeaderX() {
+    this.query.getElementByCss('#buttonCloseX').nativeElement.click();
+  }
+}
 
 describe('ContactCreateComponent', () => {
   let component: ContactCreateComponent;
   let fixture: ComponentFixture<ContactCreateComponent>;
+
   const mockEppService = {
     createContact: jasmine.createSpy('eppService.createContact'),
     infoContact: jasmine.createSpy('eppService.infoContact'),
@@ -19,10 +38,9 @@ describe('ContactCreateComponent', () => {
     get: jasmine.createSpy('meService.get')
   };
   const mockRouter = {
-    snapshot: {
-      params: {}
-    }
+    navigate: jasmine.createSpy('navigate')
   };
+  const mockRoute = createMockRoute(['search/holy.cow', 'domains/holy.cow', 'contacts/foo'], {});
 
   let meService;
   let eppService;
@@ -35,12 +53,12 @@ describe('ContactCreateComponent', () => {
       providers: [
         { provide: ContactEppService, useValue: mockEppService },
         { provide: MeService, useValue: mockMeService },
-        { provide: ActivatedRoute, useValue: mockRouter },
+        { provide: ActivatedRoute, useValue: mockRoute },
+        { provide: Router, useValue: mockRouter },
         FormBuilder
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA]
-    })
-      .compileComponents();
+    }).compileComponents();
   }));
 
   describe('Update', () => {
@@ -118,7 +136,7 @@ describe('ContactCreateComponent', () => {
         component.onSubmit();
         const contactCopy = { contactId: 'somecontactId',
           postalInfo: [{
-            type: 'loc',
+            type: 'int',
             name: 'Some new Name',
             street1: '123 Main St',
             street2: '',
@@ -133,7 +151,7 @@ describe('ContactCreateComponent', () => {
           fax: '48732984'
         };
         contactCopy.postalInfo[0].name = 'Some new Name';
-        contactCopy.postalInfo[0]['type'] = 'loc';
+        contactCopy.postalInfo[0]['type'] = 'int';
         expect(component.isEditForm).toBeTruthy();
         expect(eppService.updateContact).toHaveBeenCalledWith(contactCopy);
       });
@@ -187,7 +205,7 @@ describe('ContactCreateComponent', () => {
       const user = {
         contactId: 'brodaddy-1234',
         postalInfo: [{
-          type: 'loc',
+          type: 'int',
           name: 'Ricky Bobby',
           street1: '',
           street2: '',
@@ -214,4 +232,27 @@ describe('ContactCreateComponent', () => {
     });
   });
 
+  it('should navigate to the parent component when X is clicked in the header', async(() => {
+    fixture = TestBed.createComponent(ContactCreateComponent);
+    const page = new Page(fixture);
+    fixture.detectChanges();
+    fixture.whenStable().then(() => {
+      page.clickHeaderX();
+      fixture.whenStable().then(() => {
+        expect(mockRouter.navigate).toHaveBeenCalledWith(['/search/holy.cow/domains/holy.cow']);
+      });
+    });
+  }));
+
+  it('should navigate to the parent component when Cancel is clicked in the header', async(() => {
+    fixture = TestBed.createComponent(ContactCreateComponent);
+    const page = new Page(fixture);
+    fixture.detectChanges();
+    fixture.whenStable().then(() => {
+      page.clickCancel();
+      fixture.whenStable().then(() => {
+        expect(mockRouter.navigate).toHaveBeenCalledWith(['/search/holy.cow/domains/holy.cow']);
+      });
+    });
+  }));
 });

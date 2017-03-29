@@ -1,4 +1,5 @@
-<p-dialog [(visible)]="showDialog" modal="modal" width="600" responsive="true" [(header)]="modalHeader">
+<p-dialog [(visible)]="showDialog" modal="modal" width="600" responsive="true" [(header)]="modalHeader" [closable]="false">
+<p-header><button id="buttonCloseX" tooltip="Close" type="button" class="close" (click)="onCloseClicked()" aria-hidden="true">&times;</button></p-header>
   <form [formGroup]="contactForm" (submit)="onSubmit()" novalidate>
     <div *ngIf="error" class="alert alert-danger" role="alert">{{error.message}}</div>
     <div>
@@ -67,7 +68,7 @@
     <span class="clear"></span>
     <p-footer>
       <div class="ui-dialog-buttonpane ui-widget-content ui-helper-clearfix">
-        <button id="contact-create-cancel-button" type="button" class="btn btn-default">Cancel</button>
+        <button id="contact-create-cancel-button" type="button" class="btn btn-default" (click)="onCloseClicked()">Cancel</button>
         <button id="contact-create-submit-button" [disabled]="!contactForm.valid" type="submit" class="btn btn-primary">Submit</button>
       </div>
     </p-footer>

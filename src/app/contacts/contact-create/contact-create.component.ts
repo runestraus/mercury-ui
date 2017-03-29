@@ -5,8 +5,9 @@ import { ContactEppService } from '../contactepp.service';
 import { MeService } from '../../service/me.service';
 import { Md5 } from 'ts-md5/dist/md5';
 import { COUNTRIES } from '../../model/country.model';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { ContactDetail } from '../contact.model';
+import { getParentRouteUrl } from '../../shared/routeutils';
 
 /**
  * Component to create or update a contact.
@@ -56,6 +57,7 @@ export class ContactCreateComponent implements OnInit {
   };
 
   constructor(private fb: FormBuilder,
+              private router: Router,
               private route: ActivatedRoute,
               private contactEppService: ContactEppService,
               private meService: MeService) { }
@@ -98,25 +100,15 @@ export class ContactCreateComponent implements OnInit {
    */
   onSubmit() {
     const contactCreated = this.prepareSaveContact();
-    if (this.isEditForm) {
-      this.contactEppService.updateContact(contactCreated)
-        .then(contact => {
-          this.contact = contact;
-          this.showDialog = false;
-          this.contactForm.reset();
-        }).catch(error => {
-          this.error = error.message;
-      });
-    } else {
-      this.contactEppService.createContact(contactCreated)
-        .then(contact => {
-          this.contact = contact;
-          this.showDialog = false;
-          this.contactForm.reset();
-        }).catch(error => {
-        this.error = error.message;
-      });
-    }
+    const response = this.isEditForm ?
+      this.contactEppService.updateContact(contactCreated) :
+      this.contactEppService.createContact(contactCreated);
+    response.then(contact => {
+      this.router.navigate([getParentRouteUrl(this.route)]);
+    }).catch(error => {
+      this.error = error.message;
+    });
+
   }
 
   createForm() {
@@ -151,7 +143,7 @@ export class ContactCreateComponent implements OnInit {
       contactId: formModel.id,
       postalInfo: [
         {
-          type: 'loc',
+          type: 'int',
           name: formModel.name,
           street1: formModel.street1,
           street2: formModel.street2,
@@ -197,5 +189,9 @@ export class ContactCreateComponent implements OnInit {
   customizeContactId() {
     this.useSystemContactId = false;
     this.contactForm.get('id').enable();
+  }
+
+  onCloseClicked() {
+    this.router.navigate([getParentRouteUrl(this.route)]);
   }
 }

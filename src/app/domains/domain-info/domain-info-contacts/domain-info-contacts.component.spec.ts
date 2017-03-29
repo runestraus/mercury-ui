@@ -1,11 +1,12 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { DebugElement } from '@angular/core/index';
+import { Router, ActivatedRoute, RouterModule, RouterOutletMap } from '@angular/router';
 
 import { ContactEppService } from '../../../contacts/contactepp.service';
 import { DomainInfoContactsComponent } from './domain-info-contacts.component';
 import { DomainDetail } from '../../../model/domain.model';
-import { DocQuery } from '../../../shared/testutils';
+import { DocQuery, createMockRoute } from '../../../shared/testutils';
 
 class Page {
   query: DocQuery<DomainInfoContactsComponent>;
@@ -23,7 +24,17 @@ class Page {
     const el = this.query.getElementByCss('#contact-type-' + contactId);
     return el ? el.nativeElement.textContent : null;
   }
+
+  clickContact(contactId: string) {
+    this.query.getElementByCss('#contact-name-' + contactId).nativeElement.click();
+  }
 }
+
+const mockRouter = {
+  navigate: jasmine.createSpy('navigate')
+};
+
+const mockRoute = createMockRoute(['search/holy.cow', 'domains/holy.cow'], {'domainName': 'holy.cow'});
 
 describe('DomainInfoContactsComponent', () => {
 
@@ -40,11 +51,42 @@ describe('DomainInfoContactsComponent', () => {
     createContact: jasmine.createSpy('createContact'),
   };
 
+  function setupContactsForDomain() {
+    contactEppService.infoContact.and.returnValues(
+      Promise.resolve({
+        contactId: 'foo',
+        postalInfo: [
+          {
+            name: 'Foo',
+            address: {
+              city: 'fooville',
+              countryCode: 'US',
+            },
+          }
+        ],
+      }),
+      Promise.resolve({
+        contactId: 'bar',
+        postalInfo: [
+          {
+            name: 'Bar',
+            address: {
+              city: 'bartopia',
+              countryCode: 'US',
+            },
+          }
+        ],
+      })
+    );
+  }
+
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [ DomainInfoContactsComponent ],
       providers: [
         { provide: ContactEppService, useValue: contactEppService },
+        { provide: ActivatedRoute, useValue: mockRoute },
+        { provide: Router, useValue: mockRouter },
       ],
     })
     .compileComponents();
@@ -76,32 +118,7 @@ describe('DomainInfoContactsComponent', () => {
   });
 
   it('should load a list of contacts', async(() => {
-    contactEppService.infoContact.and.returnValues(
-      Promise.resolve({
-        contactId: 'foo',
-        postalInfo: [
-          {
-            name: 'Foo',
-            address: {
-              city: 'fooville',
-              countryCode: 'US',
-            },
-          }
-        ],
-      }),
-      Promise.resolve({
-        contactId: 'bar',
-        postalInfo: [
-          {
-            name: 'Bar',
-            address: {
-              city: 'bartopia',
-              countryCode: 'US',
-            },
-          }
-        ],
-      })
-    );
+    setupContactsForDomain();
     fixture.detectChanges();
     fixture.whenStable().then(() => {
       expect(contactEppService.infoContact).toHaveBeenCalledWith('foo');
@@ -111,32 +128,7 @@ describe('DomainInfoContactsComponent', () => {
   }));
 
   it('should show a list of contacts', async(() => {
-    contactEppService.infoContact.and.returnValues(
-      Promise.resolve({
-        contactId: 'foo',
-        postalInfo: [
-          {
-            name: 'Foo',
-            address: {
-              city: 'fooville',
-              countryCode: 'US',
-            },
-          }
-        ],
-      }),
-      Promise.resolve({
-        contactId: 'bar',
-        postalInfo: [
-          {
-            name: 'Bar',
-            address: {
-              city: 'bartopia',
-              countryCode: 'US',
-            },
-          }
-        ],
-      })
-    );
+    setupContactsForDomain();
     fixture.detectChanges();
     fixture.whenStable().then(() => {
       fixture.detectChanges();
@@ -150,5 +142,17 @@ describe('DomainInfoContactsComponent', () => {
   // TODO: test clicking update domain contacts dialog
 
   // TODO: test clicking update contact dialog
+  it('should open a dialog to update a contact', async(() => {
+    setupContactsForDomain();
+    fixture.detectChanges();
+    fixture.whenStable().then(() => {
+      fixture.detectChanges();
+      page.clickContact('foo');
+      fixture.whenStable().then(() => {
+        expect(mockRouter.navigate)
+          .toHaveBeenCalledWith(['contacts', 'foo'], {relativeTo: mockRoute});
+      });
+    });
+  }));
 
 });

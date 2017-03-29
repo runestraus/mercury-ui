@@ -25,6 +25,7 @@ import { UsersComponent } from './users/users.component';
 import { PriceCategoriesComponent } from './price-categories/price-categories.component';
 import { HostCreateComponent } from './hosts/host-create/host-create.component';
 import { DomainInfoComponent } from './domains/domain-info/domain-info.component';
+import { ContactCreateComponent } from './contacts/contact-create/contact-create.component';
 
 export const routes: Routes = [
   { path: '',  component: DashboardComponent },
@@ -45,7 +46,13 @@ export const routes: Routes = [
           {
               path: 'domains/:domainName',
               component: DomainInfoComponent,
-              children: []
+              children: [
+                {
+                  path: 'contacts/:contactId',
+                  component: ContactCreateComponent,
+                  children: [],
+                }
+              ],
           },
       ]
   },
