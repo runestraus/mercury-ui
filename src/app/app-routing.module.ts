@@ -25,6 +25,7 @@ import { UsersComponent } from './users/users.component';
 import { PriceCategoriesComponent } from './price-categories/price-categories.component';
 import { HostCreateComponent } from './hosts/host-create/host-create.component';
 import { DomainInfoComponent } from './domains/domain-info/domain-info.component';
+import { DomainInfoDetailComponent } from './domains/domain-info-detail/domain-info-detail.component';
 import { ContactCreateComponent } from './contacts/contact-create/contact-create.component';
 import { DomainDeleteComponent } from './domains/domain-info/domain-delete/domain-delete.component';
 
@@ -48,6 +49,11 @@ export const routes: Routes = [
               path: 'domains/:domainName',
               component: DomainInfoComponent,
               children: [
+                {
+                  path: 'details',
+                  component: DomainInfoDetailComponent,
+                  children: []
+                },
                 {
                   path: 'contacts/:contactId',
                   component: ContactCreateComponent,

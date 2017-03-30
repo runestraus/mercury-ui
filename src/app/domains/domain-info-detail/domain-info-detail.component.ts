@@ -1,22 +1,22 @@
 import { Component, OnInit } from '@angular/core';
+import { Location } from '@angular/common';
 import { ActivatedRoute, Router } from '@angular/router';
-import { DomainDetail } from '../../model/domain.model';
-import { DomainEppService } from '../../service/domain-epp.service';
+
+import { Domain, DomainDetail } from '../../model/domain.model';
 import { getParentRouteUrl } from '../../shared/routeutils';
+import { DomainEppService } from '../../service/domain-epp.service';
 
 @Component({
-  selector: 'app-domain-info',
-  templateUrl: './domain-info.component.html',
-  styleUrls: ['./domain-info.component.css']
+  selector: 'app-domain-info-detail',
+  templateUrl: './domain-info-detail.component.html',
+  styleUrls: ['./domain-info-detail.component.css']
 })
-export class DomainInfoComponent implements OnInit {
-
+export class DomainInfoDetailComponent implements OnInit {
   domainName: string;
   domainDetail: DomainDetail;
   showDialog = true;
   loading = true;
-  error: string = null;
-  createDomain = false;
+  error: string;
 
   constructor(
     private route: ActivatedRoute,
@@ -24,10 +24,7 @@ export class DomainInfoComponent implements OnInit {
     private domainEppService: DomainEppService) { }
 
   ngOnInit() {
-    this.domainName = this.route.snapshot.params['domainName'];
-    if (!this.domainName) {
-      this.domainName = this.route.parent.snapshot.params['domainName'];
-    }
+    this.domainName = this.route.parent.snapshot.params['domainName'];
     this.getDomain();
   }
 
@@ -35,26 +32,18 @@ export class DomainInfoComponent implements OnInit {
     this.domainEppService.info(this.domainName, null).then(domainDetail => {
       this.loading = false;
       this.domainDetail = domainDetail;
-      this.createDomain = false;
     }).catch(err => {
       this.loading = false;
-      // switch these blocks of code to test out the partial domain info display
-      if (err.code === '2303') {
-        this.createDomain = true;
-      } else if (err.code && err.message) {
+      if (err.code && err.message) {
         this.error = err.message;
       } else {
-        console.error(err);
         this.error = 'There was an error getting domain info';
       }
     });
   }
 
   onCloseClicked() {
+    // Navigate to parent route
     this.router.navigate([getParentRouteUrl(this.route)]);
-  }
-
-  openDetailsDialog(): void {
-    this.router.navigate(['details'], {relativeTo: this.route});
   }
 }

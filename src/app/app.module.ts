@@ -66,6 +66,7 @@ import { DomainInfoSeparatorComponent } from './domains/domain-info/domain-info-
 import { DomainInfoContactsComponent } from './domains/domain-info/domain-info-contacts/domain-info-contacts.component';
 import { DomainInfoHostsComponent } from './domains/domain-info/domain-info-hosts/domain-info-hosts.component';
 import { DisplayListComponent } from './shared/components/display-list/display-list.component';
+import { DomainInfoDetailComponent } from './domains/domain-info-detail/domain-info-detail.component';
 import { DomainCreateComponent } from './domains/domain-create/domain-create.component';
 import { DomainDeleteComponent } from './domains/domain-info/domain-delete/domain-delete.component';
 
@@ -103,6 +104,7 @@ import { DomainDeleteComponent } from './domains/domain-info/domain-delete/domai
     DomainInfoContactsComponent,
     DomainInfoHostsComponent,
     DisplayListComponent,
+    DomainInfoDetailComponent,
     DomainCreateComponent,
     DomainDeleteComponent,
   ],

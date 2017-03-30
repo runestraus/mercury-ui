@@ -180,6 +180,16 @@ describe('DomainInfoComponent', () => {
     });
   }));
 
-  // TODO: test click domain info icon
-
+  it('should navigate to domain info details component', async(() => {
+    resolveDomain(['ok']);
+    fixture.detectChanges();
+    fixture.whenStable().then(() => {
+      fixture.detectChanges();
+      fixture.debugElement.nativeElement.querySelector('#domainInfoIcon').click();
+      fixture.detectChanges();
+      fixture.whenStable().then(() => {
+        expect(mockRouter.navigate).toHaveBeenCalledWith(['details'], {relativeTo: mockRoute});
+      });
+    });
+  }));
 });

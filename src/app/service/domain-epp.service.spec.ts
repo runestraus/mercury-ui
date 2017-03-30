@@ -105,7 +105,7 @@ describe('DomainEppService', () => {
     expect(eppHelper.send).toHaveBeenCalledWith(domainTransfer('donuts.domains', 'WBP-00000', 'abc1234', 'transfer'));
   }));
 
-  it('should submit domain info adn extract correct DomainDetail', fakeAsync(() => {
+  it('should submit domain info and extract correct DomainDetail', fakeAsync(() => {
     eppHelper.send.and.returnValue({
       toPromise: () => {
         return Promise.resolve(infoForDomainDomainResponse);
@@ -134,9 +134,9 @@ describe('DomainEppService', () => {
         expect(result.contacts['tech']).toBe('donuts_300');
         expect(result.contacts['billing']).toBe('donuts_300');
         expect(result.rgpStatus).toBe('');
-        expect(result.domainPrices.renew).toBeDefined();
-        expect(result.domainPrices.renew.currency).toBe('USD');
-        expect(result.domainPrices.renew.fee.renew).toBe('8.00');
+        expect(result.domainPrices.prices['renew']).toBeDefined();
+        expect(result.domainPrices.prices['renew'].currency).toBe('USD');
+        expect(result.domainPrices.prices['renew'].fee['renew']).toBe('8.00');
 
       });
     tick();
@@ -227,12 +227,12 @@ describe('DomainEppService', () => {
       expect(result.fullyQualifiedDomainName).toBe('available.domain');
       expect(result.avail).toBe(true);
       expect(result.reason).toBe('');
-      expect(result.domainPrices.create).toBeDefined();
-      expect(result.domainPrices.renew).toBeDefined();
-      expect(result.domainPrices.transfer).toBeDefined();
-      expect(result.domainPrices.restore).toBeDefined();
-      expect(result.domainPrices.restore.fee.restore).toBe('100.00');
-      expect(result.domainPrices.transfer.fee.renew).toBe('8.00');
+      expect(result.domainPrices['create']).toBeDefined();
+      expect(result.domainPrices['renew']).toBeDefined();
+      expect(result.domainPrices['transfer']).toBeDefined();
+      expect(result.domainPrices['restore']).toBeDefined();
+      expect(result.domainPrices['restore'].fee['restore']).toBe('100.00');
+      expect(result.domainPrices['transfer'].fee['renew']).toBe('8.00');
     });
   }));
 

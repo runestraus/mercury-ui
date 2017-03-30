@@ -47,7 +47,23 @@ export class DomainDetail {
   subordinateHosts: string[];
   contacts: { [key: string]: string };
   rgpStatus: string;
-  domainPrices: any;
+  domainPrices: DomainPrices;
+}
+
+export class DomainAuthInfo {
+  pw: string;
+}
+
+export class DomainPrices {
+  class: string;
+  prices: { [key: string]: DomainPrice };
+}
+
+export class DomainPrice {
+  currency: string;
+  period: string;
+  periodUnit: string;
+  fee: { [key: string]: string };
 }
 
 export class TransferDetail {

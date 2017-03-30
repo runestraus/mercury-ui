@@ -1,0 +1,65 @@
+<p-dialog [(visible)]="showDialog" modal="modal" width="600" responsive="true" [closable]="false" [header]="domainName">
+  <p-header>
+    <button id="buttonCloseX" tooltip="Close" type="button" class="close" (click)="onCloseClicked()" aria-hidden="true">&times;</button>
+  </p-header>
+  <div *ngIf="error" class="alert alert-danger" role="alert" id="domainInfoError">{{error}}</div>
+  <div id="domainInfoLoading" class="text-align-center" *ngIf="loading">
+    <i class="fa fa-circle-o-notch fa-spin fa-5x"></i>
+  </div>
+  <div *ngIf="!loading && domainDetail !== undefined" id="domainInfoDetail">
+    <h4 id="domainInfoRegistrar" class="modalSectionHeader">Domain Details</h4>
+  	<ul class="webconsole-ul">
+      <li><span class="bold">Domain:</span> <span id="domainInfoDetailFullyQualifiedDomainName">{{domainDetail.fullyQualifiedDomainName}}</span></li>
+      <li><span class="bold">Roid:</span> <span id="domainInfoDetailRepoId">{{domainDetail.repoId}}</span></li>
+      <li><span class="bold">Status:</span> 
+        <ul class="webconsole-ul">
+          <li id="domainInfoDetailStatus{{i}}" *ngFor="let status of domainDetail.status; let i = index">{{status}}</li>
+        </ul>
+      </li>
+      <li><span class="bold">Contacts:</span> 
+        <ul class="webconsole-ul">
+          <li *ngIf=domainDetail.contacts?.registrant>Registrant: <span id="domainInfoDetailRegistrantContact">{{domainDetail.contacts.registrant}}</span></li>
+          <li>Admin: <span id="domainInfoDetailAdminContact">{{domainDetail.contacts.admin}}</span></li>
+          <li>Tech: <span id="domainInfoDetailTechContact">{{domainDetail.contacts.tech}}</span></li>
+          <li *ngIf="domainDetail.contacts?.billing">Billing: <span id="domainInfoDetailBillingContact">{{domainDetail.contacts.billing}}</span></li>
+        </ul>
+      </li>
+      <li *ngIf="domainDetail.nameservers.length"><span class="bold">Nameservers:</span> 
+        <ul class="webconsole-ul">
+          <li id="domainInfoDetailNameserver{{i}}" *ngFor="let ns of domainDetail.nameservers; let i = index">{{ns}}</li>
+        </ul>
+      </li>
+      <li *ngIf="domainDetail.subordinateHosts.length"><span class="bold">Subordinate Hosts:</span>
+        <ul class="webconsole-ul">
+          <li id="domainInfoDetailSubordinateHost{{i}}" *ngFor="let sh of domainDetail.subordinateHosts; let i = index">{{sh}}</li>
+        </ul>
+      </li>
+      <li><span class="bold">Registrar Client ID:</span> <span id="domainInfoDetailClientId">{{domainDetail.currentSponsorClientId}}</span></li>
+      <li><span class="bold">Created By:</span> <span id="domainInfoDetailCreatedBy">{{domainDetail.creationClientId}}</span></li>
+      <li><span class="bold">Created Date (UTC):</span> <span id="domainInfoDetailCreatedDate">{{domainDetail.creationTime}}</span></li>
+      <li *ngIf="domainDetail.lastEppUpdateClientId"><span class="bold">Updated By:</span> <span id="domainInfoDetailUpdatedBy">{{domainDetail.lastEppUpdateClientId}}</span></li>
+      <li *ngIf="domainDetail.lastEppUpdateTime"><span class="bold">Updated Date (UTC):</span> <span id="domainInfoDetailUpdatedDate">{{domainDetail.lastEppUpdateTime}}</span></li>
+      <li><span class="bold">Registration Expiration Date (UTC):</span> <span id="domainInfoDetailExpirationDate">{{domainDetail.registrationExpirationTime}}</span></li>
+      <li *ngIf="domainDetail.lastTransferTime"><span class="bold">Last Transfer Date (UTC):</span> <span id="domainInfoDetailTransferTime">{{domainDetail.lastTransferTime}}</span></li>
+      <li *ngIf="domainDetail.authInfo"><span class="bold">Auth Info:</span> <span id="domainInfoDetailAuthInfo">{{domainDetail.authInfo}}</span></li>
+    </ul>
+    <ul *ngIf="domainDetail.domainPrices" class="webconsole-ul">
+      <h4 id="domainInfoRegistrar" class="modalSectionHeader">Pricing Info</h4>
+      <li *ngIf="domainDetail.domainPrices?.class"><span class="bold">Class:</span> <span id="domainInfoDetailPriceClass">{{domainDetail.domainPrices.class}}</span></li>
+      
+      <li *ngIf="domainDetail.domainPrices.prices?.create?.fee.create"><span class="bold">Create Price:</span> <span id="domainInfoDetailPriceCreate">{{domainDetail.domainPrices.prices.create.fee.create | currency:domainDetail.domainPrices.prices.create.currency:true:'1.2-2'}}</span></li> 
+      
+      <li *ngIf="domainDetail.domainPrices.prices?.renew?.fee.renew"><span class="bold">Renew Price:</span> <span id="domainInfoDetailPriceRenew">{{domainDetail.domainPrices.prices.renew.fee.renew | currency:domainDetail.domainPrices.prices.renew.currency:true:'1.2-2'}}</span></li>
+      
+      <li *ngIf="domainDetail.domainPrices.prices?.restore?.fee.restore"><span class="bold">Restore Price:</span> <span id="domainInfoDetailPriceRestore">{{domainDetail.domainPrices.prices.restore.fee.restore | currency:domainDetail.domainPrices.prices.restore.currency:true:'1.2-2'}}</span></li>
+      
+      <li *ngIf="domainDetail.domainPrices.prices?.transfer?.fee.transfer"><span class="bold">Transfer Price:</span> <span id="domainInfoDetailPriceTransfer">{{domainDetail.domainPrices.prices.transfer.fee.transfer | currency:domainDetail.domainPrices.prices.transfer.currency:true:'1.2-2'}}</span></li>
+    
+    </ul>
+  </div>
+  <p-footer>
+    <div class="ui-dialog-buttonpane ui-widget-content ui-helper-clearfix">
+      <button type="button" class="btn btn-default" id="domainInfoDetailClose" (click)="onCloseClicked()">Close</button>
+    </div>
+  </p-footer>
+</p-dialog>

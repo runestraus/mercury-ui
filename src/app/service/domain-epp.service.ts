@@ -6,7 +6,7 @@ import {
   domainUpdate, domainRestore, domainStatusUpdate, domainRenew, domainCheck
 } from '../epp/domainepp.template';
 import { extractText, extractStatuses, extractArray, extractTypes, extractBoolean, extractField } from '../epp/epputil';
-import { DomainInfo, TransferDetail, DomainDetail } from '../model/domain.model';
+import { DomainInfo, TransferDetail, DomainDetail, DomainPrice, DomainPrices } from '../model/domain.model';
 
 /**
  *  Domains epp service
@@ -89,7 +89,7 @@ export class DomainEppService {
           fullyQualifiedDomainName: extractText(cd, 'domain:name'),
           avail: extractBoolean(cd, 'domain:name', '@avail'),
           reason: extractText(cd, 'domain:reason'),
-          domainPrices: hasPrices ? this.getPriceData(result['epp']['response']['extension']['fee:chkData']['fee:cd']) : {}
+          domainPrices: hasPrices ? this.getPriceData(result['epp']['response']['extension']['fee:chkData']['fee:cd']).prices : {}
         };
       });
   }
@@ -133,28 +133,32 @@ export class DomainEppService {
       .then(result => this.eppHelper.getEppMessageAndStatus(result));
   }
 
-  private getPriceData(prices: any[]) {
+  private getPriceData(prices: any[]): DomainPrices {
     if (!Array.isArray(prices)) {
       prices = [prices];
     }
-    return prices.reduce((o, item) => {
-      let commandFees = [];
-      if (item['fee:fee']) {
-        commandFees = item['fee:fee'];
-        if (!Array.isArray(commandFees)) {
-          commandFees = [commandFees];
+
+    return {
+      class: extractText(prices, 'fee:class'),
+      prices: prices.reduce((o: { [key: string]: DomainPrice; }, item) => {
+        let commandFees = [];
+        if (item['fee:fee']) {
+          commandFees = item['fee:fee'];
+          if (!Array.isArray(commandFees)) {
+            commandFees = [commandFees];
+          }
         }
-      }
-      o[extractText(item, 'fee:command')] = {
-        currency: extractText(item, 'fee:currency'),
-        period: extractText(item, 'fee:period'),
-        periodUnit: extractText(item, extractField(item, 'fee:period', '@unit')),
-        fee: commandFees.reduce((fees, fee) => {
-          fees[extractField(fee, '@description')] = extractText(fee);
-          return fees;
-        }, {})
-      };
-      return o;
-    }, {});
+        o[extractText(item, 'fee:command')] = {
+          currency: extractText(item, 'fee:currency'),
+          period: extractText(item, 'fee:period'),
+          periodUnit: extractText(item, extractField(item, 'fee:period', '@unit')),
+          fee: commandFees.reduce((fees: { [key: string]: string; }, fee) => {
+            fees[extractField(fee, '@description')] = extractText(fee);
+            return fees;
+          }, {})
+        };
+        return o;
+      }, {}),
+    } as DomainPrices;
   }
 }
