@@ -52,7 +52,7 @@ export class DomainEppService {
     return this.eppHelper.send(xml).toPromise()
       .then(result => {
         const resultData = result['epp']['response']['resData'];
-        return {
+        const domainDetail: DomainDetail = {
           fullyQualifiedDomainName: extractText(resultData, 'domain:infData', 'domain:name'),
           status: extractStatuses(resultData['domain:infData'], 'domain:status'),
           repoId: extractText(resultData, 'domain:infData', 'domain:roid'),
@@ -70,6 +70,10 @@ export class DomainEppService {
           rgpStatus: extractField(result, 'epp', 'response', 'extension', 'rgp:infData', 'rgp:rgpStatus', '@s'),
           domainPrices: this.getPriceData(result['epp']['response']['extension']['fee:infData'])
         } as DomainDetail;
+        if (resultData['domain:infData']['domain:registrant']) {
+          domainDetail.contacts['registrant'] = extractText(resultData, 'domain:infData', 'domain:registrant');
+        }
+        return domainDetail;
       });
 
   }

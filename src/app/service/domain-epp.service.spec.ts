@@ -133,6 +133,7 @@ describe('DomainEppService', () => {
         expect(result.contacts['admin']).toBe('donuts_300');
         expect(result.contacts['tech']).toBe('donuts_300');
         expect(result.contacts['billing']).toBe('donuts_300');
+        expect(result.contacts['registrant']).toBe('donuts_300');
         expect(result.rgpStatus).toBe('');
         expect(result.domainPrices.prices['renew']).toBeDefined();
         expect(result.domainPrices.prices['renew'].currency).toBe('USD');
