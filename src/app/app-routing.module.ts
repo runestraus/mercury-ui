@@ -63,7 +63,12 @@ export const routes: Routes = [
                   path: 'domaindelete',
                   component: DomainDeleteComponent,
                   children: [],
-                }
+                },
+                {
+                  path: 'hosts/:fullyQualifiedHostName',
+                  component: HostCreateComponent,
+                  children: [],
+                },
               ],
           },
       ]

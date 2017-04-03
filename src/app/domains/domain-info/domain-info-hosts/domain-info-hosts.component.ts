@@ -1,4 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
 
 import { DomainDetail } from '../../../model/domain.model';
 
@@ -11,13 +12,13 @@ export class DomainInfoHostsComponent implements OnInit {
 
   @Input() domain: DomainDetail;
 
-  constructor() { }
+  constructor(private route: ActivatedRoute, private router: Router) { }
 
   ngOnInit() {
   }
 
   onEditHost(nameserver: string): void {
-    alert('Not yet implemented');
+    this.router.navigate(['hosts/' + nameserver], {relativeTo: this.route});
   }
 
   onShowAllNameservers(nameservers: Array<string>): void {

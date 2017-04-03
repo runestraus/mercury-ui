@@ -1,4 +1,4 @@
-<p-dialog [(visible)]="showHostDialog" [responsive]="true" [width]="600" showEffect="fade" [modal]="true" [closable]="false" [(header)]="modalHeader">
+<p-dialog [(visible)]="showHostDialog" [responsive]="true" [width]="600" showEffect="fade" [closable]="false" [(header)]="modalHeader">
   <form [formGroup]="hostForm" (submit)="onSubmit()" novalidate>
     <fieldset>
       <div *ngIf="error" class="alert alert-danger" role="alert">{{error}}</div>
@@ -9,7 +9,7 @@
           <div formArrayName="inetAddresses">
             <div *ngFor="let inetAddress of inetAddresses.controls; let i=index">
               <label>Ip Address:</label>
-              <input placeholder="127.0.0.1" formControlName="{{i}}" class="form-control modal-form-control" required>
+              <input placeholder="127.0.0.1" formControlName="{{i}}" class="form-control modal-form-control">
                 <button (click)="removeInetAddress(i)" class="btn btn-default">
                     <i class="fa fa-times-circle"></i>
                 </button>
@@ -22,7 +22,7 @@
         <p-footer>
           <div class="ui-dialog-buttonpane ui-widget-content ui-helper-clearfix">
             <button type="submit" pButton icon="fa-check" [disabled]="hostForm.invalid" label="Save"></button>
-            <button type="button" pButton icon="fa-check" (click)="cancelDialog()" class="ui-button-secondary" label="Cancel"></button>
+            <button id='host-create-cancel' type="button" pButton icon="fa-check" (click)="cancelDialog()" class="ui-button-secondary" label="Cancel"></button>
           </div>
         </p-footer>
       </div>

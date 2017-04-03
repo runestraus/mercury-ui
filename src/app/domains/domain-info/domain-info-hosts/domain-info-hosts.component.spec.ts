@@ -1,6 +1,7 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { By } from '@angular/platform-browser';
 import { DebugElement } from '@angular/core/index';
+import { Router, ActivatedRoute } from '@angular/router';
+import { Observable, Observer } from 'rxjs/Rx';
 
 import { DomainDetail } from '../../../model/domain.model';
 import { DisplayListComponent } from '../../../shared/components/display-list/display-list.component';
@@ -12,6 +13,12 @@ class Page {
 
   constructor(private fixture: ComponentFixture<DomainInfoHostsComponent>) {
     this.query = new DocQuery(fixture);
+  }
+
+  getElementByCss(selector: string): DebugElement {
+    const el = this.query.getElementByCss(selector);
+    expect(el).toBeTruthy('Element not found: ' + selector);
+    return el;
   }
 
   countHostLinks(): number {
@@ -27,6 +34,10 @@ class Page {
     const el = this.query.getElementByCss('[data-role=more-list-items]');
     return el ? el.nativeElement.textContent : null;
   }
+
+  clickHostLink(num: number): void {
+    this.getElementByCss('#list-item-' + num).nativeElement.click();
+  }
 }
 
 describe('DomainInfoHostsComponent', () => {
@@ -34,9 +45,31 @@ describe('DomainInfoHostsComponent', () => {
   let fixture: ComponentFixture<DomainInfoHostsComponent>;
   let page: Page;
 
+  const mockRouter = {
+    navigate: jasmine.createSpy('navigate')
+  };
+
+  const mockRoute = {
+    snapshot: {
+      params: {
+        'domainName': 'holy.cow',
+      }
+    },
+    parent: {
+      url: Observable.create((observer: Observer<Array<string>>) => {
+        observer.next(['search', 'holy.cow']);
+        observer.complete();
+      })
+    }
+  };
+
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ DomainInfoHostsComponent, DisplayListComponent ]
+      declarations: [ DomainInfoHostsComponent, DisplayListComponent ],
+      providers: [
+        {provide: Router, useValue: mockRouter},
+        {provide: ActivatedRoute, useValue: mockRoute}
+      ],
     })
     .compileComponents();
   }));
@@ -63,6 +96,19 @@ describe('DomainInfoHostsComponent', () => {
   });
 
   // TODO: test edit host link
+  it('should navigate to edit host modal when host link is clicked', () => {
+    component.domain = {
+      nameservers: ['ns1.foo.bar', 'ns2.foo.bar', 'ns3.foo.bar', 'ns4.foo.bar'],
+    } as DomainDetail;
+    fixture.detectChanges();
+    fixture.whenStable().then(() => {
+      fixture.detectChanges();
+      page.clickHostLink(1);
+      expect(mockRouter.navigate).toHaveBeenCalledWith(['hosts/ns2.foo.bar'], {relativeTo: mockRoute});
+    });
+  });
 
   // TODO: test click 'more' link edits host list
+
+  // TODO: click edit hosts button
 });

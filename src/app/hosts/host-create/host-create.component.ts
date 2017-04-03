@@ -18,8 +18,11 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { HostEppService } from '../hostepp.service';
 import { HostCreate } from '../host.model';
 import { HostUpdateInfo, AddrInfo } from '../../epp/hostepp.template';
+import { EppMessageAndStatus } from '../../epp/epphelper.service';
 import { isUndefined } from 'util';
 import { CustomValidator } from '../../validators/customValidator';
+import { HostDetail } from '../host.model';
+import { getParentRouteUrl } from '../../shared/routeutils';
 
 @Component({
   selector: 'app-host-create',
@@ -30,10 +33,9 @@ export class HostCreateComponent implements OnInit {
   showHostDialog = true;
   hostForm: FormGroup;
   error: string;
-  host: any;
+  host: HostDetail;
   isEditForm = false;
   modalHeader = 'Create New Host';
-  remAddrs: Array<string>;
 
   formErrors = {
     'fullyQualifiedHostName': '',
@@ -66,14 +68,39 @@ export class HostCreateComponent implements OnInit {
       this.hostEppService.infoHost(hostName)
         .then(host => {
           this.host = host;
+          // FormArray can't handle an array of length 0 or null arrays
+          let inetAddresses = host.inetAddresses;
+          if (!inetAddresses || inetAddresses.length === 0) {
+            inetAddresses = [''];
+          }
           this.hostForm.setValue({
             fullyQualifiedHostName: host.fullyQualifiedHostName,
-            inetAddresses: host.inetAddresses,
+            inetAddresses: inetAddresses,
           });
         })
       .catch(error => {
+        console.error(error);
       });
     }
+  }
+
+  convertToAddrInfos(addrs: Array<string>): Array<AddrInfo> {
+    return addrs.map((address: string) => {
+      return {value: address};
+    });
+  }
+
+  /** Returns the addrs that are present in addrs1 but missing in addrs2 */
+  getMissingAddrs(addrs1: Array<string>, addrs2: Array<string>): Array<string> {
+    // Use lookup object to avoid n squared comparisons
+    const lookup = addrs2.reduce((result, addr) => { result[addr] = true; return result; }, {});
+    const result: Array<string> = [];
+    for (const addr of addrs1) {
+      if (!lookup[addr]) {
+        result.push(addr);
+      }
+    }
+    return result;
   }
 
   /**
@@ -81,47 +108,26 @@ export class HostCreateComponent implements OnInit {
    */
   onSubmit() {
     const hostCreated = this.prepareSaveContact();
+    let result: Promise<EppMessageAndStatus> = null;
     if (this.isEditForm) {
-      const hostAddAddr: AddrInfo[] = hostCreated.inetAddresses.map(ipAddress => {
-        return {
-          value: ipAddress
-        } as AddrInfo;
-      });
-      let hostRemoveAddr: AddrInfo[];
-      if (!isUndefined(this.remAddrs)) {
-        hostRemoveAddr = this.remAddrs.map(address => {
-          return {
-            value: address
-          } as AddrInfo;
-        });
-      }
-      const hostUpdateInfo: HostUpdateInfo = {
-        addAddrs: hostAddAddr,
-        remAddrs: hostRemoveAddr
-      };
+      const hostAddrs = hostCreated.inetAddresses.filter(
+          ipAddress => ipAddress.length > 0);
+      const hostAddAddrs = this.getMissingAddrs(hostAddrs, this.host.inetAddresses);
+      const hostRemAddrs = this.getMissingAddrs(this.host.inetAddresses, hostAddrs);
 
-      this.hostEppService.updateHost(hostCreated.fullyQualifiedHostName, hostUpdateInfo)
-        .then(host => {
-          this.host = host;
-          this.showHostDialog = false;
-          this.hostForm.reset();
-        }).catch(error => {
-        this.error = error.message;
-      });
-      this.remAddrs = null;
-      if (isUndefined(this.error)) {
-        this.router.navigate(['/search/' + hostCreated.fullyQualifiedHostName]);
-      }
+      const hostUpdateInfo: HostUpdateInfo = {
+        addAddrs: this.convertToAddrInfos(hostAddAddrs),
+        remAddrs: this.convertToAddrInfos(hostRemAddrs),
+      };
+      result = this.hostEppService.updateHost(hostCreated.fullyQualifiedHostName, hostUpdateInfo);
     } else {
-      this.hostEppService.createHost(hostCreated.fullyQualifiedHostName, hostCreated.inetAddresses)
-        .then(host => {
-          this.host = host;
-          this.showHostDialog = false;
-          this.hostForm.reset();
-        }).catch(error => {
-        this.error = error.message;
-      });
+      result = this.hostEppService.createHost(hostCreated.fullyQualifiedHostName, hostCreated.inetAddresses);
     }
+    result.then(() => {
+      this.router.navigate([getParentRouteUrl(this.route)]);
+    }).catch(error => {
+      this.error = error.message;
+    });
   }
 
   createForm() {
@@ -149,13 +155,11 @@ export class HostCreateComponent implements OnInit {
 
   removeInetAddress(i) {
     const control = <FormArray>this.hostForm.controls['inetAddresses'];
-    if (control.at(i).value !== '') {
-      if (this.remAddrs === undefined) {
-        this.remAddrs = new Array(1);
-      }
-      this.remAddrs.push(control.at(i).value);
+    if (control.length > 1) {
+      control.removeAt(i);
+    } else {
+      control.at(i).setValue('');
     }
-    control.removeAt(i);
   }
 
   /**
@@ -172,10 +176,7 @@ export class HostCreateComponent implements OnInit {
   }
 
   cancelDialog() {
-    const hostName = this.host ? this.host.fullyQualifiedHostName : null;
-    this.showHostDialog = false;
-    this.error = null;
-    this.router.navigate(['/search/' + hostName]);
+    this.router.navigate([getParentRouteUrl(this.route)]);
   }
 
   /**

@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { Location } from '@angular/common';
 import { ActivatedRoute, Router } from '@angular/router';
 
 import { Domain, DomainDetail } from '../../model/domain.model';

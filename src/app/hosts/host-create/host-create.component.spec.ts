@@ -1,11 +1,32 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { HostCreateComponent } from './host-create.component';
+import { DebugElement } from '@angular/core/index';
 import { ReactiveFormsModule, FormBuilder } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { HostEppService } from '../hostepp.service';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { HostUpdateInfo, AddrInfo } from '../../epp/hostepp.template';
+import { HostDetail } from '../host.model';
 import { INVALID } from '@angular/forms/src/model';
+import { DocQuery, createMockRoute } from '../../shared/testutils';
+
+class Page {
+  query: DocQuery<HostCreateComponent>;
+
+  constructor(private fixture: ComponentFixture<HostCreateComponent>) {
+    this.query = new DocQuery(fixture);
+  }
+
+  getElementByCss(selector: string): DebugElement {
+    const el = this.query.getElementByCss(selector);
+    expect(el).toBeTruthy('Element not found: ' + selector);
+    return el;
+  }
+
+  clickCancel() {
+    this.getElementByCss('#host-create-cancel').nativeElement.click();
+  }
+}
 
 describe('HostCreateComponent', () => {
   let component: HostCreateComponent;
@@ -17,28 +38,27 @@ describe('HostCreateComponent', () => {
     updateHost: jasmine.createSpy('eppService.updateHost'),
   };
 
-  const mockRouter = {
-    snapshot: {
-      params: {}
-    }
-  };
+  let mockRouter;
 
-  const mockRoute = {
-    navigate : jasmine.createSpy('navigate')
-  };
+  let mockRoute;
 
   let eppService;
   let router;
   let route;
 
   beforeEach(async(() => {
+    mockRoute = createMockRoute(['search/host.example.dev', 'hosts/host.example.dev']);
+
+    mockRouter = {
+      navigate : jasmine.createSpy('navigate')
+    };
     TestBed.configureTestingModule({
       imports: [ReactiveFormsModule],
       declarations: [HostCreateComponent],
       providers: [
         { provide: HostEppService, useValue: mockEppService },
-        { provide: ActivatedRoute, useValue: mockRouter },
-        { provide: Router, useValue: mockRoute },
+        { provide: ActivatedRoute, useValue: mockRoute },
+        { provide: Router, useValue: mockRouter },
         FormBuilder
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA]
@@ -47,23 +67,26 @@ describe('HostCreateComponent', () => {
   }));
 
   describe('Update', () => {
-    const host = {
-      fullyQualifiedHostName: 'host.example.dev',
-      repoId: 'brodaddy',
-      status: '',
-      inetAddresses: ['127.0.0.1'],
-      currentSponsorClientId: 'brodaddy',
-      creationClientId: 'brodaddy',
-      creationTime: '',
-      lastEppUpdateClientId: 'brodaddy',
-      lastEppUpdateTime: '',
-      lastTransferTime: '',
-    };
+    let host: HostDetail;
+    let page: Page;
+
     beforeEach(() => {
+      host = {
+        fullyQualifiedHostName: 'host.example.dev',
+        repoId: 'brodaddy',
+        status: [''],
+        inetAddresses: ['127.0.0.1'],
+        currentSponsorClientId: 'brodaddy',
+        creationClientId: 'brodaddy',
+        creationTime: '',
+        lastEppUpdateClientId: 'brodaddy',
+        lastEppUpdateTime: '',
+        lastTransferTime: '',
+      };
       eppService = TestBed.get(HostEppService);
-      router = TestBed.get(ActivatedRoute);
-      route = TestBed.get(Router);
-      router.snapshot.params['fullyQualifiedHostName'] = 'host.example.dev';
+      router = TestBed.get(Router);
+      route = TestBed.get(ActivatedRoute);
+      route.snapshot.params['fullyQualifiedHostName'] = 'host.example.dev';
     });
 
     it('should create', () => {
@@ -105,6 +128,23 @@ describe('HostCreateComponent', () => {
       });
     }));
 
+    it('should update the form with info from a host with no addresses', async(() => {
+      host.inetAddresses = [];
+      eppService.infoHost.and.returnValue(Promise.resolve(host));
+      fixture = TestBed.createComponent(HostCreateComponent);
+      component = fixture.componentInstance;
+      fixture.detectChanges();
+      fixture.whenStable().then(() => {
+        component.hostForm.get('fullyQualifiedHostName').enable();
+        const formData = component.hostForm.value;
+        expect(eppService.infoHost).toHaveBeenCalledWith('host.example.dev');
+        expect(component.modalHeader).toBe('Edit Host');
+        expect(component.isEditForm).toBeTruthy();
+        expect(formData.fullyQualifiedHostName).toBe(host.fullyQualifiedHostName);
+        expect(formData.inetAddresses).toEqual(['']);
+      });
+    }));
+
     it('should submit an updated host', async(() => {
       eppService.infoHost.and.returnValue(Promise.resolve(host));
       eppService.updateHost.and.returnValue(Promise.resolve(host));
@@ -132,8 +172,29 @@ describe('HostCreateComponent', () => {
           } as AddrInfo;
         });
         const hostUpdateInfo: HostUpdateInfo = {
-          addAddrs: hostAddAddr,
-          remAddrs: undefined
+          addAddrs: [],
+          remAddrs: []
+        };
+        expect(component.isEditForm).toBeTruthy();
+        expect(eppService.updateHost).toHaveBeenCalledWith('host.example.dev', hostUpdateInfo);
+      });
+    }));
+
+    it('should submit an updated host with no ip addresses', async(() => {
+      eppService.infoHost.and.returnValue(Promise.resolve(host));
+      eppService.updateHost.and.returnValue(Promise.resolve(host));
+      fixture = TestBed.createComponent(HostCreateComponent);
+      component = fixture.componentInstance;
+      fixture.detectChanges();
+      fixture.whenStable().then(() => {
+        component.removeInetAddress(0);
+        component.onSubmit();
+        const hostRemAddr: AddrInfo[] = [{
+          value: '127.0.0.1'
+        } as AddrInfo];
+        const hostUpdateInfo: HostUpdateInfo = {
+          addAddrs: [],
+          remAddrs: hostRemAddr,
         };
         expect(component.isEditForm).toBeTruthy();
         expect(eppService.updateHost).toHaveBeenCalledWith('host.example.dev', hostUpdateInfo);
@@ -159,6 +220,22 @@ describe('HostCreateComponent', () => {
         component.removeInetAddress(2);
         component.removeInetAddress(1);
         expect(component.inetAddresses.length).toBe(1);
+      });
+    }));
+
+    it('should navigate back to parent component on cancel click', async(() => {
+      eppService.infoHost.and.returnValue(Promise.resolve(host));
+      eppService.updateHost.and.returnValue(Promise.resolve(host));
+      fixture = TestBed.createComponent(HostCreateComponent);
+      page = new Page(fixture);
+      component = fixture.componentInstance;
+      fixture.detectChanges();
+      fixture.whenStable().then(() => {
+        fixture.detectChanges();
+        page.clickCancel();
+        fixture.whenStable().then(() => {
+          expect(router.navigate).toHaveBeenCalledWith(['/search/host.example.dev']);
+        });
       });
     }));
   });
