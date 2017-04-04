@@ -119,7 +119,9 @@ export class GoogleOauthService {
   }
 
   signOut(): Promise<any> {
-    this.autoSignInTimer.unsubscribe();
+    if (this.autoSignInTimer) {
+      this.autoSignInTimer.unsubscribe();
+    }
     return Observable.fromPromise(this._googleAuth.signOut()).toPromise();
   }
 

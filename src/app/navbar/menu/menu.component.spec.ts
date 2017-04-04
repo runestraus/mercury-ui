@@ -1,10 +1,11 @@
 /* tslint:disable:no-unused-variable */
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
-import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
+import { CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA } from '@angular/core';
 import { MenuComponent } from './menu.component';
 import 'rxjs/add/operator/toPromise';
 import { User } from '../../model/user.model';
+import { CanDirective } from '../../shared/directives/can.directive';
 
 describe('MenuComponent', () => {
   let component: MenuComponent;
@@ -12,8 +13,8 @@ describe('MenuComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ MenuComponent ],
-      schemas: [ CUSTOM_ELEMENTS_SCHEMA ],
+      declarations: [ MenuComponent, CanDirective ],
+      schemas: [ NO_ERRORS_SCHEMA ],
       providers: [ ]
     })
     .compileComponents();
@@ -44,17 +45,5 @@ describe('MenuComponent', () => {
     expect(component.isActive).toBeFalsy();
     fixture.debugElement.query(By.css('span')).nativeElement.click();
     expect(component.isActive).toBeTruthy();
-  });
-
-  it('show nav item', () => {
-    fixture.whenStable().then(() => {
-      expect(component.showNavItem('CRU_REGISTRY_ADMIN')).toBeTruthy();
-    });
-  });
-
-  it('show nav item', () => {
-    fixture.whenStable().then(() => {
-      expect(component.showNavItem('should return false')).toBeFalsy();
-    });
   });
 });

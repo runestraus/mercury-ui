@@ -62,11 +62,15 @@ export class DomainCreateComponent implements OnInit {
               private domainService: DomainEppService,
               private sessionService: SessionService,
               private contactService: ContactEppService) {
-    this._user = sessionService.tryGetCurrentUser().user;
   }
 
   ngOnInit() {
-    this.createForm();
+    this.sessionService.getCurrentUser()
+      .then(user => {
+        this._user = user.user;
+        this.createForm();
+      });
+
   }
 
   onSubmit() {

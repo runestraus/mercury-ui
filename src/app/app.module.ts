@@ -68,6 +68,8 @@ import { DomainInfoHostsComponent } from './domains/domain-info/domain-info-host
 import { DisplayListComponent } from './shared/components/display-list/display-list.component';
 import { DomainInfoDetailComponent } from './domains/domain-info-detail/domain-info-detail.component';
 import { DomainCreateComponent } from './domains/domain-create/domain-create.component';
+import { CanDirective } from './shared/directives/can.directive';
+import { CanNotDirective } from './shared/directives/can-not.directive';
 import { DomainDeleteComponent } from './domains/domain-info/domain-delete/domain-delete.component';
 
 @NgModule({
@@ -106,7 +108,9 @@ import { DomainDeleteComponent } from './domains/domain-info/domain-delete/domai
     DisplayListComponent,
     DomainInfoDetailComponent,
     DomainCreateComponent,
-    DomainDeleteComponent,
+    CanDirective,
+    CanNotDirective,
+    DomainDeleteComponent
   ],
   imports: [
     DropdownModule,

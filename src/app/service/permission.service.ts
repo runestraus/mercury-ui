@@ -11,17 +11,20 @@
 // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 // See the License for the specific language governing permissions and
 // limitations under the License.
-
 import { Injectable } from '@angular/core';
-import { MeService } from './me.service';
 import 'rxjs/add/operator/toPromise';
+import { SessionService } from './session.service';
 
 @Injectable()
 export class PermissionService {
 
-  constructor(private meService: MeService) {}
+  constructor(private sessionService: SessionService) {
+  }
 
-  getPermissions(): Promise<String[]> {
-    return this.meService.get().then(user => user.permissions);
+  can(permission: string): Promise<boolean> {
+    return this.sessionService.getCurrentUser()
+      .then(userData => {
+        return userData.user.permissions.some(perm => perm === permission);
+      });
   }
 }

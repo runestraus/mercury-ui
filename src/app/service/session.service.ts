@@ -43,12 +43,32 @@ export class SessionService {
     });
   }
 
+  /**
+   * Try to get the current user from the session or null
+   *
+   * @returns {any}
+   */
   tryGetCurrentUser(): UserData {
     const localUser = localStorage.getItem(SessionService.CURRENT_USER);
     if (localUser) {
       return JSON.parse(localUser);
     }
     return null;
+  }
+
+  getCurrentUser(): Promise<UserData> {
+    return new Promise((resolve, reject) => {
+      const currentUser = this.tryGetCurrentUser();
+      if (currentUser !== null) {
+        resolve(currentUser);
+      } else {
+        this._signInObserver.subscribe(userData => {
+          resolve(userData);
+        }, err => {
+          reject(err);
+        });
+      }
+    });
   }
 
   getAccessToken(): string {

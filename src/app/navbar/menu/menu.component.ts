@@ -28,10 +28,6 @@ export class MenuComponent {
   @Input() user: User;
   constructor() {}
 
-  showNavItem(permission): boolean {
-    return this.user.permissions.some(perm => perm === permission);
-  }
-
   toggle() {
     this.isActive = !this.isActive;
   }

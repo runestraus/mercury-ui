@@ -12,38 +12,47 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-import { TestBed, async, inject } from '@angular/core/testing';
+import { TestBed, async, inject, fakeAsync, tick } from '@angular/core/testing';
 import { PermissionService } from './permission.service';
 import { MeService } from './me.service';
 import { User } from '../model/user.model';
 import 'rxjs/add/operator/toPromise';
+import { SessionService } from './session.service';
 
 describe('PermissionService', () => {
   let service: PermissionService;
   let mockUser: User;
 
-  const mockMeService = {
-    get: jasmine.createSpy('get')
+  const mockSessionService = {
+    getCurrentUser: jasmine.createSpy('get')
   };
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      providers: [PermissionService, { provide: MeService, useValue: mockMeService}]
+      providers: [PermissionService, { provide: SessionService, useValue: mockSessionService}]
     });
   });
 
   beforeEach(inject([PermissionService], (_service) => {
     mockUser = new User();
     mockUser.permissions = ['EPP', 'SERVER_SIDE_STATUS'];
-    mockMeService.get.and.returnValue(Promise.resolve(mockUser));
+    mockSessionService.getCurrentUser.and.returnValue(Promise.resolve({user: mockUser, profile: {}}));
     service = _service;
   }));
 
-  it('getPermissions() should return some permissions', async(() => {
-    service.getPermissions().then(perms => {
-      expect(perms.length).toEqual(2, 'should contain given amount of permissions');
-      expect(perms[0]).toEqual('EPP', ' EPP should be the first permission');
-      expect(perms[1]).toEqual('SERVER_SIDE_STATUS', ' SERVER_SIDE_STATUS should be the second permission');
-    });
+  it('should return true if user has permission', fakeAsync(() => {
+    service.can('EPP')
+      .then((res) => {
+        expect(res).toBeTruthy();
+      });
+    tick();
+  }));
+
+  it('should return false if user does not have permission', fakeAsync(() => {
+    service.can('CREATE_SOMETHING')
+      .then((res) => {
+        expect(res).toBeFalsy();
+      });
+    tick();
   }));
 });
