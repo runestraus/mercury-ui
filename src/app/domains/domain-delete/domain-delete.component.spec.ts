@@ -1,10 +1,10 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { DomainDeleteComponent } from './domain-delete.component';
-import { DocQuery } from '../../../shared/testutils';
+import { DocQuery } from '../../shared/testutils';
 import { Observable } from 'rxjs/Observable';
 import { Observer } from 'rxjs/Observer';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
-import { DomainEppService } from '../../../service/domain-epp.service';
+import { DomainEppService } from '../../service/domain-epp.service';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { By } from '@angular/platform-browser';
 

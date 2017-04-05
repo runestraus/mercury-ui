@@ -152,7 +152,7 @@ describe('DomainInfoComponent', () => {
       page.clickCloseButton();
       fixture.detectChanges();
       fixture.whenStable().then(() => {
-        expect(mockRouter.navigate).toHaveBeenCalledWith(['/search/holy.cow']);
+        expect(mockRouter.navigate).toHaveBeenCalledWith(['../..'], {relativeTo: mockRoute});
       });
     });
   }));
@@ -165,7 +165,7 @@ describe('DomainInfoComponent', () => {
       page.clickHeaderX();
       fixture.detectChanges();
       fixture.whenStable().then(() => {
-        expect(mockRouter.navigate).toHaveBeenCalledWith(['/search/holy.cow']);
+        expect(mockRouter.navigate).toHaveBeenCalledWith(['../..'], {relativeTo: mockRoute});
       });
     });
   }));

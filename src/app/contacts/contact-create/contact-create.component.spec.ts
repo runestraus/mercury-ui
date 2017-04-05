@@ -238,7 +238,7 @@ describe('ContactCreateComponent', () => {
     fixture.whenStable().then(() => {
       page.clickHeaderX();
       fixture.whenStable().then(() => {
-        expect(mockRouter.navigate).toHaveBeenCalledWith(['/search/holy.cow/domains/holy.cow']);
+        expect(mockRouter.navigate).toHaveBeenCalledWith(['../..'], {relativeTo: router});
       });
     });
   }));
@@ -250,7 +250,7 @@ describe('ContactCreateComponent', () => {
     fixture.whenStable().then(() => {
       page.clickCancel();
       fixture.whenStable().then(() => {
-        expect(mockRouter.navigate).toHaveBeenCalledWith(['/search/holy.cow/domains/holy.cow']);
+        expect(mockRouter.navigate).toHaveBeenCalledWith(['../..'], {relativeTo: router});
       });
     });
   }));

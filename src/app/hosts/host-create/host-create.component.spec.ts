@@ -232,7 +232,7 @@ describe('HostCreateComponent', () => {
         fixture.detectChanges();
         page.clickCancel();
         fixture.whenStable().then(() => {
-          expect(router.navigate).toHaveBeenCalledWith(['/search/host.example.dev']);
+          expect(router.navigate).toHaveBeenCalledWith(['../..'], {relativeTo: route});
         });
       });
     }));

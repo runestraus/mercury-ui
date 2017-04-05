@@ -1,4 +1,4 @@
-<p-dialog [(visible)]="showHostDialog" [responsive]="true" [width]="600" showEffect="fade" [closable]="false" [(header)]="modalHeader">
+<p-dialog [(visible)]="showHostDialog" modal="modal" [responsive]="true" [width]="600" showEffect="fade" [closable]="false" [(header)]="modalHeader">
   <form [formGroup]="hostForm" (submit)="onSubmit()" novalidate>
     <fieldset>
       <div *ngIf="error" class="alert alert-danger" role="alert">{{error}}</div>

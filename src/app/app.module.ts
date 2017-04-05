@@ -70,8 +70,8 @@ import { DomainInfoDetailComponent } from './domains/domain-info-detail/domain-i
 import { DomainCreateComponent } from './domains/domain-create/domain-create.component';
 import { CanDirective } from './shared/directives/can.directive';
 import { CanNotDirective } from './shared/directives/can-not.directive';
-import { DomainDeleteComponent } from './domains/domain-info/domain-delete/domain-delete.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { DomainDeleteComponent } from './domains/domain-delete/domain-delete.component';
 
 @NgModule({
   declarations: [

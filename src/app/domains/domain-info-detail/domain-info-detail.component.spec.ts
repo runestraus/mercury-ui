@@ -284,16 +284,17 @@ describe('DomainInfoDetailComponent', () => {
       observer.next(['details']);
       observer.complete();
     }),
+    snapshot: {
+      params: {
+        'domainName': 'holy.cow',
+      }
+    },
     parent: {
       url: Observable.create((observer: Observer<Array<string>>) => {
         observer.next(['domains', 'holy.cow']);
         observer.complete();
       }),
-      snapshot: {
-        params: {
-          'domainName': 'holy.cow',
-        }
-      },
+
       parent: {
         url: Observable.create((observer: Observer<Array<string>>) => {
           observer.next(['search', 'holy.cow']);
@@ -374,7 +375,7 @@ describe('DomainInfoDetailComponent', () => {
       fixture.detectChanges();
       page.clickClose();
       fixture.detectChanges();
-      fixture.whenStable().then(() => { expect(mockRouter.navigate).toHaveBeenCalledWith(['/search/holy.cow/domains/holy.cow']); });
+      fixture.whenStable().then(() => { expect(mockRouter.navigate).toHaveBeenCalledWith(['..'], {relativeTo: mockRoute}); });
     });
   }));
 
@@ -385,7 +386,7 @@ describe('DomainInfoDetailComponent', () => {
       fixture.detectChanges();
       page.clickHeaderX();
       fixture.detectChanges();
-      fixture.whenStable().then(() => { expect(mockRouter.navigate).toHaveBeenCalledWith(['/search/holy.cow/domains/holy.cow']); });
+      fixture.whenStable().then(() => { expect(mockRouter.navigate).toHaveBeenCalledWith(['..'], {relativeTo: mockRoute}); });
     });
   }));
 

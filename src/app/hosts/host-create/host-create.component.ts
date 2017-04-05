@@ -176,7 +176,7 @@ export class HostCreateComponent implements OnInit {
   }
 
   cancelDialog() {
-    this.router.navigate([getParentRouteUrl(this.route)]);
+    this.router.navigate(['../..'], {relativeTo: this.route});
   }
 
   /**

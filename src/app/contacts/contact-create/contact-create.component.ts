@@ -104,7 +104,7 @@ export class ContactCreateComponent implements OnInit {
       this.contactEppService.updateContact(contactCreated) :
       this.contactEppService.createContact(contactCreated);
     response.then(contact => {
-      this.router.navigate([getParentRouteUrl(this.route)]);
+      this.closeDialog();
     }).catch(error => {
       this.error = error.message;
     });
@@ -191,7 +191,11 @@ export class ContactCreateComponent implements OnInit {
     this.contactForm.get('id').enable();
   }
 
+  closeDialog() {
+    this.router.navigate(['../..'], {relativeTo: this.route});
+  }
+
   onCloseClicked() {
-    this.router.navigate([getParentRouteUrl(this.route)]);
+    this.closeDialog();
   }
 }

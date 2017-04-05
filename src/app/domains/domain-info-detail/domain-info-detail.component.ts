@@ -23,7 +23,7 @@ export class DomainInfoDetailComponent implements OnInit {
     private domainEppService: DomainEppService) { }
 
   ngOnInit() {
-    this.domainName = this.route.parent.snapshot.params['domainName'];
+    this.domainName = this.route.snapshot.params['domainName'];
     this.getDomain();
   }
 
@@ -43,6 +43,6 @@ export class DomainInfoDetailComponent implements OnInit {
 
   onCloseClicked() {
     // Navigate to parent route
-    this.router.navigate([getParentRouteUrl(this.route)]);
+    this.router.navigate(['..'], {relativeTo: this.route});
   }
 }

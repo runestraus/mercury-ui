@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
-import {DomainEppService} from '../../../service/domain-epp.service';
+import {DomainEppService} from '../../service/domain-epp.service';
 
 @Component({
   selector: 'app-domain-delete',
@@ -25,8 +25,7 @@ export class DomainDeleteComponent implements OnInit {
   }
 
   goBack() {
-    const url: string = this.router.url.toString();
-    this.router.navigate([url.slice(0, url.lastIndexOf('/'))]);
+    this.router.navigate(['..'], {relativeTo: this.route});
   }
 
   onSubmit() {
