@@ -1,8 +1,8 @@
 import { ActivatedRoute, UrlSegment } from '@angular/router';
 import { ComponentFixture } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
-import { DebugElement } from '@angular/core/index';
 import { Observable } from 'rxjs/Rx';
+import { DebugElement } from '@angular/core';
 
 /** Provides convenience methods for querying a ComponentFixture */
 export class DocQuery<T> {

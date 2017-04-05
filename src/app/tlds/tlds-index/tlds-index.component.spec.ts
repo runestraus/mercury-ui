@@ -8,6 +8,7 @@ import { TldsIndexComponent } from './tlds-index.component';
 import { DialogModule } from 'primeng/components/dialog/dialog';
 import { DataTableModule } from 'primeng/components/datatable/datatable';
 import { HttpModule } from '@angular/http';
+import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 
 describe('TldsIndexComponent', () => {
   let component: TldsIndexComponent;
@@ -24,7 +25,7 @@ describe('TldsIndexComponent', () => {
     TestBed.configureTestingModule({
       declarations: [TldsIndexComponent],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
-      imports: [FormsModule, DialogModule, DataTableModule, HttpModule],
+      imports: [FormsModule, DialogModule, DataTableModule, HttpModule, NoopAnimationsModule],
       providers: [
         { provide: TldService, useValue: mockTldService }]
     })

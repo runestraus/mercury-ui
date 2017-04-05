@@ -7,6 +7,7 @@ import { IcannService } from '../../service/icann.service';
 import { HttpClient } from '../../shared/http.client';
 import { HttpModule } from '@angular/http';
 import { CalendarModule } from 'primeng/primeng';
+import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 
 describe('IcannDnsComponent', () => {
   let component: IcannDnsComponent;
@@ -17,7 +18,7 @@ describe('IcannDnsComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [ IcannDnsComponent ],
-      imports:      [ FormsModule, HttpModule, CalendarModule ],
+      imports:      [ FormsModule, HttpModule, CalendarModule, NoopAnimationsModule ],
       providers: [
         IcannService, HttpClient
       ],

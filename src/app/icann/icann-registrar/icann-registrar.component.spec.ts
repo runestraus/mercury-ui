@@ -8,6 +8,7 @@ import { IcannService } from '../../service/icann.service';
 import { HttpClient } from '../../shared/http.client';
 import { MeService } from '../../service/me.service';
 import { By } from '@angular/platform-browser';
+import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 
 describe('IcannRegistrarComponent', () => {
   let component: IcannRegistrarComponent;
@@ -32,7 +33,7 @@ describe('IcannRegistrarComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [ IcannRegistrarComponent ],
-      imports:      [ FormsModule, HttpModule, CalendarModule ],
+      imports:      [ FormsModule, HttpModule, CalendarModule, NoopAnimationsModule ],
       providers: [
         IcannService, HttpClient,
         { provide: MeService, useValue: mockMeService }

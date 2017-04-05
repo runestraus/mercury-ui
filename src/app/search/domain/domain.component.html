@@ -6,17 +6,17 @@
     </div>
   </p-header>
   <p-column id="domainName" field="domainName" header="Domain" [sortable]="true">
-    <template let-col let-domain="rowData" pTemplate="body">
+    <ng-template let-col let-domain="rowData" pTemplate="body">
       <a routerLink="domains/{{domain[col.field]}}">{{domain[col.field]}}</a>
-    </template>
+    </ng-template>
   </p-column>
   <p-column id="tld" field="tld" header="TLD" [sortable]="true"></p-column>
   <p-column id="status" field="status" header="Status" [sortable]="true"></p-column>
   <p-column id="systemTags" field="systemTags" header="System Tags" [sortable]="true"></p-column>
   <p-column id="price" field="price" header="Price" [sortable]="true">
-    <template let-col let-domain="rowData" pTemplate="body">
+    <ng-template let-col let-domain="rowData" pTemplate="body">
       <span class="text-right right">{{domain[col.field].value  | currency:'USD':true:'1.2-2'}}</span>
-    </template>
+    </ng-template>
   </p-column>
   <p-column id="category" field="priceCategory" header="Category" [sortable]="true"></p-column>
   <p-column id="ianaNumber" field="ianaNumber" header="Iana ID" [sortable]="true"></p-column>

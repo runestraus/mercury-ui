@@ -4,7 +4,6 @@ import { ContactEppService } from '../contactepp.service';
 import { MeService } from '../../service/me.service';
 import { FormBuilder, ReactiveFormsModule } from '@angular/forms';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
-import { INVALID } from '@angular/forms/src/model';
 import { ActivatedRoute, Router } from '@angular/router';
 
 import { DocQuery, createMockRoute } from '../../shared/testutils';
@@ -180,7 +179,7 @@ describe('ContactCreateComponent', () => {
       component.contactForm.patchValue({ name: 'ted', email: 'fakeemail' });
       component.contactForm.get('email').markAsDirty();
       component.onValueChanged();
-      expect(component.contactForm.status).toBe(INVALID);
+      expect(component.contactForm.status).toBe('INVALID');
       expect(component.formErrors.email).toContain('Valid email address is required.');
     }));
 
@@ -193,7 +192,7 @@ describe('ContactCreateComponent', () => {
       component.contactForm.get('city').markAsDirty();
       component.contactForm.get('countryCode').markAsDirty();
       component.onValueChanged();
-      expect(component.contactForm.status).toBe(INVALID);
+      expect(component.contactForm.status).toBe('INVALID');
       expect(component.formErrors.id).toBe('Contact id is required. ');
       expect(component.formErrors.name).toBe('Name is required. ');
       expect(component.formErrors.email).toBe('Email address is required. Valid email address is required. ');

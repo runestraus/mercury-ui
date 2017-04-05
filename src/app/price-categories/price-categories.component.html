@@ -8,9 +8,9 @@
    </p-header>
    <p-column id="name" field="name" header="Price Category Name" [sortable]="true"></p-column>
    <p-column id="price" field="price" header="Price" [sortable]="true">
-     <template let-col let-pricecategory="rowData" pTemplate="body">
+     <ng-template let-col let-pricecategory="rowData" pTemplate="body">
        <span class="right">{{pricecategory[col.field].value | currency:'USD':true:'1.2-2'}}</span>
-     </template>
+     </ng-template>
    </p-column>
    <p-column id="activationDate" field="activationDate" header="In Use Date" [sortable]="true"></p-column>
  </p-dataTable>

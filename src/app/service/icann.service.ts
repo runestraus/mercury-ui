@@ -30,7 +30,7 @@ export class IcannService {
    */
   getAllTlds(): Promise<Tld[]> {
     return this.http.get('/api/tlds').toPromise()
-      .then(res => res.json() as Tld)
+      .then(res => res.json() as Tld[])
       .catch(this.http.handleError);
   }
 

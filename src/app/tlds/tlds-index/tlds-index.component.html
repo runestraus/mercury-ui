@@ -10,24 +10,24 @@
    <p-column id="state" field="state" header="State" [sortable]="true"></p-column>
    <p-column id="delegationDate" field="delegationDate" header="Delegation Date" [sortable]="true"></p-column>
    <p-column id="createBillingCost" field="createBillingCost" header="Create" [sortable]="true">
-     <template let-col let-tld="rowData" pTemplate="body">
+     <ng-template let-col let-tld="rowData" pTemplate="body">
        <span class="right">{{tld[col.field].value | currency:'USD':true:'1.2-2'}}</span>
-     </template>
+     </ng-template>
    </p-column>
    <p-column id="restoreBillingCost" field="restoreBillingCost" header="Restore" [sortable]="true">
-     <template let-col let-tld="rowData" pTemplate="body">
+     <ng-template let-col let-tld="rowData" pTemplate="body">
        <span class="right">{{tld[col.field].value | currency:'USD':true:'1.2-2'}}</span>
-     </template>
+     </ng-template>
    </p-column>
    <p-column styleClass="col-button">
-        <template pTemplate="header">
+        <ng-template pTemplate="header">
             Action
-        </template>
-        <template let-tld="rowData" pTemplate="body">
+        </ng-template>
+        <ng-template let-tld="rowData" pTemplate="body">
           <span tooltip="View Phases">
           <button type="button" tooltip="View Phases" (click)="showTransitions(tld)" pButton icon="fa-list"></button>
           </span>
-        </template>
+        </ng-template>
   </p-column>
 </p-dataTable>
 

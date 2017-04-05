@@ -1,12 +1,10 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { By } from '@angular/platform-browser';
-import { DebugElement } from '@angular/core/index';
-import { Router, ActivatedRoute, RouterModule, RouterOutletMap } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 
 import { ContactEppService } from '../../../contacts/contactepp.service';
 import { DomainInfoContactsComponent } from './domain-info-contacts.component';
 import { DomainDetail } from '../../../model/domain.model';
-import { DocQuery, createMockRoute } from '../../../shared/testutils';
+import { createMockRoute, DocQuery } from '../../../shared/testutils';
 
 class Page {
   query: DocQuery<DomainInfoContactsComponent>;

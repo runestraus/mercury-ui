@@ -2,15 +2,15 @@ node('javascript') {
     nodejs(nodeJSInstallationName: 'default') {
         stage('Checkout') {
             checkout scm
-            sh 'npm install'
+            sh 'yarn install'
             sh "ng build -prod -aot"
         }
         stage('Lint') {
-            sh 'npm install'
+            sh 'yarn install'
             sh 'ng lint'
         }
         stage('Test') {
-            sh 'npm install'
+            sh 'yarn install'
             sauce('e75a1b30-bdd4-48f5-8947-acba29c8df9c') {
                 sh 'ng test --watch=false'
             }
@@ -28,7 +28,7 @@ node('javascript') {
 
         if (env.BRANCH_NAME == 'master') {
             stage('Smoke Test') {
-              sh 'npm install'
+              sh 'yarn install'
               sh 'node_modules/protractor/node_modules/webdriver-manager/bin/webdriver-manager update'
               withCredentials([[$class: 'UsernamePasswordMultiBinding',
                                           credentialsId: '307b5bf3-2937-4864-82eb-78c895ec885a',

@@ -1,5 +1,4 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { DebugElement } from '@angular/core/index';
 import { Router, ActivatedRoute } from '@angular/router';
 import { Observable, Observer } from 'rxjs/Rx';
 
@@ -7,6 +6,7 @@ import { DomainDetail } from '../../../model/domain.model';
 import { DisplayListComponent } from '../../../shared/components/display-list/display-list.component';
 import { DomainInfoHostsComponent } from './domain-info-hosts.component';
 import { DocQuery } from '../../../shared/testutils';
+import { DebugElement } from '@angular/core';
 
 class Page {
   query: DocQuery<DomainInfoHostsComponent>;

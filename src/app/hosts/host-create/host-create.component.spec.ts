@@ -1,13 +1,11 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { HostCreateComponent } from './host-create.component';
-import { DebugElement } from '@angular/core/index';
 import { ReactiveFormsModule, FormBuilder } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { HostEppService } from '../hostepp.service';
-import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
+import { CUSTOM_ELEMENTS_SCHEMA, DebugElement } from '@angular/core';
 import { HostUpdateInfo, AddrInfo } from '../../epp/hostepp.template';
 import { HostDetail } from '../host.model';
-import { INVALID } from '@angular/forms/src/model';
 import { DocQuery, createMockRoute } from '../../shared/testutils';
 
 class Page {
@@ -255,7 +253,7 @@ describe('HostCreateComponent', () => {
       component.hostForm.get('fullyQualifiedHostName').markAsDirty();
       component.hostForm.get('inetAddresses').markAsDirty();
       component.onValueChanged();
-      expect(component.hostForm.status).toBe(INVALID);
+      expect(component.hostForm.status).toBe('INVALID');
       expect(component.formErrors.fullyQualifiedHostName).toBe('Host name is required. ');
     });
   });

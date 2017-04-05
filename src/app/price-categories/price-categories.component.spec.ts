@@ -3,10 +3,11 @@ import { FormBuilder, ReactiveFormsModule } from '@angular/forms';
 import { DialogModule } from 'primeng/components/dialog/dialog';
 import { DataTableModule } from 'primeng/components/datatable/datatable';
 import { By } from '@angular/platform-browser';
-import { DebugElement, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core/index';
 import { PriceCategoriesService } from '../service/price-categories.service';
 import { PriceCategoriesComponent } from './price-categories.component';
 import { PriceCategory } from '../model/price-category.model';
+import { CUSTOM_ELEMENTS_SCHEMA, DebugElement } from '@angular/core';
+import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 
 describe('PriceCategoriesComponent', () => {
 
@@ -45,7 +46,7 @@ describe('PriceCategoriesComponent', () => {
     TestBed.configureTestingModule({
       declarations: [PriceCategoriesComponent],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
-      imports: [ReactiveFormsModule, DialogModule, DataTableModule],
+      imports: [ReactiveFormsModule, DialogModule, DataTableModule, NoopAnimationsModule],
       providers: [
         { provide: PriceCategoriesService, useValue: priceCategoriesService },
         FormBuilder,

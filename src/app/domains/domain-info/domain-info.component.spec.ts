@@ -1,6 +1,5 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { Router, ActivatedRoute, RouterModule, RouterOutletMap } from '@angular/router';
-import { By } from '@angular/platform-browser';
+import { ActivatedRoute, Router, RouterModule, RouterOutletMap } from '@angular/router';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import { Observer } from 'rxjs/Observer';

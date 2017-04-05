@@ -9,6 +9,7 @@ import { UsersComponent } from './users.component';
 import { DialogModule } from 'primeng/components/dialog/dialog';
 import { DataTableModule } from 'primeng/components/datatable/datatable';
 import { HttpModule } from '@angular/http';
+import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 
 describe('UsersComponent', () => {
   let component: UsersComponent;
@@ -28,7 +29,7 @@ describe('UsersComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [ UsersComponent ],
-      imports: [ FormsModule, DialogModule, DataTableModule, HttpModule ],
+      imports: [ FormsModule, DialogModule, DataTableModule, HttpModule, NoopAnimationsModule ],
       providers: [
        { provide: RolesService, useValue: mockRolesService },
        { provide: UsersService, useValue: mockUsersService} ]

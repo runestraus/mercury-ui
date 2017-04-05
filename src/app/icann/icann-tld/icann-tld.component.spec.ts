@@ -7,6 +7,7 @@ import { HttpModule } from '@angular/http';
 import { CalendarModule } from 'primeng/components/calendar/calendar';
 import { IcannService } from '../../service/icann.service';
 import { HttpClient } from '../../shared/http.client';
+import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 
 describe('IcannTldComponent', () => {
   let component: IcannTldComponent;
@@ -17,7 +18,7 @@ describe('IcannTldComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [ IcannTldComponent ],
-      imports:      [ FormsModule, HttpModule, CalendarModule ],
+      imports:      [ FormsModule, HttpModule, CalendarModule, NoopAnimationsModule ],
       providers: [
         IcannService, HttpClient,
       ],
