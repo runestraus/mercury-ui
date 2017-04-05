@@ -29,7 +29,7 @@ node('javascript') {
         if (env.BRANCH_NAME == 'master') {
             stage('Smoke Test') {
               sh 'yarn install'
-              sh 'node_modules/protractor/node_modules/webdriver-manager/bin/webdriver-manager update'
+              sh 'node_modules/webdriver-manager/bin/webdriver-manager update'
               withCredentials([[$class: 'UsernamePasswordMultiBinding',
                                           credentialsId: '307b5bf3-2937-4864-82eb-78c895ec885a',
                                           passwordVariable: 'SAUCE_ACCESS_KEY',
