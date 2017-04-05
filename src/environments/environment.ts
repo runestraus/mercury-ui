@@ -5,7 +5,7 @@
 
 export const environment = {
   production: false,
-  clientId: '901762014784-uindcll68mofnd3a62hat18oddlg5jhk.apps.googleusercontent.com',
-  baseRoute: 'http://localhost:8080',
+  clientId: '901762014784-r2d274o60h63iavrjd13fj13atuss9u6.apps.googleusercontent.com',
+  baseRoute: 'https://webportal-dot-mercury-donuts-alpha.appspot.com',
   name: 'Dev'
 };
