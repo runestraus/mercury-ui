@@ -23,6 +23,7 @@
     "@angular/platform-server": "^4.0.1",
     "@angular/router": "^4.0.1",
     "@types/handlebars": "^4.0.31",
+    "angular2-busy": "^2.0.3",
     "bootstrap": "^3.3.7",
     "core-js": "^2.4.1",
     "handlebars": "^4.0.6",

@@ -10,7 +10,7 @@ export class Domain {
   tld: string;
   price: Money;
   priceCategory: string;
-  iannaNumber: number;
+  ianaNumber: number;
   registrar: string;
   currentSponsorClientId: string;
   contacts: Contact[];

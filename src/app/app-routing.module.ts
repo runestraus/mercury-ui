@@ -75,8 +75,6 @@ export const routes: Routes = [
   { path: 'icann/icanntld', component: IcannTldComponent, children: [] },
   { path: 'icann/icanndns', component: IcannDnsComponent, children: [] },
   { path: 'icann/icannregistrar', component: IcannRegistrarComponent, children: [] },
-  { path: 'search/:query', component: SearchComponent, children: [] },
-  { path: 'users', component: UsersComponent, children: [] },
   { path: 'pricecategories', component: PriceCategoriesComponent, children: [] },
   { path: 'users', component: UsersComponent, children: [] },
   { path: 'hosts/:fullyQualifiedHostName', component: HostCreateComponent, children: [] },

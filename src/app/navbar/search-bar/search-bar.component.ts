@@ -15,5 +15,4 @@ export class SearchBarComponent {
   newQuery() {
     this.router.navigate(['/search', this.query]);
   }
-
 }

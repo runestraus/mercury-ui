@@ -72,6 +72,7 @@ import { CanDirective } from './shared/directives/can.directive';
 import { CanNotDirective } from './shared/directives/can-not.directive';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { DomainDeleteComponent } from './domains/domain-delete/domain-delete.component';
+import { BusyConfig, BusyModule } from 'angular2-busy';
 
 @NgModule({
   declarations: [
@@ -126,6 +127,7 @@ import { DomainDeleteComponent } from './domains/domain-delete/domain-delete.com
     ReactiveFormsModule,
     AppRoutingModule,
     TooltipModule,
+    BusyModule,
   ],
   providers: [
     SearchService,

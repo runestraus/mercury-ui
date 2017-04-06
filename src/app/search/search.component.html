@@ -1,4 +1,6 @@
+<div [ngBusy]="busy" style="position: relative;"></div>
 <div class="panel-body" >
+  <div *ngIf="error" class="alert alert-danger" id="searchError">{{error}}</div>
 </div>
 <app-domain *ngIf="domainResult" [domains]="domainResult"></app-domain>
 <app-contact *ngIf="contactResult" [contacts]="contactResult"></app-contact>

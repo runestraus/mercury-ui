@@ -30,6 +30,7 @@ export function createMockRoute(path: Array<string>, snapshotParams?: {[key: str
   return {
     url: Observable.from([urlSegments]),
     parent: createMockRoute(path.slice(0, path.length - 1)),
+    params: Observable.of(snapshotParams),
     snapshot: {
       params: snapshotParams,
     }

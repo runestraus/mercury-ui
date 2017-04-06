@@ -3,7 +3,6 @@ import { async, TestBed } from '@angular/core/testing';
 import { LoginComponent } from './login.component';
 import { SessionService } from '../service/session.service';
 import { By } from '@angular/platform-browser';
-import { AbstractMockObservableService } from '../service/testing/abstract-mock-observable-service.test';
 
 describe('LoginComponent', () => {
   let signInFunc;
