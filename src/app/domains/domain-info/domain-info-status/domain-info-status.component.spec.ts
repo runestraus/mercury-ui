@@ -8,6 +8,7 @@ import { ActivatedRoute, Router, RouterOutletMap } from '@angular/router';
 import { DomainEppService } from '../../../service/domain-epp.service';
 import { Observable } from 'rxjs/Observable';
 import { Observer } from 'rxjs/Observer';
+
 class Page {
   query: DocQuery<DomainInfoStatusComponent>;
 
@@ -87,7 +88,7 @@ describe('DomainInfoStatusComponent', () => {
       imports: [ TooltipModule ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA]
     })
-    .compileComponents();
+      .compileComponents();
   }));
 
   beforeEach(() => {

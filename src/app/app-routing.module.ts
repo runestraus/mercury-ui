@@ -25,6 +25,7 @@ import { UsersComponent } from './users/users.component';
 import { PriceCategoriesComponent } from './price-categories/price-categories.component';
 import { HostCreateComponent } from './hosts/host-create/host-create.component';
 import { DomainInfoComponent } from './domains/domain-info/domain-info.component';
+import { DomainStatusComponent } from './domains/domain-status/domain-status.component';
 import { DomainInfoDetailComponent } from './domains/domain-info-detail/domain-info-detail.component';
 import { ContactCreateComponent } from './contacts/contact-create/contact-create.component';
 import { DomainDeleteComponent } from './domains/domain-delete/domain-delete.component';
@@ -70,13 +71,18 @@ export const routes: Routes = [
             component: HostCreateComponent,
             children: [],
           },
+          {
+            path: 'domains/:domainName/serverstatus',
+            component: DomainStatusComponent,
+            children: []
+          },
       ]
   },
   { path: 'icann/icanntld', component: IcannTldComponent, children: [] },
   { path: 'icann/icanndns', component: IcannDnsComponent, children: [] },
   { path: 'icann/icannregistrar', component: IcannRegistrarComponent, children: [] },
-  { path: 'pricecategories', component: PriceCategoriesComponent, children: [] },
   { path: 'users', component: UsersComponent, children: [] },
+  { path: 'pricecategories', component: PriceCategoriesComponent, children: [] },
   { path: 'hosts/:fullyQualifiedHostName', component: HostCreateComponent, children: [] },
 ];
 

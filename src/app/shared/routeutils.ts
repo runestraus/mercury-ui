@@ -1,4 +1,4 @@
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 
 /** Gets the parent route's url as a string */
 export function getParentRouteUrl(route: ActivatedRoute): string {
