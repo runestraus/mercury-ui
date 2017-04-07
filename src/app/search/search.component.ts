@@ -42,7 +42,6 @@ export class SearchComponent implements OnInit {
   error: any;
   searchType: string;
   displayItems: any[];
-  busy: Promise<any>;
 
   constructor(private route: ActivatedRoute,
               private searchService: SearchService) {
