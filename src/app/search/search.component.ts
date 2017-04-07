@@ -61,14 +61,13 @@ export class SearchComponent implements OnInit {
   callSearch(value: Params) {
     this.query = value['query'];
     this.clearSearchData();
-    this.busy = this.searchService.getSearchResults(this.query)
+    this.searchService.getSearchResults(this.query)
       .then( searchResult => {
         this.searchData = searchResult.data;
         if (this.searchData !== undefined && this.searchData[0].dataList.length > 0) {
           this.error = null;
           this.searchType = this.searchData[0].type;
           this.displayItems = [].concat(this.searchData[0].dataList);
-
           // Display result based upon search type
           switch (this.searchType) {
             case('!RSV'):

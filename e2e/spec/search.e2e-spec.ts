@@ -29,9 +29,9 @@ describe('Mercury UI App Search Smoke Test', function() {
     }, 10000);
   });
 
-  it('Should run all search scenarios ', function(done) {
+  it('Should run all search scenarios.', function(done) {
     browser.sleep(500);
-    page.txtSearchBox.sendKeys('dev.dev');
+    page.txtSearchBox.sendKeys('best.pizza');
     page.clickSearchButton();
     page.isDomainTablePresent();
     page.clearSearch();
