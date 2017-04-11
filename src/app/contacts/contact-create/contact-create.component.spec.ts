@@ -28,18 +28,18 @@ describe('ContactCreateComponent', () => {
   let component: ContactCreateComponent;
   let fixture: ComponentFixture<ContactCreateComponent>;
 
-  const mockEppService = {
+  let mockEppService = {
     createContact: jasmine.createSpy('eppService.createContact'),
     infoContact: jasmine.createSpy('eppService.infoContact'),
     updateContact: jasmine.createSpy('eppService.updateContact')
   };
-  const mockMeService = {
+  let mockMeService = {
     get: jasmine.createSpy('meService.get')
   };
-  const mockRouter = {
+  let mockRouter = {
     navigate: jasmine.createSpy('navigate')
   };
-  const mockRoute = createMockRoute(['search/holy.cow', 'domains/holy.cow', 'contacts/foo'], {});
+  let mockRoute = createMockRoute(['search/holy.cow', 'domains/holy.cow/contacts/edit/1234'], {params: Object({contactId: '1234'})});
 
   let meService;
   let eppService;
@@ -80,11 +80,25 @@ describe('ContactCreateComponent', () => {
       voice: '8675309',
       fax: '48732984'
     };
+
     beforeEach(() => {
+      mockEppService = {
+        createContact: jasmine.createSpy('eppService.createContact'),
+        infoContact: jasmine.createSpy('eppService.infoContact'),
+        updateContact: jasmine.createSpy('eppService.updateContact')
+      };
+      mockMeService = {
+        get: jasmine.createSpy('meService.get')
+      };
+      mockRouter = {
+        navigate: jasmine.createSpy('navigate')
+      };
+      const contactId = '1234';
+      mockRoute = createMockRoute(['search/holy.cow', 'domains/holy.cow/contacts/edit/1234'], {params: Object({contactId: contactId})});
       meService = TestBed.get(MeService);
       eppService = TestBed.get(ContactEppService);
       router = TestBed.get(ActivatedRoute);
-      router.snapshot.params['contactId'] = '1234';
+      router.snapshot.params['contactId'] = contactId;
       meService.get.and.returnValue(Promise.resolve({ clientId: 'brodaddy' }));
     });
 
@@ -161,10 +175,14 @@ describe('ContactCreateComponent', () => {
     beforeEach(() => {
       meService = TestBed.get(MeService);
       eppService = TestBed.get(ContactEppService);
+      mockRoute = createMockRoute(['search/holy.cow', 'domains/holy.cow/contacts/edit'], {});
       meService.get.and.returnValue(Promise.resolve({ clientId: 'brodaddy' }));
       fixture = TestBed.createComponent(ContactCreateComponent);
       component = fixture.componentInstance;
       fixture.detectChanges();
+      meService = TestBed.get(MeService);
+      eppService = TestBed.get(ContactEppService);
+      router = TestBed.get(ActivatedRoute);
     });
 
     it('should create a generated contactId that starts with the clientId', async(() => {
@@ -232,25 +250,27 @@ describe('ContactCreateComponent', () => {
   });
 
   it('should navigate to the parent component when X is clicked in the header', async(() => {
+    eppService = TestBed.get(ContactEppService);
     fixture = TestBed.createComponent(ContactCreateComponent);
     const page = new Page(fixture);
     fixture.detectChanges();
     fixture.whenStable().then(() => {
       page.clickHeaderX();
       fixture.whenStable().then(() => {
-        expect(mockRouter.navigate).toHaveBeenCalledWith(['../..'], {relativeTo: router});
+        expect(mockRouter.navigate).toHaveBeenCalledWith(['..'], {relativeTo: router});
       });
     });
   }));
 
   it('should navigate to the parent component when Cancel is clicked in the header', async(() => {
+    eppService = TestBed.get(ContactEppService);
     fixture = TestBed.createComponent(ContactCreateComponent);
     const page = new Page(fixture);
     fixture.detectChanges();
     fixture.whenStable().then(() => {
       page.clickCancel();
       fixture.whenStable().then(() => {
-        expect(mockRouter.navigate).toHaveBeenCalledWith(['../..'], {relativeTo: router});
+        expect(mockRouter.navigate).toHaveBeenCalledWith(['..'], {relativeTo: router});
       });
     });
   }));

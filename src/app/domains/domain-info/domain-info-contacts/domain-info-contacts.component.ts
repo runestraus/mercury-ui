@@ -57,10 +57,10 @@ export class DomainInfoContactsComponent implements OnInit {
   }
 
   openUpdateContactsDialog(): void {
-    alert('Not yet implemented');
+    this.router.navigate(['contacts' ], { relativeTo: this.route});
   }
 
   openUpdateContactDialog(contact: ContactDetail): void {
-    this.router.navigate(['contacts', contact.contactId], {relativeTo: this.route});
+    this.router.navigate(['contacts', 'edit', contact.contactId], {relativeTo: this.route});
   }
 }

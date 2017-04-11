@@ -72,6 +72,7 @@ import { DomainCreateComponent } from './domains/domain-create/domain-create.com
 import { CanDirective } from './shared/directives/can.directive';
 import { CanNotDirective } from './shared/directives/can-not.directive';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { ContactsComponent } from './contacts/contacts/contacts.component';
 import { DomainDeleteComponent } from './domains/domain-delete/domain-delete.component';
 
 @NgModule({
@@ -113,7 +114,8 @@ import { DomainDeleteComponent } from './domains/domain-delete/domain-delete.com
     DomainCreateComponent,
     CanDirective,
     CanNotDirective,
-    DomainDeleteComponent
+    DomainDeleteComponent,
+    ContactsComponent,
   ],
   imports: [
     BrowserAnimationsModule,

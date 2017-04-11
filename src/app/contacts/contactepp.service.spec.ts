@@ -40,7 +40,8 @@ describe('A ContactEppService', () => {
       expect(contact.contactId).toBe('donutz');
       expect(contact.repoId).toBe('1524991-ROID');
       expect(contact.status).toEqual(['linked', 'ok']);
-      expect(contact.postalInfo.length).toBe(1);
+      expect(contact.postalInfo.length).toBe(2);
+      expect(contact.postalInfo[0].type).toBe('INTERNATIONALIZED');
       expect(contact.postalInfo[0].name).toBe('Do Nutz');
       expect(contact.postalInfo[0].org).toBe('Do Nutz Organization');
       expect(contact.postalInfo[0].address.street1).toBe('123 Main Ave.');
@@ -50,6 +51,16 @@ describe('A ContactEppService', () => {
       expect(contact.postalInfo[0].address.state).toBe('WA');
       expect(contact.postalInfo[0].address.zip).toBe('98107');
       expect(contact.postalInfo[0].address.countryCode).toBe('US');
+      expect(contact.postalInfo[1].type).toBe('LOCALIZED');
+      expect(contact.postalInfo[1].name).toBe('Do Nutz');
+      expect(contact.postalInfo[1].org).toBe('Do Nutz Organization');
+      expect(contact.postalInfo[1].address.street1).toBe('123 Main Ave.');
+      expect(contact.postalInfo[1].address.street2).toBe('Suite 666');
+      expect(contact.postalInfo[1].address.street3).toBe('BOAB');
+      expect(contact.postalInfo[1].address.city).toBe('Seattle');
+      expect(contact.postalInfo[1].address.state).toBe('WA');
+      expect(contact.postalInfo[1].address.zip).toBe('98107');
+      expect(contact.postalInfo[1].address.countryCode).toBe('US');
       expect(contact.voice).toBe('+1.2223334444');
       expect(contact.voiceExtension).toBe('');
       expect(contact.fax).toBe('+1.2223334455');
@@ -90,6 +101,19 @@ describe('A ContactEppService', () => {
                           <contact:roid>1524991-ROID</contact:roid>
                           <contact:status s="linked"/>
                           <contact:status s="ok"/>
+                          <contact:postalInfo type="loc">
+                              <contact:name>Do Nutz</contact:name>
+                              <contact:org>Do Nutz Organization</contact:org>
+                              <contact:addr>
+                                  <contact:street>123 Main Ave.</contact:street>
+                                  <contact:street>Suite 666</contact:street>
+                                  <contact:street>BOAB</contact:street>
+                                  <contact:city>Seattle</contact:city>
+                                  <contact:sp>WA</contact:sp>
+                                  <contact:pc>98107</contact:pc>
+                                  <contact:cc>US</contact:cc>
+                              </contact:addr>
+                          </contact:postalInfo>
                           <contact:postalInfo type="int">
                               <contact:name>Do Nutz</contact:name>
                               <contact:org>Do Nutz Organization</contact:org>

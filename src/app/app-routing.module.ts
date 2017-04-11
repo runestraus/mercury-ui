@@ -28,6 +28,7 @@ import { DomainInfoComponent } from './domains/domain-info/domain-info.component
 import { DomainStatusComponent } from './domains/domain-status/domain-status.component';
 import { DomainInfoDetailComponent } from './domains/domain-info-detail/domain-info-detail.component';
 import { ContactCreateComponent } from './contacts/contact-create/contact-create.component';
+import { ContactsComponent } from './contacts/contacts/contacts.component';
 import { DomainDeleteComponent } from './domains/domain-delete/domain-delete.component';
 
 export const routes: Routes = [
@@ -57,7 +58,17 @@ export const routes: Routes = [
             children: []
           },
           {
-            path: 'domains/:domainName/contacts/:contactId',
+            path: 'domains/:domainName/contacts',
+            component: ContactsComponent,
+            children: [],
+          },
+          {
+            path: 'domains/:domainName/contacts/edit/:contactId',
+            component: ContactCreateComponent,
+            children: [],
+          },
+          {
+            path: 'domains/:domainName/contacts/edit',
             component: ContactCreateComponent,
             children: [],
           },

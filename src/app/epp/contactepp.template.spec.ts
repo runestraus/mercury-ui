@@ -228,6 +228,32 @@ describe('Contact EPP Templates', () => {
       voice: '+1.7034444444',
       fax: '+1.7035555556',
       email: 'jdoe@example.com',
+      postalInfo: [
+        {
+          type: 'int',
+          name: 'John Doe',
+          org: 'Foobar Corp',
+          street1: '123 foo street',
+          street2: 'Apartment 13',
+          street3: 'Section 2',
+          city: 'Seattle',
+          state: 'Washington',
+          zip: '12345',
+          countryCode: 'US',
+        },
+        {
+          type: 'loc',
+          name: 'John Doe',
+          org: 'Foobar Corp',
+          street1: '123 foo street',
+          street2: 'Apartment 13',
+          street3: 'Section 2',
+          city: 'Seattle',
+          state: 'Washington',
+          zip: '12345',
+          countryCode: 'US',
+        }
+      ],
       authInfo: {
         pw: '2fooBAR',
       }
@@ -238,6 +264,32 @@ describe('Contact EPP Templates', () => {
       <contact:update xmlns:contact="urn:ietf:params:xml:ns:contact-1.0">
         <contact:id>my-contact</contact:id>
         <contact:chg>
+          <contact:postalInfo type="int">
+            <contact:name>John Doe</contact:name>
+            <contact:org>Foobar Corp</contact:org>
+            <contact:addr>
+              <contact:street>123 foo street</contact:street>
+              <contact:street>Apartment 13</contact:street>
+              <contact:street>Section 2</contact:street>
+              <contact:city>Seattle</contact:city>
+              <contact:sp>Washington</contact:sp>
+              <contact:pc>12345</contact:pc>
+              <contact:cc>US</contact:cc>
+            </contact:addr>
+          </contact:postalInfo>
+          <contact:postalInfo type="loc">
+            <contact:name>John Doe</contact:name>
+            <contact:org>Foobar Corp</contact:org>
+            <contact:addr>
+              <contact:street>123 foo street</contact:street>
+              <contact:street>Apartment 13</contact:street>
+              <contact:street>Section 2</contact:street>
+              <contact:city>Seattle</contact:city>
+              <contact:sp>Washington</contact:sp>
+              <contact:pc>12345</contact:pc>
+              <contact:cc>US</contact:cc>
+            </contact:addr>
+          </contact:postalInfo>
           <contact:voice>+1.7034444444</contact:voice>
           <contact:fax>+1.7035555556</contact:fax>
           <contact:email>jdoe@example.com</contact:email>

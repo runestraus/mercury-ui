@@ -58,6 +58,34 @@ export class ContactEppService {
           postalInfo: extractPostalInfo(resultData),
           disclose: extractDisclose(resultData),
         };
+        if (contact.postalInfo.length > 0 && contact.postalInfo[0].type !== 'INTERNATIONALIZED') {
+          if (contact.postalInfo.length > 1) {
+            // swap so INTERNATIONALIZED is in the front
+            const tmp = contact.postalInfo[0];
+            contact.postalInfo[0] = contact.postalInfo[1];
+            contact.postalInfo[1] = tmp;
+          } else {
+            // create new INTERNATIONALIZED and put it first
+            contact.postalInfo = [
+              {
+                type: 'INTERNATIONALIZED',
+                name: contact.postalInfo[0].name || '',
+                 org: contact.postalInfo[0].org || '',
+                 address: {
+                  city: contact.postalInfo[0].address.city || '',
+                  countryCode: contact.postalInfo[0].address.countryCode || '',
+                  state: contact.postalInfo[0].address.state || '',
+                  street1: contact.postalInfo[0].address.street1 || '',
+                  street2: contact.postalInfo[0].address.street2 || '',
+                  street3: contact.postalInfo[0].address.street3 || '',
+                  zip: contact.postalInfo[0].address.zip || '',
+                },
+              },
+              contact.postalInfo[0]
+            ];
+            contact.postalInfo[0].type = 'INTERNATIONALIZED';
+          }
+        }
         resolve(contact);
       }).catch(err => {
         reject(err);

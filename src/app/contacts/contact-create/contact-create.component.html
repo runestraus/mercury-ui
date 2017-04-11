@@ -1,4 +1,4 @@
-<p-dialog [(visible)]="showDialog" modal="modal" width="600" responsive="true" [(header)]="modalHeader" [closable]="false">
+<p-dialog [(visible)]="showDialog" width="600" responsive="true" [(header)]="modalHeader" [closable]="false">
 <p-header><button id="buttonCloseX" tooltip="Close" type="button" class="close" (click)="onCloseClicked()" aria-hidden="true">&times;</button></p-header>
   <form [formGroup]="contactForm" (submit)="onSubmit()" novalidate>
     <div *ngIf="error" class="alert alert-danger" role="alert">{{error.message}}</div>

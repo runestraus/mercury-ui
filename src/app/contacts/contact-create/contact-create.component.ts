@@ -72,6 +72,7 @@ export class ContactCreateComponent implements OnInit {
           this.contactEppService.infoContact(contactId)
             .then(contact => {
               this.previousContact = contact;
+              // this contact should have the both addresses in correct order
               this.contactForm.setValue({
                 id: contact.contactId,
                 name: contact.postalInfo[0].name,
@@ -86,12 +87,12 @@ export class ContactCreateComponent implements OnInit {
                 phone: contact.voice,
                 fax: contact.fax
               });
-            });
+            }).catch(err => { this.error = err; });
         } else {
           this.meService.get()
             .then(user => {
               this.generateContactId(user.clientId);
-            });
+            }).catch(err => { this.error = err; });
         }
   }
 
@@ -139,7 +140,7 @@ export class ContactCreateComponent implements OnInit {
   prepareSaveContact() {
     this.contactForm.get('id').enable();
     const formModel = this.contactForm.value;
-    return {
+    const contact = {
       contactId: formModel.id,
       postalInfo: [
         {
@@ -158,6 +159,20 @@ export class ContactCreateComponent implements OnInit {
       voice: formModel.phone,
       fax: formModel.fax
     };
+    if (this.previousContact && this.previousContact.postalInfo.length > 1) {
+      contact.postalInfo.push({
+        type: 'loc',
+        name: this.previousContact.postalInfo[1].name,
+        street1: this.previousContact.postalInfo[1].address.street1,
+        street2: this.previousContact.postalInfo[1].address.street2,
+        street3: this.previousContact.postalInfo[1].address.street3,
+        city: this.previousContact.postalInfo[1].address.city,
+        state: this.previousContact.postalInfo[1].address.state,
+        zip: this.previousContact.postalInfo[1].address.zip,
+        countryCode: this.previousContact.postalInfo[1].address.countryCode
+      });
+    }
+    return contact;
   }
 
   /**
@@ -192,7 +207,13 @@ export class ContactCreateComponent implements OnInit {
   }
 
   closeDialog() {
-    this.router.navigate(['../..'], {relativeTo: this.route});
+    if (this.isEditForm) {
+      // route is .../contacts/edit/:contactId
+      this.router.navigate(['../..'], {relativeTo: this.route});
+    } else {
+      // route is .../contacts/edit
+      this.router.navigate(['..'], {relativeTo: this.route});
+    }
   }
 
   onCloseClicked() {

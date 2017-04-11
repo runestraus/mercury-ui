@@ -1,0 +1,58 @@
+<p-dialog [(visible)]="showUpdateContacts" modal="modal" width="600" responsive="true" [closable]="false">
+  <p-header>
+    <button id="buttonCloseX" tooltip="Close" type="button" class="close" (click)="onCloseClicked()" aria-hidden="true">&times;</button>
+    <h3 id="contacts-header" class="modal-title wordBreak">Contacts</h3>
+  </p-header>
+  <div *ngIf="error" class="alert alert-danger" role="alert" id="contactsError">{{error}}</div>
+  <div id="contactsLoading" class="text-align-center" *ngIf="loading">
+    <i class="fa fa-circle-o-notch fa-spin fa-5x"></i>
+  </div>
+  <div class="modal-body modal-body-padding" *ngIf="domainDetail">
+    <p><span class="bold">Domain:</span> {{domainName}}</p>
+    <form id="contactsForm" [formGroup]="contactForm" (submit)="onSubmit()" novalidate>
+      <div id="registrantContact" class="form-group modal-form-group modal-contact-odd-row">
+      	<label class="modal-label modal-contact-label">Registrant Contact*</label>
+      	<input id="registrant" style="width:35%;" type="text" placeholder="registrant_id" class="form-control left modal-form-control" formControlName="registrant"/>
+      	<button id="create-new-contact-registrant" class="btn btn-default new-contact-button left modal-form-control" type="button" (click)="createNewContact('registrant')"><i class="fa fa-plus-circle" aria-hidden="true"></i></button>
+        <span class="clear"></span>
+        <p class="modal-text" *ngIf="domainDetail"><span id="edit-existing-registrant" class="spanLink" (click)="editExistingContact('registrant')">{{getContactDisplayValue('registrant')}}</span></p>
+        <span class="clear"></span>
+        <p class="help-block"  id="registrantError" *ngIf="formErrors.registrant">{{formErrors.registrant}}</p>
+      </div>
+      <div id="adminContact" class="form-group modal-form-group modal-contact-odd-row">
+      	<label class="modal-label modal-contact-label">Admin Contact*</label>
+      	<input id="admin" style="width:35%;" type="text" placeholder="admin_id" class="form-control left modal-form-control" formControlName="admin"/>
+      	<button id="create-new-contact-admin" class="btn btn-default new-contact-button left modal-form-control" type="button" (click)="createNewContact('admin')"><i class="fa fa-plus-circle" aria-hidden="true"></i></button>
+        <span class="clear"></span>
+        <p class="modal-text" *ngIf="domainDetail"><span id="edit-existing-admin" class="spanLink" (click)="editExistingContact('admin')">{{getContactDisplayValue('admin')}}</span></p>
+        <span class="clear"></span>
+        <p class="help-block" id="adminError" *ngIf="formErrors.admin">{{formErrors.admin}}</p>
+      </div>
+      <div id="techContact" class="form-group modal-form-group modal-contact-odd-row">
+      	<label class="modal-label modal-contact-label">Tech Contact*</label>
+      	<input id="tech" style="width:35%;" type="text" placeholder="tech_id" class="form-control left modal-form-control" formControlName="tech"/>
+      	<button id="create-new-contact-tech" class="btn btn-default new-contact-button left modal-form-control" type="button" (click)="createNewContact('tech')"><i class="fa fa-plus-circle" aria-hidden="true"></i></button>
+        <span class="clear"></span>
+        <p class="modal-text" *ngIf="domainDetail"><span id="edit-existing-tech" class="spanLink" (click)="editExistingContact('tech')">{{getContactDisplayValue('tech')}}</span></p>
+        <span class="clear"></span>
+        <p class="help-block" id="techError" *ngIf="formErrors.tech">{{formErrors.tech}}</p>
+      </div>
+      <div id="billingContact" class="form-group modal-form-group modal-contact-odd-row">
+      	<label class="modal-label modal-contact-label">Billing Contact</label>
+      	<input id="billing" style="width:35%;" type="text" placeholder="billing_id" class="form-control left modal-form-control" formControlName="billing"/>
+      	<button id="create-new-contact-billing" class="btn btn-default new-contact-button left modal-form-control" type="button" (click)="createNewContact('billing')"><i class="fa fa-plus-circle" aria-hidden="true"></i></button>
+        <span class="clear"></span>
+        <p class="modal-text"  *ngIf="domainDetail" ><span id="edit-existing-billing" class="spanLink" (click)="editExistingContact('billing')">{{getContactDisplayValue('billing')}}</span></p>
+        <span class="clear"></span>
+        <p class="help-block" id="billingError" *ngIf="formErrors.billing">{{formErrors.billing}}</p>
+      </div>
+      <p class="help-block" align="right">*required</p>
+      <p-footer>
+        <div class="ui-dialog-buttonpane ui-widget-content ui-helper-clearfix">
+          <button type="submit" class="btn btn-primary" id="contactsSubmit" [disabled]="!contactForm.valid">Submit</button>
+          <button type="button" class="btn btn-default" id="contactsClose" (click)="onCloseClicked()">Close</button>
+        </div>
+      </p-footer>
+    </form>
+  </div>
+</p-dialog>

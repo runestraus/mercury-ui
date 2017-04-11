@@ -148,7 +148,7 @@ describe('DomainInfoContactsComponent', () => {
       page.clickContact('foo');
       fixture.whenStable().then(() => {
         expect(mockRouter.navigate)
-          .toHaveBeenCalledWith(['contacts', 'foo'], {relativeTo: mockRoute});
+          .toHaveBeenCalledWith(['contacts', 'edit', 'foo'], {relativeTo: mockRoute});
       });
     });
   }));

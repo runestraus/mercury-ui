@@ -19,9 +19,6 @@ export class DomainDeleteComponent implements OnInit {
   ngOnInit() {
     this.showDialog = true;
     this.domainName = this.route.snapshot.params['domainName'];
-    if (!this.domainName) {
-      this.domainName = this.route.parent.snapshot.params['domainName'];
-    }
   }
 
   goBack() {
