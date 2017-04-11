@@ -12,13 +12,10 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-import { Address } from './address.model';
-
 export class Contact {
   contactId: string;
   currentSponsorClientId: string;
   name: string;
-  address: Address;
   org: string;
   type: string;
   deletionTime: Date;

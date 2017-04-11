@@ -98,13 +98,6 @@ describe('SearchComponent', () => {
   let router;
   let route;
   let page: Page;
-  const contactAddress = {
-    street: ['6727 12th Ave So.'],
-    city: 'Richfield',
-    state: 'MN',
-    zip: '55423',
-    countryCode: 'US',
-  };
   const price: Money = {
     'value': 22.99,
     'currency': 'USD'
@@ -259,7 +252,6 @@ describe('SearchComponent', () => {
       contactId: '1234',
       currentSponsorClientId: '9999',
       name: 'brodaddy',
-      address: contactAddress,
       org: 'Donuts',
       type: 'INTERNATIONALIZED',
       deletionTime: null,
