@@ -1,7 +1,7 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { FormGroup, FormBuilder, Validators, FormControl, AbstractControl } from '@angular/forms';
 import { DomainEppService } from '../../service/domain-epp.service';
-import { DomainInfo } from '../../model/domain.model';
+import { DomainCheck, DomainInfo } from '../../model/domain.model';
 import { SessionService } from '../../service/session.service';
 import { User } from '../../model/user.model';
 import { ContactEppService } from '../../contacts/contactepp.service';
@@ -31,12 +31,16 @@ export class DomainCreateComponent implements OnInit {
   @Output() onCreated = new EventEmitter();
   domainForm: FormGroup;
   private _user: User;
+  domainCheck: DomainCheck;
+  isPremium = false;
+  error: string = null;
 
   formErrors = {
     'registrantContact': '',
     'adminContact': '',
     'techContact': '',
-    'billingContact': ''
+    'billingContact': '',
+    'premiumConfirmation': ''
   };
 
   validationMessages = {
@@ -56,6 +60,9 @@ export class DomainCreateComponent implements OnInit {
       'required': 'Billing Contact is required.',
       'contactExists': 'Existing contact is required.'
     },
+    'premiumConfirmation': {
+      'required': 'Confirmation of premium price is required.'
+    }
   };
 
   constructor(private fb: FormBuilder,
@@ -65,12 +72,22 @@ export class DomainCreateComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.createForm();
     this.sessionService.getCurrentUser()
       .then(user => {
         this._user = user.user;
-        this.createForm();
+        return this.domainService.check(this.domainName);
+      })
+      .then(check => {
+        this.domainCheck = check;
+        if (this.domainCheck.domainPrices['create'] !== undefined) {
+          this.isPremium = this.domainCheck.domainPrices['create'].feeClass === 'premium';
+        }
+        this.requireOnPremium();
+      })
+      .catch(err => {
+        this.error = err.error;
       });
-
   }
 
   onSubmit() {
@@ -88,7 +105,7 @@ export class DomainCreateComponent implements OnInit {
       { type: 'tech', value: formModel.techContact },
       { type: 'billing', value: formModel.billingContact }
     ];
-    return {
+    const domainInfo = {
       clientId: this._user.clientId,
       fullyQualifiedDomainName: this.domainName,
       registrationPeriod: formModel.registrationPeriod,
@@ -96,7 +113,12 @@ export class DomainCreateComponent implements OnInit {
       authInfo: '',
       contacts: contacts,
       registrantContact: formModel.registrantContact
-    };
+    } as DomainInfo;
+    if (this.isPremium) {
+      domainInfo.premiumPrice = this.domainCheck.domainPrices['create'].fee['create'];
+      domainInfo.premiumCurrency = this.domainCheck.domainPrices['create'].currency;
+    }
+    return domainInfo;
   }
 
   addContact(contactType: string) {
@@ -120,13 +142,20 @@ export class DomainCreateComponent implements OnInit {
       });
   }
 
+  requireOnPremium() {
+    if (this.isPremium) {
+      this.domainForm.get('premiumConfirmation').setValidators(Validators.required);
+    }
+  }
+
   createForm() {
     this.domainForm = this.fb.group({
       registrationPeriod: ['1'],
       registrantContact: ['', [Validators.required]],
       adminContact: ['', [Validators.required]],
       techContact: ['', [Validators.required]],
-      billingContact: ['', [Validators.required]]
+      billingContact: ['', [Validators.required]],
+      premiumConfirmation: ['']
     });
     this.contactExists(this.domainForm.get('registrantContact'));
     this.contactExists(this.domainForm.get('adminContact'));
@@ -144,7 +173,6 @@ export class DomainCreateComponent implements OnInit {
   onValueChanged() {
     if (!this.domainForm) { return; }
     const form = this.domainForm;
-
     Object.keys(this.formErrors).map(field => {
       // clear previous error message (if any)
       this.formErrors[field] = '';

@@ -50,6 +50,13 @@ export class DomainDetail {
   domainPrices: DomainPrices;
 }
 
+export class DomainCheck {
+  fullyQualifiedDomainName: string;
+  avail: boolean;
+  reason: string;
+  domainPrices: DomainPrices;
+}
+
 export class DomainAuthInfo {
   pw: string;
 }
@@ -64,6 +71,7 @@ export class DomainPrice {
   period: string;
   periodUnit: string;
   fee: { [key: string]: string };
+  feeClass?: string;
 }
 
 export class TransferDetail {

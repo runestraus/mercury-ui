@@ -10,7 +10,7 @@ import {
 import { DomainInfo } from '../model/domain.model';
 import {
   infoForDomainDomainResponse, checkForAvailableDomainResponse,
-  infoForPremiumDomainInAddPeriodResponse
+  infoForPremiumDomainInAddPeriodResponse, checkForAvailablePremiumDomainResponse
 } from './testing/data/domains-test-data';
 
 describe('DomainEppService', () => {
@@ -234,6 +234,26 @@ describe('DomainEppService', () => {
       expect(result.domainPrices['restore']).toBeDefined();
       expect(result.domainPrices['restore'].fee['restore']).toBe('100.00');
       expect(result.domainPrices['transfer'].fee['renew']).toBe('8.00');
+    });
+  }));
+
+  it('should submit domain check and return correct result for premium name', fakeAsync(() => {
+    eppHelper.send.and.returnValue({
+      toPromise: () => {
+        return Promise.resolve(checkForAvailablePremiumDomainResponse);
+      }
+    });
+    service.check('theCheckDomain.domian').then((result) => {
+      expect(result.fullyQualifiedDomainName).toBe('premium.domain');
+      expect(result.avail).toBe(true);
+      expect(result.reason).toBe('');
+      expect(result.domainPrices['create']).toBeDefined();
+      expect(result.domainPrices['renew']).toBeDefined();
+      expect(result.domainPrices['transfer']).toBeDefined();
+      expect(result.domainPrices['restore']).toBeDefined();
+      expect(result.domainPrices['restore'].fee['restore']).toBe('100.00');
+      expect(result.domainPrices['transfer'].fee['renew']).toBe('999.00');
+      expect(result.domainPrices['transfer'].feeClass).toBe('premium');
     });
   }));
 

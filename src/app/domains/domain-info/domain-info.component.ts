@@ -1,8 +1,7 @@
-import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
 import { DomainDetail } from '../../model/domain.model';
 import { DomainEppService } from '../../service/domain-epp.service';
-import { getParentRouteUrl } from '../../shared/routeutils';
+import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'app-domain-info',

@@ -6,7 +6,10 @@ import {
   domainUpdate, domainRestore, domainStatusUpdate, domainRenew, domainCheck
 } from '../epp/domainepp.template';
 import { extractText, extractStatuses, extractArray, extractTypes, extractBoolean, extractField } from '../epp/epputil';
-import { DomainInfo, TransferDetail, DomainDetail, DomainPrice, DomainPrices } from '../model/domain.model';
+import {
+  DomainInfo, TransferDetail, DomainDetail, DomainPrice, DomainPrices,
+  DomainCheck
+} from '../model/domain.model';
 
 /**
  *  Domains epp service
@@ -78,7 +81,7 @@ export class DomainEppService {
 
   }
 
-  check(domain: string) {
+  check(domain: string): Promise<DomainCheck> {
     const clTrid = this.textStrings.EPP_CLTRID;
     const xml = domainCheck(domain, clTrid);
     return this.eppHelper.send(xml).toPromise()
@@ -159,7 +162,8 @@ export class DomainEppService {
           fee: commandFees.reduce((fees: { [key: string]: string; }, fee) => {
             fees[extractField(fee, '@description')] = extractText(fee);
             return fees;
-          }, {})
+          }, {}),
+          feeClass: extractText(item, 'fee:class')
         };
         return o;
       }, {}),

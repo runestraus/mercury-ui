@@ -1,6 +1,9 @@
-<form [formGroup]="domainForm" (submit)="onSubmit()" novalidate *appCan="'CRUD_EPP'">
+<form [formGroup]="domainForm" (submit)="onSubmit()" novalidate *appCan="'EPP'">
   <div class="alert alert-info">
     This domain does not exist. Would you like to create it?
+  </div>
+  <div class="alert alert-danger" *ngIf="error">
+    {{error}}
   </div>
   <div class="form-group">
     <label for="registrationPeriod">Registration Period</label>
@@ -10,28 +13,35 @@
   </div>
   <div class="form-group">
     <label for="registrantContact">Registrant Contact* <a class="fa fa-user-plus" aria-hidden="true" (click)="addContact('registrantContact')"></a></label>
-    <input id="registrantContact" class="form-control modal-form-control" type="text" formControlName="registrantContact" />
+    <input id="registrantContact" class="form-control modal-form-control" type="text" formControlName="registrantContact" required />
     <p class="help-block" *ngIf="formErrors.registrantContact">{{formErrors.registrantContact}}</p>
   </div>
   <div class="form-group">
     <label for="adminContact">Admin Contact* <a class="fa fa-user-plus" aria-hidden="true" (click)="addContact('adminContact')"></a></label>
-    <input id="adminContact" class="form-control modal-form-control" type="text" formControlName="adminContact" />
+    <input id="adminContact" class="form-control modal-form-control" type="text" formControlName="adminContact" required />
     <p class="help-block" *ngIf="formErrors.adminContact">{{formErrors.adminContact}}</p>
   </div>
   <div class="form-group">
     <label for="techContact">Tech Contact* <a class="fa fa-user-plus" aria-hidden="true" (click)="addContact('techContact')"></a></label>
-    <input id="techContact" class="form-control modal-form-control" type="text" formControlName="techContact" />
+    <input id="techContact" class="form-control modal-form-control" type="text" formControlName="techContact" required />
     <p class="help-block" *ngIf="formErrors.techContact">{{formErrors.techContact}}</p>
   </div>
   <div class="form-group">
     <label for="billingContact">Billing Contact* <a class="fa fa-user-plus" aria-hidden="true" (click)="addContact('billingContact')"></a></label>
-    <input id="billingContact" class="form-control modal-form-control" type="text" formControlName="billingContact" />
+    <input id="billingContact" class="form-control modal-form-control" type="text" formControlName="billingContact" required />
     <p class="help-block" *ngIf="formErrors.billingContact">{{formErrors.billingContact}}</p>
+  </div>
+  <div class="form-group" *ngIf="isPremium">
+    <label for="premiumConfirmation">
+      Confirm Acceptance of Premium Price: {{domainCheck?.domainPrices['create'].fee['create'] | currency: domainCheck?.domainPrices['create'].currency:true}}*
+    </label>
+    <input id="premiumConfirmation" type="checkbox" formControlName="premiumConfirmation" required>
+    <p class="help-block" id="premiumConfirmationError" *ngIf="formErrors.premiumConfirmation">{{formErrors.premiumConfirmation}}</p>
   </div>
   <div class="form-group pull-right">
     <button [disabled]="!domainForm.valid" type="submit" class="btn btn-primary">Submit</button>
   </div>
 </form>
-<div class="alert alert-warning" *appCanNot="'CRUD_EPP'">
+<div class="alert alert-warning" *appCanNot="'EPP'">
   You are unable to access this feature.  Please contact an administrator to register this name.
 </div>
