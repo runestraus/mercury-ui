@@ -15,7 +15,6 @@ describe('ContactComponent', () => {
     contactId: '1234',
     currentSponsorClientId: 'tldsrus',
     name: 'Donnie',
-    address: this.address,
     org: 'TC',
     type: '',
     deletionTime: null
