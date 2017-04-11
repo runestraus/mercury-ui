@@ -12,8 +12,11 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, ElementRef } from '@angular/core';
 import { ReservedName } from '../../model/reserved-name.model';
+import { RequestOptions, Headers, Request, RequestMethod } from '@angular/http';
+import { ToolsService } from '../../service/tools.service';
+import { CSV } from '../../model/csv.model';
 
 @Component({
   selector: 'app-reserved-name',
@@ -22,10 +25,105 @@ import { ReservedName } from '../../model/reserved-name.model';
 })
 export class ReservedNameComponent implements OnInit {
   errorMessage: string;
+  displayDialog: boolean;
+  error: string;
+  isDownloadDisabled: boolean;
+  hideResult: boolean;
+  hideChanges: boolean;
+  hideErrors: boolean;
+  errorData: string[];
+  token: string;
+  url = '/api/reservednames/csv';
+  dialogResult: CSV = new CSV;
+  uploadResult: CSV = new CSV;
+  uploadResultDetails: {};
+  creates: Object;
+  deletes: Object;
+  updates: Object;
+  csvFile = [];
+
   @Input() reservedNames: ReservedName[];
-  constructor() {}
+  constructor(private toolsService: ToolsService, private elRef: ElementRef) { }
 
   ngOnInit() {
+    this.displayDialog = true;
+    this.hideResult = true;
+    this.hideChanges = true;
+    this.hideErrors = true;
+    if (this.reservedNames === undefined) {
+      this.isDownloadDisabled = true;
+    } else {
+      this.flattenJSON();
+    }
   }
 
+  flattenJSON() {
+    this.reservedNames.forEach(element => {
+      const ar = {
+        Operation: 'U',
+        Domain: element.name,
+        Tags: element.tags
+      };
+      this.csvFile.push(ar);
+    });
+  }
+
+  exportCSV() {
+    this.toolsService.JSONToCSVConvertor(this.csvFile, 'ReservedNames');
+  }
+
+  downloadTemplate(param: string) {
+    this.toolsService.downloadTemplate(param);
+    this.displayDialog = false;
+  }
+
+  getUploadButton() {
+    const btn = this.elRef.nativeElement.querySelector('button[icon=fa-upload]');
+    return btn;
+  }
+
+  validateFile(event: Event) {
+    this.hideErrors = true;
+    this.toolsService.validateCSV(this.url, event)
+      .then(displayResult => {
+        this.error = null;
+        this.hideChanges = false;
+        this.hideResult = true;
+        this.dialogResult = displayResult;
+        this.token = displayResult.token;
+        this.getUploadButton().disabled = false;
+      })
+      .catch(error => {
+        this.getUploadButton().disabled = true;
+        this.displayDialog = true;
+        this.hideResult = true;
+        this.hideChanges = true;
+        if (Array.isArray(error)) {
+          this.hideErrors = false;
+          this.errorData = error;
+        } else {
+          this.error = error;
+        }
+      });
+  }
+
+  uploadCSV(event: Event) {
+    this.toolsService.uploadCSV(this.url + '/' + this.token)
+      .then(uploadResult => {
+        this.uploadResult = uploadResult;
+        this.creates = uploadResult.result.create;
+        this.deletes = uploadResult.result.delete;
+        this.updates = uploadResult.result.update;
+        this.hideChanges = true;
+        this.hideResult = false;
+      })
+      .catch(error => {
+        this.displayDialog = true;
+        this.error = error;
+      });
+  }
+
+  cancelDialog() {
+    this.displayDialog = false;
+  }
 }

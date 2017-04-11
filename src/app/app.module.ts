@@ -46,7 +46,7 @@ import { IcannTldComponent } from './icann/icann-tld/icann-tld.component';
 import { IcannDnsComponent } from './icann/icann-dns/icann-dns.component';
 import { IcannRegistrarComponent } from './icann/icann-registrar/icann-registrar.component';
 import { IcannService } from './service/icann.service';
-import { CalendarModule, DropdownModule, TooltipModule } from 'primeng/primeng';
+import { CalendarModule, DropdownModule, FileUploadModule, TooltipModule } from 'primeng/primeng';
 import { UsersComponent } from './users/users.component';
 import { ContactCreateComponent } from './contacts/contact-create/contact-create.component';
 import { ContactEppService } from './contacts/contactepp.service';
@@ -57,6 +57,7 @@ import { PriceCategoriesService } from './service/price-categories.service';
 import { HostCreateComponent } from './hosts/host-create/host-create.component';
 import { HostEppService } from './hosts/hostepp.service';
 import { DomainEppService } from './service/domain-epp.service';
+import { ToolsService } from './service/tools.service';
 import { GoogleOauthService } from './service/google-oauth.service';
 import { GapiLoader } from './service/gapi-loader.service';
 import { ClickOutsideDirective } from './shared/directives/click-outside.directive';
@@ -120,6 +121,7 @@ import { DomainDeleteComponent } from './domains/domain-delete/domain-delete.com
   imports: [
     BrowserAnimationsModule,
     DropdownModule,
+    FileUploadModule,
     DataTableModule,
     CalendarModule,
     SharedModule,
@@ -147,6 +149,7 @@ import { DomainDeleteComponent } from './domains/domain-delete/domain-delete.com
     RolesService,
     PriceCategoriesService,
     DomainEppService,
+    ToolsService,
     GoogleOauthService,
     GapiLoader
   ],

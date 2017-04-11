@@ -22,6 +22,8 @@ import { IcannRegistrarComponent } from './icann/icann-registrar/icann-registrar
 import { IcannDnsComponent } from './icann/icann-dns/icann-dns.component';
 import { IcannTldComponent } from './icann/icann-tld/icann-tld.component';
 import { UsersComponent } from './users/users.component';
+import { PremiumNameComponent } from './search/premium-name/premium-name.component';
+import { ReservedNameComponent } from './search/reserved-name/reserved-name.component';
 import { PriceCategoriesComponent } from './price-categories/price-categories.component';
 import { HostCreateComponent } from './hosts/host-create/host-create.component';
 import { DomainInfoComponent } from './domains/domain-info/domain-info.component';
@@ -93,6 +95,8 @@ export const routes: Routes = [
   { path: 'icann/icanndns', component: IcannDnsComponent, children: [] },
   { path: 'icann/icannregistrar', component: IcannRegistrarComponent, children: [] },
   { path: 'users', component: UsersComponent, children: [] },
+  { path: 'premiumlists', component: PremiumNameComponent, children: [] },
+  { path: 'reserveddomains', component: ReservedNameComponent, children: [] },
   { path: 'pricecategories', component: PriceCategoriesComponent, children: [] },
   { path: 'hosts/:fullyQualifiedHostName', component: HostCreateComponent, children: [] },
 ];

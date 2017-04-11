@@ -98,7 +98,6 @@ describe('PriceCategoriesComponent', () => {
     };
     component.createPriceCategory = false;
 
-
     component.selectedPriceCategory = selectedPriceCategory;
     component.onRowSelect(selectedPriceCategory);
     fixture.detectChanges();

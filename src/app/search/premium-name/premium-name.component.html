@@ -1,10 +1,6 @@
 <p class="error" *ngIf="errorMessage">{{errorMessage}}</p>
-<p-dataTable #dt [value]="premiumNames" exportFilename="premiumNames" sortMode="multiple" id="premiumPriceTable">
-  <p-header>
-    <div class="ui-helper-clearfix">
-      <button type="button" pButton icon="fa-file-o" iconPos="left" label="CSV" (click)="dt.exportCSV()" style="float:left"></button>
-    </div>
-  </p-header>
+<p-dataTable #dt [value]="premiumNames" [paginator]="true" id="premiumPriceTable" [rows]="30">
+  <p-header></p-header>
   <p-column id="premiumDomainName" field="name" header="Domain" [sortable]="true"></p-column>
   <p-column id="premiumDomainCategory" field="category" header="Category" [sortable]="true"></p-column>
   <p-column id="premiumDomainPrice" field="price" header="Amount" [sortable]="true">
@@ -15,3 +11,73 @@
   <p-column id="premiumDomainFutureCategory" field="futureCategory" header="Future Category" [sortable]="true"></p-column>
   <p-column id="premiumDomainChangeDate" field="changeDate" header="Change Date" [sortable]="true"></p-column>
 </p-dataTable>
+
+<p-dialog header="Search Tools for Premium Names" [(visible)]="displayDialog" [responsive]="true" [width]="600" showEffect="fade"
+  [modal]="true">
+  <p class="error" *ngIf="error"><i class="fa fa-warning"></i> {{error}}</p>
+  <p-footer>
+    <div class="modal-body">
+      <button id="downloadPremiumNameCsv" pButton type="button" icon="fa-file-o" label="CSV" [disabled]="isDownloadDisabled" (click)="exportCSV()"></button>
+      <button id="downloadPremiumNameTemplateCsv" pButton type="button" icon="fa-download" iconPos="left" label="CSV Template"
+        (click)="downloadTemplate('premium')"></button>
+      <p-fileUpload accept=".csv" name="file[]" (onBeforeUpload)="uploadCSV($event)" (onSelect)="validateFile($event)">
+        <ng-template pTemplate="content">
+          <div class="modal-body" [hidden]="hideChanges">
+            <p id="csv-upload-error-result-lbl" class="error" *ngIf="error">{{ error }}</p>
+            <ul class="webconsole-ul">
+              <li id="csv-upload-total-row-lbl">Total Rows: {{ dialogResult.total }}</li>
+              <li id="csv-upload-creates-lbl">Creates: {{ dialogResult.create }}</li>
+              <li id="csv-upload-updates-lbl">Updates: {{ dialogResult.update }}</li>
+              <li id="csv-upload-deletes-lbl">Deletes: {{ dialogResult.delete }}</li>
+            </ul>
+          </div>
+          <div [hidden]="hideResult" *ngIf="uploadResult">
+            <label>Total Rows:</label> {{uploadResult.total}}
+            <p-dataTable #dt [value]="creates" id="premiumPriceCreatesTable">
+              <p-header>Creates Result:</p-header>
+              <p-column id="premiumDomainNameCreates" field="name" header="Domain"></p-column>
+              <p-column id="premiumDomainCategoryCreates" field="category" header="Category"></p-column>
+              <p-column id="premiumDomainPriceCreates" field="price" header="Amount">
+                <ng-template let-col let-creates="rowData" pTemplate="body">
+                  <span class="text-right right">{{ creates[col.field].value  | currency:'USD':true:'1.2-2' }}</span>
+                </ng-template>
+              </p-column>
+            </p-dataTable>
+            <p-dataTable #dt [value]="deletes" id="premiumPriceDeletesTable">
+              <p-header>Deletes Result:</p-header>
+              <p-column id="premiumDomainNameDeletes" field="name" header="Domain"></p-column>
+              <p-column id="premiumDomainCategoryDeletes" field="category" header="Category"></p-column>
+              <p-column id="premiumDomainPriceDeletes" field="price" header="Amount">
+                <ng-template let-col let-deletes="rowData" pTemplate="body">
+                  <span class="text-right right">{{ deletes[col.field].value  | currency:'USD':true:'1.2-2' }}</span>
+                </ng-template>
+              </p-column>
+            </p-dataTable>
+            <p-dataTable #dt [value]="updates" id="premiumPriceUpdatesTable">
+              <p-header>Updates Result:</p-header>
+              <p-column id="premiumDomainNameUpdates" field="name" header="Domain"></p-column>
+              <p-column id="premiumDomainCategoryUpdates" field="category" header="Category"></p-column>
+              <p-column id="premiumDomainPriceUpdates" field="price" header="Amount">
+                <ng-template let-col let-updates="rowData" pTemplate="body">
+                  <span class="text-right right">{{ updates[col.field].value  | currency:'USD':true:'1.2-2' }}</span>
+                </ng-template>
+              </p-column>
+            </p-dataTable>
+          </div>
+          <!-- Errors table -->
+          <div [hidden]="hideErrors" id="premiumErrorTable">
+            <span id="prem-up-error-lbl" class="text-danger"><i class="fa fa-warning"></i>Please correct the errors below and resubmit:</span>
+            <p-dataTable #dt [value]="errorData" id="premiumDomainsErrors">
+              <p-column id="errorRowNumber" field="rowNumber" header="Row Number"></p-column>
+              <p-column id="errorMessage" field="message" header="Message"></p-column>
+              <p-column id="errorRowData" field="row" header="Row Data"></p-column>
+            </p-dataTable>
+          </div>
+        </ng-template>
+      </p-fileUpload>
+    </div>
+    <div class="ui-dialog-buttonpane ui-widget-content ui-helper-clearfix">
+      <button type="button" pButton label="Close" (click)="cancelDialog()" class="ui-button-secondary"></button>
+    </div>
+  </p-footer>
+</p-dialog>

@@ -1,10 +1,59 @@
 <p class="error" *ngIf="errorMessage">{{errorMessage}}</p>
-<p-dataTable #dt [value]="reservedNames" exportFilename="reservedNames" sortMode="multiple" id="reservedNamesTable">
-  <p-header>
-    <div class="ui-helper-clearfix">
-      <button type="button" pButton icon="fa-file-o" iconPos="left" label="CSV" (click)="dt.exportCSV()" style="float:left"></button>
-    </div>
-  </p-header>
+<p-dataTable #dt [value]="reservedNames" [paginator]="true" id="reservedNamesTable" [rows]="30">
+  <p-header></p-header>
   <p-column id="reservedDomainName" field="name" header="Domain" [sortable]="true"></p-column>
   <p-column id="reservedDomainTags" field="tags" header="Tags" [sortable]="true"></p-column>
 </p-dataTable>
+
+<p-dialog header="Search Tools for Reserved Names" [(visible)]="displayDialog" [responsive]="true" [width]="600" showEffect="fade"
+  [modal]="true">
+  <p class="error" *ngIf="error"><i class="fa fa-warning"></i> {{error}}</p>
+  <p-footer>
+    <div class="modal-body">
+      <button id="downloadReservedNameCsv" pButton type="button" icon="fa-file-o" label="CSV" [disabled]="isDownloadDisabled" (click)="exportCSV()"></button>
+      <button id="downloadReservedNameTemplateCsv" pButton type="button" icon="fa-download" iconPos="left" label="CSV Template"
+        (click)="downloadTemplate('reserved')"></button>
+      <p-fileUpload accept=".csv" name="file[]" (onBeforeUpload)="uploadCSV($event)" (onSelect)="validateFile($event)">
+        <ng-template pTemplate="content">
+          <div class="modal-body" [hidden]="hideChanges">
+            <p id="csv-upload-error-result-lbl" class="error" *ngIf="error">{{ error }}</p>
+            <ul class="webconsole-ul">
+              <li id="csv-upload-total-row-lbl">Total Rows: {{ dialogResult.total }}</li>
+              <li id="csv-upload-creates-lbl">Creates: {{ dialogResult.create }}</li>
+              <li id="csv-upload-updates-lbl">Updates: {{ dialogResult.update }}</li>
+              <li id="csv-upload-deletes-lbl">Deletes: {{ dialogResult.delete }}</li>
+            </ul>
+          </div>
+          <div [hidden]="hideResult" *ngIf="uploadResult">
+            <label>Total Rows:</label> {{uploadResult.total}}
+            <p-dataTable #dt [value]="creates" id="reservedDomaCreatesTable">
+              <p-header>Creates Result:</p-header>
+              <p-column id="reservedDomainNameCreates" field="name" header="Domain" [sortable]="true"></p-column>
+              <p-column id="reservedDomainTagCreatess" field="tags" header="Tags" [sortable]="true"></p-column>
+            </p-dataTable>
+            <p-dataTable #dt [value]="deletes" id="reservedDomaDeletesTable">
+              <p-header>Deletes Result:</p-header>
+              <p-column id="reservedDomainDeletes" field="name" header="Domain"></p-column>
+            </p-dataTable>
+            <p-dataTable #dt [value]="updates" id="reservedDomaUpdatesTable">
+              <p-header>Updates Result:</p-header>
+              <p-column id="reservedDomainNameUpdates" field="name" header="Domain"></p-column>
+              <p-column id="reservedDomainCategoryUpdates" field="tags" header="Tags"></p-column>
+            </p-dataTable>
+          </div>
+          <!-- Errors table -->
+          <div [hidden]="hideErrors">
+            <p-dataTable #dt [value]="errorData" id="reservedDomainsErrors">
+              <p-column id="errorRowNumber" field="rowNumber" header="Row Number"></p-column>
+              <p-column id="errorMessage" field="message" header="Message"></p-column>
+              <p-column id="errorRowData" field="row" header="Row Data"></p-column>
+            </p-dataTable>
+          </div>
+        </ng-template>
+      </p-fileUpload>
+    </div>
+    <div class="ui-dialog-buttonpane ui-widget-content ui-helper-clearfix">
+      <button type="button" pButton label="Close" (click)="cancelDialog()" class="ui-button-secondary"></button>
+    </div>
+  </p-footer>
+</p-dialog>

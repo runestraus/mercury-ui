@@ -36,6 +36,8 @@ import { ReservedName } from '../model/reserved-name.model';
 import { FormsModule } from '@angular/forms';
 import { DataTableModule, DialogModule } from 'primeng/primeng';
 import { HttpModule } from '@angular/http';
+import { ToolsService } from '../service/tools.service';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 class Page {
   query: DocQuery<SearchComponent>;
@@ -126,6 +128,14 @@ describe('SearchComponent', () => {
       subscribe: jasmine.createSpy('subscribe')
     }
   };
+
+  const toolsService = {
+    JSONToCSVConvertor: jasmine.createSpy('JSONToCSVConvertor'),
+    downloadTemplate: jasmine.createSpy('downloadTemplate'),
+    validateCSV: jasmine.createSpy('validateCSV'),
+    uploadCSV: jasmine.createSpy('uploadCSV')
+  };
+
   beforeEach(async(() => {
     mockRouter.events.subscribe.and.returnValue({
       unsubscribe: jasmine.createSpy('unsubscribe')
@@ -134,12 +144,13 @@ describe('SearchComponent', () => {
       declarations: [ SearchComponent, DomainComponent, HostComponent, PremiumNameComponent,
         ReservedNameComponent, DpmlComponent, ContactComponent ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA],
-      imports: [ FormsModule, DialogModule, DataTableModule, HttpModule],
+      imports: [ FormsModule, DialogModule, DataTableModule, HttpModule, BrowserAnimationsModule],
       providers: [
         RouterOutletMap,
         { provide: ActivatedRoute, useValue: mockRoute },
         { provide: SearchService, useValue: mockSearchService },
-        { provide: Router, useValue: mockRouter }
+        { provide: Router, useValue: mockRouter },
+        { provide: ToolsService, useValue: toolsService }
       ]
     })
       .compileComponents();
@@ -354,7 +365,7 @@ describe('SearchComponent', () => {
       fail('Err: ' + err);
     });
   }));
-  it('should have reserved names table after reserved names search', async(() => {
+ it('should have reserved names table after reserved names search', async(() => {
     mockRoute.snapshot.params['query'] = '!RSV .dev';
     const dataResults: DataResults[] = [{
       type: '!RSV',
