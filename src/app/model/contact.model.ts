@@ -12,6 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+import { ContactAddress } from '../contacts/contact.model';
 export class Contact {
   contactId: string;
   currentSponsorClientId: string;
