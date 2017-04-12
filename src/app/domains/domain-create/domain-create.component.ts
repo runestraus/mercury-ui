@@ -102,9 +102,11 @@ export class DomainCreateComponent implements OnInit {
     const formModel = this.domainForm.value;
     const contacts = [
       { type: 'admin', value: formModel.adminContact },
-      { type: 'tech', value: formModel.techContact },
-      { type: 'billing', value: formModel.billingContact }
+      { type: 'tech', value: formModel.techContact }
     ];
+    if (formModel.billingContact) {
+      contacts.push({ type: 'billing', value: formModel.billingContact });
+    }
     const domainInfo = {
       clientId: this._user.clientId,
       fullyQualifiedDomainName: this.domainName,
@@ -154,7 +156,7 @@ export class DomainCreateComponent implements OnInit {
       registrantContact: ['', [Validators.required]],
       adminContact: ['', [Validators.required]],
       techContact: ['', [Validators.required]],
-      billingContact: ['', [Validators.required]],
+      billingContact: [''],
       premiumConfirmation: ['']
     });
     this.contactExists(this.domainForm.get('registrantContact'));

@@ -27,8 +27,8 @@
     <p class="help-block" *ngIf="formErrors.techContact">{{formErrors.techContact}}</p>
   </div>
   <div class="form-group">
-    <label for="billingContact">Billing Contact* <a class="fa fa-user-plus" aria-hidden="true" (click)="addContact('billingContact')"></a></label>
-    <input id="billingContact" class="form-control modal-form-control" type="text" formControlName="billingContact" required />
+    <label for="billingContact">Billing Contact <a class="fa fa-user-plus" aria-hidden="true" (click)="addContact('billingContact')"></a></label>
+    <input id="billingContact" class="form-control modal-form-control" type="text" formControlName="billingContact" />
     <p class="help-block" *ngIf="formErrors.billingContact">{{formErrors.billingContact}}</p>
   </div>
   <div class="form-group" *ngIf="isPremium">

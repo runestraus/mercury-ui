@@ -112,7 +112,35 @@ describe('DomainCreateComponent', () => {
       component.onSubmit();
       expect(mockDomainService.create).toHaveBeenCalledWith(domain);
     }).catch(err => fail(err));
+  }));
 
+  it('should not submit the billing contact if user has not added one', async(() => {
+    component.ngOnInit();
+    const domain = {
+      clientId: 'abc123',
+      fullyQualifiedDomainName: 'test.test',
+      registrationPeriod: '1',
+      domainNameserversArray: [],
+      authInfo: '',
+      contacts: [
+        { type: 'admin', value: 'brodaddyAdmin' },
+        { type: 'tech', value: 'brodaddyTech' }
+      ],
+      registrantContact: 'registrantContact'
+    };
+    fixture.detectChanges();
+    fixture.whenStable().then(() => {
+      mockDomainService.create.and.returnValue(Promise.resolve(domain));
+      component.domainForm.patchValue({
+        registrationPeriod: '1',
+        registrantContact: domain.registrantContact,
+        adminContact: 'brodaddyAdmin',
+        techContact: 'brodaddyTech'
+      });
+      component.domainName = 'test.test';
+      component.onSubmit();
+      expect(mockDomainService.create).toHaveBeenCalledWith(domain);
+    }).catch(err => fail(err));
   }));
 
   it('should submit domain with premium prices if a premium name', async(() => {
@@ -161,7 +189,7 @@ describe('DomainCreateComponent', () => {
       component.onValueChanged();
       expect(component.formErrors.registrantContact).toContain('Registrant Contact is required.');
       expect(component.formErrors.adminContact).toContain('Admin Contact is required.');
-      expect(component.formErrors.billingContact).toContain('Billing Contact is required.');
+      expect(component.formErrors.billingContact).toBe('');
       expect(component.formErrors.techContact).toContain('Tech Contact is required.');
       expect(component.formErrors.premiumConfirmation).toBe('');
     }).catch(err => fail(err));
