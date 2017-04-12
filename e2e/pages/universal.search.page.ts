@@ -31,6 +31,10 @@ export class UniversalSearchPage {
   thHeaderContactName = element(by.id('contactName'));
   tblDomainName = element(by.id('domainsTable'));
   thHeaderDomainName = element(by.id('domainName'));
+  cancelBtnPremium = element(by.id('cancelPremiumTools'));
+  premiumModal = element(by.id('premiumModal'));
+  cancelBtnReserved = element(by.id('cancelReservedTools'));
+  domainModal = element(by.id('domainModal'));
 
   clearSearch() {
     this.txtSearchBox.clear();
@@ -43,6 +47,38 @@ export class UniversalSearchPage {
       a: 'click'
     });
   };
+
+  isPremiumModsalPresent() {
+    const e = this.premiumModal;
+    return action.is({
+      e: e,
+      a: 'shown'
+    });
+  };
+
+  clickCancelPremiumTools() {
+    const e = this.cancelBtnPremium;
+    action.set({
+      e: e,
+      a: 'click'
+    });
+  }
+
+  isReservedModalPresent() {
+    const e = this.domainModal;
+    return action.is({
+      e: e,
+      a: 'shown'
+    });
+  };
+
+  clickCancelReservedTools() {
+    const e = this.cancelBtnReserved;
+    action.set({
+      e: e,
+      a: 'click'
+    });
+  }
 
   isPremiumDomainTablePresent() {
     const e = this.tblPremiumDomainName;
