@@ -48,7 +48,7 @@ export class UniversalSearchPage {
     });
   };
 
-  isPremiumModsalPresent() {
+  isPremiumModalPresent() {
     const e = this.premiumModal;
     return action.is({
       e: e,

@@ -37,13 +37,13 @@ describe('Mercury UI App Search Smoke Test', function() {
     page.clearSearch();
     page.txtSearchBox.sendKeys('$');
     page.clickSearchButton();
-    page.isReservedModalPresent();
+    page.isPremiumModalPresent();
     page.clickCancelPremiumTools();
     page.isPremiumDomainTablePresent();
     page.clearSearch();
     page.txtSearchBox.sendKeys('!RSV');
     page.clickSearchButton();
-    page.isReservedModsalPresent();
+    page.isReservedModalPresent();
     page.clickCancelReservedTools();
     page.isReservedDomainTablePresent();
     page.clearSearch();
