@@ -16,6 +16,7 @@ export class DomainInfoComponent implements OnInit {
   loading = true;
   error: string = null;
   createDomain = false;
+  isPremium = false;
 
   constructor(
     private route: ActivatedRoute,
@@ -31,6 +32,9 @@ export class DomainInfoComponent implements OnInit {
     this.domainEppService.info(this.domainName, null).then(domainDetail => {
       this.loading = false;
       this.domainDetail = domainDetail;
+      if (domainDetail.domainPrices) {
+        this.isPremium = this.domainEppService.isPremium(domainDetail.domainPrices.prices['renew']);
+      }
       this.createDomain = false;
     }).catch(err => {
       this.loading = false;
@@ -40,7 +44,6 @@ export class DomainInfoComponent implements OnInit {
       } else if (err.code && err.message) {
         this.error = err.message;
       } else {
-        console.error(err);
         this.error = 'There was an error getting domain info';
       }
     });

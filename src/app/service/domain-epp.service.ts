@@ -140,6 +140,10 @@ export class DomainEppService {
       .then(result => this.eppHelper.getEppMessageAndStatus(result));
   }
 
+  isPremium(domainPrice: DomainPrice): boolean {
+    return domainPrice.feeClass === 'premium';
+  }
+
   private getPriceData(prices: any[]): DomainPrices {
     if (!Array.isArray(prices)) {
       prices = [prices];

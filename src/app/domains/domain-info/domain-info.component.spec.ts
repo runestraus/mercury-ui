@@ -7,6 +7,7 @@ import { Observer } from 'rxjs/Observer';
 import { DomainEppService } from '../../service/domain-epp.service';
 import { DomainInfoComponent } from './domain-info.component';
 import { DocQuery } from '../../shared/testutils';
+import { DomainPrice } from '../../model/domain.model';
 
 class Page {
   query: DocQuery<DomainInfoComponent>;
@@ -33,6 +34,11 @@ class Page {
     return el ? el.nativeElement.textContent : null;
   }
 
+  getPremiumInformation(): string {
+    const el = this.query.getElementByCss('#premiumDomainInfo');
+    return el ? el.nativeElement.textContent : null;
+  }
+
   clickCloseButton(): void {
     this.query.getElementByCss('#domainInfoClose').nativeElement.click();
   }
@@ -49,6 +55,7 @@ describe('DomainInfoComponent', () => {
 
   const mockDomainEppService = {
     info: jasmine.createSpy('info'),
+    isPremium: jasmine.createSpy('isPremium')
   };
 
   const mockRouter = {
@@ -75,6 +82,28 @@ describe('DomainInfoComponent', () => {
       status: statuses,
       currentSponsorClientId: 'brodaddy',
       registrationExpirationTime: '2010-01-01T00:00:00Z',
+    }));
+  }
+
+  function resolvePremiumDomain() {
+    mockDomainEppService.info.and.returnValue(Promise.resolve({
+      fullyQualifiedDomainName: 'holy.cow',
+      status: ['ok'],
+      currentSponsorClientId: 'brodaddy',
+      registrationExpirationTime: '2010-01-01T00:00:00Z',
+      domainPrices: {
+        prices: {
+          'renew': {
+            currency: 'USD',
+            period: '1',
+            periodUnit: '',
+            feeClass: 'premium',
+            fee: {
+              'renew': '33.00'
+            }
+          }
+        }
+      }
     }));
   }
 
@@ -141,6 +170,16 @@ describe('DomainInfoComponent', () => {
       fixture.detectChanges();
       expect(page.getDomainExpiration()).toBeDefined(); // No longer checking value because of timezone changes
       expect(page.hasInfoIcon()).toBeTruthy('Expected info icon');
+    });
+  }));
+
+  it('should show premium domain info in header after name', async(() => {
+    mockDomainEppService.isPremium.and.returnValue(true);
+    resolvePremiumDomain();
+    fixture.detectChanges();
+    fixture.whenStable().then(() => {
+      fixture.detectChanges();
+      expect(page.getPremiumInformation()).toBe('$33.00');
     });
   }));
 

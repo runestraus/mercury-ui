@@ -3,9 +3,11 @@
     <button id="buttonCloseX" tooltip="Close" type="button" class="close" (click)="onCloseClicked()" aria-hidden="true">&times;</button>
     <i *ngIf="!loading && domainDetail !== undefined" (click)="openDetailsDialog()" id="domainInfoIcon" class="right fa fa-info-circle fa-2x statusIcons" pTooltip="Domain Information" style="margin-top:5px;margin-right:10px;"></i>
     <span *ngIf="domainDetail?.registrationExpirationTime" class="domainExpirationHeader">Expires: {{domainDetail.registrationExpirationTime | date:'yyyy MMM d'}}</span><br/>
-    <h3 id="domain-info-header" class="modal-title wordBreak">{{domainName}}</h3>
+    <h3 id="domain-info-header" class="modal-title wordBreak">{{domainName}}
+      <span *ngIf="isPremium" id="premiumDomainInfo" class="label label-default">{{domainDetail?.domainPrices.prices['renew'].fee['renew'] | currency: domainDetail?.domainPrices.prices['renew'].currency:true}}</span>
+    </h3>
   </p-header>
-	<div *ngIf="error" class="alert alert-danger" role="alert" id="domainInfoError">{{error}}</div>
+  <div *ngIf="error" class="alert alert-danger" role="alert" id="domainInfoError">{{error}}</div>
   <app-domain-create *ngIf="createDomain" [domainName]="domainName" (onCreated)="getDomain()"></app-domain-create>
   <div id="domainInfoLoading" class="text-align-center" *ngIf="loading">
     <i class="fa fa-circle-o-notch fa-spin fa-5x"></i>
