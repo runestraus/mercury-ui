@@ -10,8 +10,8 @@
     <!-- END ERROR -->
     <div class="panel-body">
       <div class="form-group left modal-form-group count modal-300">
-        <label>TLD*:</label>
-        <select [(ngModel)]="icannDns.tld" name="tld" id="tld"><option  *ngFor="let tld of allTlds">{{tld.name}}</option></select>
+        <label for="tld">TLD*:</label>
+        <select [(ngModel)]="icannDns.tld" name="tld" id="tld" class="form-control"><option  *ngFor="let tld of allTlds">{{tld.name}}</option></select>
       </div>
       <div class="form-group left modal-form-group count">
         <label>ICANN Report Period*:</label><br>
@@ -19,19 +19,19 @@
       </div>
       <span class="clear"></span>
       <div class="form-group left modal-form-group count">
-        <label>DNS UDP Queries Received*:</label>
+        <label for="dnsReceivedCount">DNS UDP Queries Received*:</label>
         <input type="number" class="form-control" *ngIf="icannDns" [(ngModel)]="icannDns.dnsUdpQueriesReceivedCount" name="dnsReceivedCount" id="dnsReceivedCount" required/>
       </div>
       <div class="form-group left modal-form-group count">
-        <label>DNS UDP Queries Responded*:</label>
+        <label for="dnsRespondedCount">DNS UDP Queries Responded*:</label>
         <input type="number" class="form-control" *ngIf="icannDns" [(ngModel)]="icannDns.dnsUdpQueriesRespondedCount" name="dnsRespondedCount" id="dnsRespondedCount" required/>
       </div>
       <div class="form-group left modal-form-group count">
-        <label>DNS TCP Queries Received*:</label>
+        <label for="tcpReceivedCount">DNS TCP Queries Received*:</label>
         <input type="number" class="form-control" *ngIf="icannDns" [(ngModel)]="icannDns.dnsTcpQueriesReceivedCount" name="tcpReceivedCount" id="tcpReceivedCount" required/>
       </div>
       <div class="form-group left modal-form-group count">
-        <label>DNS TCP Queries Responded*:</label>
+        <label for="tcpRespondedCount">DNS TCP Queries Responded*:</label>
         <input type="number" class="form-control" *ngIf="icannDns" [(ngModel)]="icannDns.dnsTcpQueriesRespondedCount"  name="tcpRespondedCount" id="tcpRespondedCount" required/>
       </div>
     </div>

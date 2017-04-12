@@ -10,8 +10,8 @@
     <!-- END ERROR -->
     <div class="panel-body" >
       <div class="form-group left modal-form-group count modal-300">
-        <label>TLD*:</label>
-        <select [(ngModel)]="icannRegistrar.tld" name="tld" id="tld" required><option  *ngFor="let tld of allTlds">{{tld.name}}</option></select>
+        <label for="tld">TLD*:</label>
+        <select [(ngModel)]="icannRegistrar.tld" name="tld" id="tld" class="form-control" required><option  *ngFor="let tld of allTlds">{{tld.name}}</option></select>
       </div>
       <div class="form-group left modal-form-group count">
         <label>ICANN Report Period*:</label><br>
@@ -19,15 +19,15 @@
       </div>
       <span class="clear"></span>
       <div class="form-group left modal-form-group count">
-        <label>Ramp Up Registrars*:</label>
+        <label for="rampUpCount">Ramp Up Registrars*:</label>
         <input type="number" *ngIf="icannRegistrar" [(ngModel)]="icannRegistrar.rampUpRegistrarsCount" name="rampUpCount" id="rampUpCount" class="form-control" required/>
       </div>
       <div class="form-group left modal-form-group count">
-        <label>Pre-Ramp Up Registrars*:</label>
+        <label for="preRampUpCount">Pre-Ramp Up Registrars*:</label>
         <input type="number" *ngIf="icannRegistrar" [(ngModel)]="icannRegistrar.preRampUpRegistrarsCount" name="preRampUpCount" id="preRampUpCount" class="form-control" required/>
       </div>
       <div class="form-group left modal-form-group count">
-        <label>Zone File Access Passwords*:</label>
+        <label for="zfaPasswordsCount">Zone File Access Passwords*:</label>
         <input type="number" *ngIf="icannRegistrar" [(ngModel)]="icannRegistrar.zfaPasswordsCount" name="zfaPasswordsCount" id="zfaPasswordsCount" class="form-control" required/>
       </div>
     </div>
