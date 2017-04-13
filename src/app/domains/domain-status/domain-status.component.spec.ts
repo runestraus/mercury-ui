@@ -23,30 +23,30 @@ import { DocQuery } from '../../shared/testutils';
 import { Observable } from 'rxjs/Observable';
 import { Observer } from 'rxjs/Observer';
 import { By } from '@angular/platform-browser';
+import { createMockRoute } from '../../shared/testutils';
 
 class Page {
   fix: ComponentFixture<DomainStatusComponent>;
-  elCheckBox: HTMLElement;
 
   domainDetail = {
-  fullyQualifiedDomainName: 'dev.dev',
-  status: ['ok'],
-  repoId: 'FOO-123',
-  currentSponsorClientId: 'RegistrarX',
-  creationClientId: 'RegistrarX',
-  creationTime: '2001-01-01T00:00:00Z',
-  registrationExpirationTime: '2002-01-01T00:00:00Z',
-  authInfo: '',
-  nameservers: [],
-  subordinateHosts: [],
-  rgpStatus: '',
-  domainPrices: null,
-  contacts: {
-    'tech': 'foo',
-    'admin': 'foo',
-    'registrant': 'bar',
-  },
-} as DomainDetail;
+    fullyQualifiedDomainName: 'dev.dev',
+    status: ['ok'],
+    repoId: 'FOO-123',
+    currentSponsorClientId: 'RegistrarX',
+    creationClientId: 'RegistrarX',
+    creationTime: '2001-01-01T00:00:00Z',
+    registrationExpirationTime: '2002-01-01T00:00:00Z',
+    authInfo: '',
+    nameservers: [],
+    subordinateHosts: [],
+    rgpStatus: '',
+    domainPrices: null,
+    contacts: {
+      'tech': 'foo',
+      'admin': 'foo',
+      'registrant': 'bar',
+    },
+  } as DomainDetail;
   query: DocQuery<DomainStatusComponent>;
   constructor(private fixture: ComponentFixture<DomainStatusComponent>) {
     this.query = new DocQuery(fixture);
@@ -54,13 +54,14 @@ class Page {
   }
   clickSubmit() {
     const el = this.query.getElementByCss('#domainStatusSubmit');
+    expect(el).toBeTruthy();
     el.nativeElement.click();
   }
 
   clickCheckBox(elementName) {
-    this.elCheckBox = this.fix.debugElement.query(By.css(elementName)).nativeElement;
-    expect(this.elCheckBox).toBeTruthy();
-    this.elCheckBox.click();
+    const elCheckBox = this.fix.debugElement.query(By.css(elementName));
+    expect(elCheckBox).toBeTruthy();
+    elCheckBox.nativeElement.click();
   }
 }
 
@@ -71,29 +72,10 @@ describe('DomainStatusComponent testing add all stati', () => {
   let router;
   let route;
 
-  const mockRoute = {
-    url: Observable.create((observer: Observer<Array<string>>) => {
-      observer.next(['serverstatus']);
-      observer.complete();
-    }),
-    parent: {
-      url: Observable.create((observer: Observer<Array<string>>) => {
-        observer.next(['domains', 'dev.dev']);
-        observer.complete();
-      }),
-      snapshot: {
-        params: {
-          'domainName': 'dev.dev',
-        }
-      },
-      parent: {
-        url: Observable.create((observer: Observer<Array<string>>) => {
-          observer.next(['search', 'dev.dev']);
-          observer.complete();
-        })
-      }
-    },
-  };
+  const mockRoute = createMockRoute(
+    ['search/dev.dev', 'domains/dev.dev/serverstatus'],
+    {domainName: 'dev.dev'}
+  );
 
   const mockDomainEppService = {
     updateStatus: jasmine.createSpy('updateStatus'),
@@ -136,7 +118,7 @@ describe('DomainStatusComponent testing add all stati', () => {
       imports: [
         ReactiveFormsModule, RouterModule,
       ],
-      schemas: [CUSTOM_ELEMENTS_SCHEMA]
+      schemas: [CUSTOM_ELEMENTS_SCHEMA],
     })
       .compileComponents();
   }));
@@ -166,33 +148,36 @@ describe('DomainStatusComponent testing add all stati', () => {
       })
     );
     fixture.detectChanges();
-    component.domainDetail = page.domainDetail;
-    page.clickCheckBox('#prohibited');
-    page.clickCheckBox('#hold');
-    page.clickCheckBox('#renew');
-    page.clickCheckBox('#transfer');
-    page.clickCheckBox('#update');
-    page.clickCheckBox('#clientprohibited');
-    page.clickCheckBox('#clienthold');
-    page.clickCheckBox('#clientrenew');
-    page.clickCheckBox('#clienttransfer');
-    page.clickCheckBox('#clientupdate');
-    page.clickSubmit();
     fixture.whenStable().then(() => {
-      expect(mockDomainEppService.updateStatus).toHaveBeenCalledWith('dev.dev',
-        [ 'serverDeleteProhibited',
-          'serverHold',
-          'serverRenewProhibited',
-          'serverTransferProhibited',
-          'serverUpdateProhibited',
-          'clientDeleteProhibited',
-          'clientHold',
-          'clientRenewProhibited',
-          'clientTransferProhibited',
-          'clientUpdateProhibited' ],
-        [ ]);
-      expect(mockDomainEppService.updateStatus).toHaveBeenCalledTimes(1);
-    });
+      fixture.detectChanges();
+      component.domainDetail = page.domainDetail;
+      page.clickCheckBox('#prohibited');
+      page.clickCheckBox('#hold');
+      page.clickCheckBox('#renew');
+      page.clickCheckBox('#transfer');
+      page.clickCheckBox('#update');
+      page.clickCheckBox('#clientprohibited');
+      page.clickCheckBox('#clienthold');
+      page.clickCheckBox('#clientrenew');
+      page.clickCheckBox('#clienttransfer');
+      page.clickCheckBox('#clientupdate');
+      page.clickSubmit();
+      fixture.whenStable().then(() => {
+        expect(mockDomainEppService.updateStatus).toHaveBeenCalledWith('dev.dev',
+          [ 'serverDeleteProhibited',
+            'serverHold',
+            'serverRenewProhibited',
+            'serverTransferProhibited',
+            'serverUpdateProhibited',
+            'clientDeleteProhibited',
+            'clientHold',
+            'clientRenewProhibited',
+            'clientTransferProhibited',
+            'clientUpdateProhibited' ],
+          [ ]);
+        expect(mockDomainEppService.updateStatus).toHaveBeenCalledTimes(1);
+      }).catch(err => fail(err));
+    }).catch(err => fail(err));
   }));
 });
 
@@ -202,29 +187,11 @@ describe('DomainStatusComponent remove status test', () => {
   let page: Page;
   let router;
   let route;
-  const mockRoute = {
-    url: Observable.create((observer: Observer<Array<string>>) => {
-      observer.next(['serverstatus']);
-      observer.complete();
-    }),
-    parent: {
-      url: Observable.create((observer: Observer<Array<string>>) => {
-        observer.next(['domains', 'dev.dev']);
-        observer.complete();
-      }),
-      snapshot: {
-        params: {
-          'domainName': 'dev.dev',
-        }
-      },
-      parent: {
-        url: Observable.create((observer: Observer<Array<string>>) => {
-          observer.next(['search', 'dev.dev']);
-          observer.complete();
-        })
-      }
-    },
-  };
+  const mockRoute = createMockRoute(
+    ['search/dev.dev', 'domains/dev.dev/serverstatus'],
+    {domainName: 'dev.dev'}
+  );
+
   const mockDomainEppService = {
     updateStatus: jasmine.createSpy('updateStatus'),
     info: jasmine.createSpy('info'),

@@ -38,7 +38,7 @@ export class DomainStatusComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.domainName = this.route.parent.snapshot.params['domainName'];
+    this.domainName = this.route.snapshot.params['domainName'];
     this.getDomain();
     this.createForm();
     this.showDialog = true;
@@ -107,7 +107,7 @@ export class DomainStatusComponent implements OnInit {
   }
 
   onCloseClicked() {
-    this.router.navigate([getParentRouteUrl(this.route)]);
+    this.router.navigate(['../'], {relativeTo: this.route});
   }
 }
 
