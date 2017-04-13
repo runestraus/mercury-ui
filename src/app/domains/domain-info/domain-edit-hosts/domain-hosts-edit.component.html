@@ -1,0 +1,36 @@
+<p-dialog [(visible)]="showDialog" width="400" showEffect="fade" modal="modal" responsive="true" [closable]="false">
+  <p-header>
+    <button id="buttonCloseX" tooltip="Close" type="button" class="close" (click)="onCloseClicked()" aria-hidden="true">&times;</button>
+    <h3>Delegation</h3>
+  </p-header>
+  <label class="modal-label">Domain: {{domainName}}</label>
+  <div data-ng-show="editNameservers">
+    <form [formGroup]="domainHostsForm" (submit)="onSubmit()" novalidate>
+      <div *ngIf="error" id="domainHostsEditError" class="alert alert-danger" role="alert">{{error}}</div>
+      <div id="domainHostsEditLoading" class="text-align-center" *ngIf="loading">
+        <i class="fa fa-circle-o-notch fa-spin fa-5x"></i>
+      </div>
+      <div class="form-group modal-form-group">
+        <label class="modal-label">Domain Nameservers: <button type="button" id="addNameServer" (click)="addNameserverInput()">Add Nameserver</button></label>
+        <!--nameservers-->
+        <div formArrayName="nameservers">
+          <div *ngFor="let host of getNameservers(domainHostsForm); let i=index">
+            <div [formGroupName]="i">
+              <div class="form-group">
+                <input type="text" placeholder="ns1.example.tld" class="form-control dynamicTextInput modal-form-control" formControlName="nameserver">
+                <button class="btn btn-default remove-element-button modal-form-control" (click)="removeNameserverInput(i)">Remove</button>
+              </div>
+            </div>
+          </div>
+        </div>
+        <span class="clear"></span>
+      </div>
+    </form>
+  </div>
+  <p-footer>
+    <div class="ui-dialog-buttonpane ui-widget-content ui-helper-clearfix">
+      <button type="button" class="btn btn-primary" id="domainEditSubmit" [disabled]="!domainHostsForm.valid" (click)="onSubmit()">Submit</button>
+      <button type="button" class="btn btn-default" id="domainEditClose" (click)="onCloseClicked()">Close</button>
+    </div>
+  </p-footer>
+</p-dialog>

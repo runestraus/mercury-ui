@@ -14,8 +14,7 @@ export class DomainInfoHostsComponent implements OnInit {
 
   constructor(private route: ActivatedRoute, private router: Router) { }
 
-  ngOnInit() {
-  }
+  ngOnInit() {}
 
   onEditHost(nameserver: string): void {
     this.router.navigate(['hosts/' + nameserver], {relativeTo: this.route});
@@ -26,6 +25,6 @@ export class DomainInfoHostsComponent implements OnInit {
   }
 
   openEditHostsDialog(): void {
-    alert('Not yet implemented');
+    this.router.navigate(['hostsedit'], {relativeTo: this.route});
   }
 }

@@ -47,7 +47,7 @@ export function extractArray(result: any, ...path: string[]): string[] {
   // element we were looking for so return
   if (path.length === 1) {
     if (!Array.isArray(result[path[0]])) {
-      return [result[path[0]]];
+      return [result[path[0]]['keyValue']];
     }
     return result[path[0]].map(item => extractText(item));
   }

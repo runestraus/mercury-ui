@@ -1,7 +1,7 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { Router, ActivatedRoute } from '@angular/router';
 import { Observable, Observer } from 'rxjs/Rx';
-
+import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { DomainDetail } from '../../../model/domain.model';
 import { DisplayListComponent } from '../../../shared/components/display-list/display-list.component';
 import { DomainInfoHostsComponent } from './domain-info-hosts.component';
@@ -66,6 +66,7 @@ describe('DomainInfoHostsComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [ DomainInfoHostsComponent, DisplayListComponent ],
+      schemas: [CUSTOM_ELEMENTS_SCHEMA],
       providers: [
         {provide: Router, useValue: mockRouter},
         {provide: ActivatedRoute, useValue: mockRoute}

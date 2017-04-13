@@ -32,6 +32,7 @@ import { DomainInfoDetailComponent } from './domains/domain-info-detail/domain-i
 import { ContactCreateComponent } from './contacts/contact-create/contact-create.component';
 import { ContactsComponent } from './contacts/contacts/contacts.component';
 import { DomainDeleteComponent } from './domains/domain-delete/domain-delete.component';
+import { DomainHostsEditComponent } from './domains/domain-info/domain-edit-hosts/domain-hosts-edit.component';
 
 export const routes: Routes = [
   { path: '',  component: DashboardComponent },
@@ -87,6 +88,11 @@ export const routes: Routes = [
           {
             path: 'domains/:domainName/serverstatus',
             component: DomainStatusComponent,
+            children: []
+          },
+          {
+            path: 'domains/:domainName/hostsedit',
+            component: DomainHostsEditComponent,
             children: []
           },
       ]

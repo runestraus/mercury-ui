@@ -78,7 +78,6 @@ export class DomainEppService {
         }
         return domainDetail;
       });
-
   }
 
   check(domain: string): Promise<DomainCheck> {

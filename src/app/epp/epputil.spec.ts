@@ -111,6 +111,16 @@ describe('EPP utility functions', () => {
     expect(epputil.extractArray(data, 'domain:subordinateHosts')).toEqual(['donuts_300.cow', 'donuts_300.tld']);
   });
 
+  it('should return an array of length one with correct values', () => {
+    const data = {
+      'domain:subordinateHosts':
+        {
+          'keyValue': 'donuts_300.cow'
+        },
+    };
+    expect(epputil.extractArray(data, 'domain:subordinateHosts')).toEqual(['donuts_300.cow']);
+  });
+
   it('should return an array of length zero -- data is empty object', () => {
     const data = {};
     expect(epputil.extractArray(data, 'domain:subordinateHosts')).toEqual([]);
