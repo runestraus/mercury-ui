@@ -18,4 +18,5 @@ export class User {
   isRegistrarLogin: boolean;
   permissions: string[];
   ianaId: number;
+  registrarName: string;
 }

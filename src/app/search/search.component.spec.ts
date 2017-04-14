@@ -207,7 +207,7 @@ describe('SearchComponent', () => {
       expect(page.getHeaderName(3)).toBe('System Tags');
       expect(page.getHeaderName(4)).toBe('Price');
       expect(page.getHeaderName(5)).toBe('Category');
-      expect(page.getHeaderName(6)).toBe('Iana ID');
+      expect(page.getHeaderName(6)).toBe('IANA ID');
       expect(page.getHeaderName(7)).toBe('Registrar');
     }).catch(err => {
       fail('Err: ' + err);
@@ -337,7 +337,7 @@ describe('SearchComponent', () => {
       expect(page.getHeaderName(4)).toBe('System Tags');
       expect(page.getHeaderName(5)).toBe('Price');
       expect(page.getHeaderName(6)).toBe('Category');
-      expect(page.getHeaderName(7)).toBe('Iana ID');
+      expect(page.getHeaderName(7)).toBe('IANA ID');
     }).catch(err => {
       fail('Err: ' + err);
     });
