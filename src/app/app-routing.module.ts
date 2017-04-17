@@ -66,6 +66,11 @@ export const routes: Routes = [
             children: [],
           },
           {
+            path: 'domains/:domainName/contactedit/:contactId',
+            component: ContactCreateComponent,
+            children: [],
+          },
+          {
             path: 'domains/:domainName/contacts/edit/:contactId',
             component: ContactCreateComponent,
             children: [],
