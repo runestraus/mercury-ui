@@ -139,7 +139,7 @@ export class HostCreateComponent implements OnInit {
       result = this.hostEppService.createHost(this.hostName, hostCreated.inetAddresses);
     }
     result.then(() => {
-      this.router.navigate(['../..'], { relativeTo: this.route });
+      this.cancelDialog();
     }).catch(error => {
       this.error = error.message;
     });
@@ -170,7 +170,11 @@ export class HostCreateComponent implements OnInit {
   }
 
   cancelDialog() {
-    this.router.navigate(['../..'], { relativeTo: this.route });
+    if (this.isEditForm) {
+      this.router.navigate(['../..'], {relativeTo: this.route});
+    } else {
+      this.router.navigate(['..'], {relativeTo: this.route});
+    }
   }
 
   /**

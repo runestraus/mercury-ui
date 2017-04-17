@@ -44,7 +44,7 @@ describe('DomainHostsEditComponent', () => {
   let route;
 
   beforeEach(async(() => {
-    mockRoute = createMockRoute(['search/italys.pizza', 'domains/italys.pizza', 'hostsedit']);
+    mockRoute = createMockRoute(['search/italys.pizza', 'domains/italys.pizza', 'hosts']);
     mockRoute.parent.snapshot = { params: { domainName: 'italys.pizza' } };
     mockRouter = {
       navigate: jasmine.createSpy('navigate')

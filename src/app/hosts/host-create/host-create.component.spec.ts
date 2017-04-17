@@ -45,8 +45,7 @@ describe('HostCreateComponent', () => {
   let route;
 
   beforeEach(async(() => {
-    mockRoute = createMockRoute(['search/host.example.dev', 'hosts/host.example.dev']);
-
+    mockRoute = createMockRoute(['search/holy.cow', 'domains/holy.cow/hosts/edit/1234'], {'fullyQualifiedHostName': '1234'});
     mockRouter = {
       navigate : jasmine.createSpy('navigate')
     };
@@ -147,6 +146,7 @@ describe('HostCreateComponent', () => {
       fixture.detectChanges();
       fixture.whenStable().then(() => {
         component.hostForm.patchValue({ fullyQualifiedHostName: 'host.example.dev' });
+        fixture.detectChanges();
         component.onSubmit();
         const HostCopy = {
           fullyQualifiedHostName: 'host.example.dev',
@@ -171,6 +171,9 @@ describe('HostCreateComponent', () => {
         };
         expect(component.isEditForm).toBeTruthy();
         expect(eppService.updateHost).toHaveBeenCalledWith('host.example.dev', hostUpdateInfo);
+        fixture.whenStable().then(() => {
+          expect(mockRouter.navigate).toHaveBeenCalledWith(['../..'], {relativeTo: route});
+        }).catch(err => fail(err));
       });
     }));
 
@@ -192,6 +195,9 @@ describe('HostCreateComponent', () => {
         };
         expect(component.isEditForm).toBeTruthy();
         expect(eppService.updateHost).toHaveBeenCalledWith('host.example.dev', hostUpdateInfo);
+        fixture.whenStable().then(() => {
+          expect(mockRouter.navigate).toHaveBeenCalledWith(['../..'], {relativeTo: route});
+        }).catch(err => fail(err));
       });
     }));
 
@@ -233,6 +239,7 @@ describe('HostCreateComponent', () => {
 
   describe('Create', () => {
     beforeEach(() => {
+      mockRoute = createMockRoute(['search/holy.cow', 'domains/holy.cow/hosts/edit/1234'], {fullyQualifiedHostName: '1234'});
       eppService = TestBed.get(HostEppService);
       fixture = TestBed.createComponent(HostCreateComponent);
       component = fixture.componentInstance;

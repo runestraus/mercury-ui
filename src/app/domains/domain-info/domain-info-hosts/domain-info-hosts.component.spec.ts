@@ -105,7 +105,7 @@ describe('DomainInfoHostsComponent', () => {
     fixture.whenStable().then(() => {
       fixture.detectChanges();
       page.clickHostLink(1);
-      expect(mockRouter.navigate).toHaveBeenCalledWith(['hosts/ns2.foo.bar'], {relativeTo: mockRoute});
+      expect(mockRouter.navigate).toHaveBeenCalledWith(['hostedit/ns2.foo.bar'], {relativeTo: mockRoute});
     });
   });
 

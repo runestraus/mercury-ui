@@ -118,9 +118,8 @@ export class DomainHostsEditComponent implements OnInit {
     };
     this.domainEppService.update(this.domainName, domainUpdateInfo).then(domainDetal => {
       this.loading = false;
-      this.showDialog = false;
-      this.router.navigate(['..'], {relativeTo: this.route});
-    }).catch(err => {
+      this.closeDialog();
+     }).catch(err => {
       this.error = err.message;
     });
   }

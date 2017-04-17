@@ -17,7 +17,7 @@ export class DomainInfoHostsComponent implements OnInit {
   ngOnInit() {}
 
   onEditHost(nameserver: string): void {
-    this.router.navigate(['hosts/' + nameserver], {relativeTo: this.route});
+    this.router.navigate(['hostedit/' + nameserver], {relativeTo: this.route});
   }
 
   onShowAllNameservers(nameservers: Array<string>): void {
@@ -25,6 +25,6 @@ export class DomainInfoHostsComponent implements OnInit {
   }
 
   openEditHostsDialog(): void {
-    this.router.navigate(['hostsedit'], {relativeTo: this.route});
+    this.router.navigate(['hosts'], {relativeTo: this.route});
   }
 }

@@ -86,18 +86,28 @@ export const routes: Routes = [
             children: [],
           },
           {
-            path: 'domains/:domainName/hosts/:fullyQualifiedHostName',
+            path: 'domains/:domainName/hosts',
+            component: DomainHostsEditComponent,
+            children: []
+          },
+          {
+            path: 'domains/:domainName/hostedit/:fullyQualifiedHostName',
             component: HostCreateComponent,
             children: [],
           },
           {
-            path: 'domains/:domainName/serverstatus',
-            component: DomainStatusComponent,
+            path: 'domains/:domainName/hosts/edit/:fullyQualifiedHostName',
+            component: HostCreateComponent,
             children: []
           },
           {
-            path: 'domains/:domainName/hostsedit',
-            component: DomainHostsEditComponent,
+            path: 'domains/:domainName/hosts/edit',
+            component: HostCreateComponent,
+            children: []
+          },
+          {
+            path: 'domains/:domainName/serverstatus',
+            component: DomainStatusComponent,
             children: []
           },
       ]
