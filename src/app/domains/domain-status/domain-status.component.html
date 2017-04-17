@@ -3,9 +3,9 @@
     <button id="buttonCloseX" tooltip="Close" type="button" class="close" (click)="onCloseClicked()" aria-hidden="true">&times;</button>
     <h3 id="domain-status-header" class="modal-title wordBreak">Domain Status</h3>
   </p-header>
-  <label id="domainName">{{domainName}}</label>
+  <h3 id="domainName">{{domainName}}</h3>
   <form [formGroup]="domainStatusForm" (submit)="onSubmit()" novalidate>
-    <div class="panel panel-default">
+    <div class="alert alert-danger" *ngIf="error" role="alert">{{error}}</div>
       <div class="col-md-6">
         <br>
         <div class="form-group">
@@ -36,7 +36,6 @@
           <label for="clientupdate">Client Update Prohibited</label><br>
         </div>
       </div>
-    </div>
   </form>
   <p-footer>
     <div class="ui-dialog-buttonpane ui-widget-content ui-helper-clearfix">

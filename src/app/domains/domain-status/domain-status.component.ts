@@ -60,22 +60,19 @@ export class DomainStatusComponent implements OnInit {
     });
   };
   onSubmit() {
+    this.error = null;
     const statusData = this.prepareStatusesForSave();
-    this.showDialog = false;
     this.domainEppService.updateStatus(this.domainName, statusData._addStatuses, statusData._remStatuses)
       .then(() => {
-        this.onCloseClicked();
-        this.router.navigate([getParentRouteUrl(this.route)]);
+        this.router.navigate(['../'], {relativeTo: this.route});
       })
       .catch(error => {
         if (error.code && error.message) {
           this.error = error.message;
         } else {
-          console.error(error);
           this.error = 'There was an error updating domain info';
         }
       });
-    this.router.navigate([getParentRouteUrl(this.route)]);
   }
 
   prepareStatusesForSave(): StatusData {

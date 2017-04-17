@@ -19,11 +19,8 @@ import { DomainEppService } from '../../service/domain-epp.service';
 import { FormBuilder, ReactiveFormsModule } from '@angular/forms';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { DomainDetail } from '../../model/domain.model';
-import { DocQuery } from '../../shared/testutils';
-import { Observable } from 'rxjs/Observable';
-import { Observer } from 'rxjs/Observer';
+import { createMockRoute, DocQuery } from '../../shared/testutils';
 import { By } from '@angular/platform-browser';
-import { createMockRoute } from '../../shared/testutils';
 
 class Page {
   fix: ComponentFixture<DomainStatusComponent>;
@@ -105,7 +102,8 @@ describe('DomainStatusComponent testing add all stati', () => {
         'registrant': 'bar',
       },
     }));
-  };
+  }
+
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [ DomainStatusComponent ],
@@ -176,6 +174,7 @@ describe('DomainStatusComponent testing add all stati', () => {
             'clientUpdateProhibited' ],
           [ ]);
         expect(mockDomainEppService.updateStatus).toHaveBeenCalledTimes(1);
+        expect(route.navigate).toHaveBeenCalledWith(['../'], {relativeTo: router});
       }).catch(err => fail(err));
     }).catch(err => fail(err));
   }));
@@ -220,7 +219,8 @@ describe('DomainStatusComponent remove status test', () => {
         'registrant': 'bar',
       },
     }));
-  };
+  }
+
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [ DomainStatusComponent ],
