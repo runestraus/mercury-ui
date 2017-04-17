@@ -32,6 +32,7 @@ describe('NavbarComponent', () => {
     isRegistrarLogin: true,
     permissions: [],
     ianaId: 9999,
+    registrarName: 'Brodaddy'
   };
   const mockRouter = {
     navigate: jasmine.createSpy('navigate')
