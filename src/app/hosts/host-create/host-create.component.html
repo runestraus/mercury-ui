@@ -3,26 +3,24 @@
     <fieldset>
       <div *ngIf="error" class="alert alert-danger" role="alert">{{error}}</div>
         <div class="modal-body" *ngIf="isEditForm">
-          <label class="modal-label">Host Name:</label>
-          <input id="createHostName" autofocus type="text" placeholder="Host Name" class="form-control modal-form-control" formControlName="fullyQualifiedHostName" required/>
-          <p class="help-block"  *ngIf="formErrors.fullyQualifiedHostName">{{formErrors.fullyQualifiedHostName}}</p>
           <div formArrayName="inetAddresses">
-            <div *ngFor="let inetAddress of inetAddresses.controls; let i=index">
-              <label>Ip Address:</label>
-              <input placeholder="127.0.0.1" formControlName="{{i}}" class="form-control modal-form-control">
-                <button (click)="removeInetAddress(i)" class="btn btn-default">
-                    <i class="fa fa-times-circle"></i>
-                </button>
-              <p class="help-block"  *ngIf="formErrors.inetAddresses">{{formErrors.inetAddresses}}</p>
+            <button (click)="addInetAddress()" type="button">Add a IP Address</button>
+            <div *ngFor="let inetAddress of getAddresses(hostForm); let i=index">
+              <div [formGroupName]="i">
+                <div class="form-group">
+                  <input placeholder="127.0.0.1" formControlName="inetAddress" class="form-control dynamicTextInput modal-form-control">
+                  <button (click)="removeInetAddress(i)" class="btn btn-default remove-element-button modal-form-control">Remove</button>
+                  <p class="help-block"  *ngIf="formErrors.inetAddresses">{{formErrors.inetAddresses}}</p>
+               </div>
             </div>
-            <button (click)="addInetAddress()" type="button" class="btn btn-default">Add a IP Address</button>
           </div>
+        </div>
         <span class="clear"></span>
 
         <p-footer>
           <div class="ui-dialog-buttonpane ui-widget-content ui-helper-clearfix">
-            <button type="submit" pButton icon="fa-check" [disabled]="hostForm.invalid" label="Save"></button>
-            <button id='host-create-cancel' type="button" pButton icon="fa-check" (click)="cancelDialog()" class="ui-button-secondary" label="Cancel"></button>
+            <button type="submit" class="btn btn-primary" [disabled]="hostForm.invalid">Submit</button>
+            <button id='host-create-cancel' type="button" (click)="cancelDialog()" class="btn btn-default">Cancel</button>
           </div>
         </p-footer>
       </div>

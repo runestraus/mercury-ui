@@ -107,7 +107,7 @@ describe('HostCreateComponent', () => {
       component = fixture.componentInstance;
       fixture.detectChanges();
 
-      expect(component.modalHeader).toBe('Edit Host');
+      expect(component.modalHeader).toBe('Host: host.example.dev');
     });
 
     it('should update the form with info from host received', async(() => {
@@ -116,13 +116,11 @@ describe('HostCreateComponent', () => {
       component = fixture.componentInstance;
       fixture.detectChanges();
       fixture.whenStable().then(() => {
-        component.hostForm.get('fullyQualifiedHostName').enable();
         const formData = component.hostForm.value;
         expect(eppService.infoHost).toHaveBeenCalledWith('host.example.dev');
-        expect(component.modalHeader).toBe('Edit Host');
+        expect(component.modalHeader).toBe('Host: host.example.dev');
         expect(component.isEditForm).toBeTruthy();
-        expect(formData.fullyQualifiedHostName).toBe(host.fullyQualifiedHostName);
-        expect(formData.inetAddresses[0]).toBe(host.inetAddresses[0]);
+        expect(formData.inetAddresses[0].inetAddress).toBe(host.inetAddresses[0]);
       });
     }));
 
@@ -133,13 +131,11 @@ describe('HostCreateComponent', () => {
       component = fixture.componentInstance;
       fixture.detectChanges();
       fixture.whenStable().then(() => {
-        component.hostForm.get('fullyQualifiedHostName').enable();
         const formData = component.hostForm.value;
         expect(eppService.infoHost).toHaveBeenCalledWith('host.example.dev');
-        expect(component.modalHeader).toBe('Edit Host');
+        expect(component.modalHeader).toBe('Host: host.example.dev');
         expect(component.isEditForm).toBeTruthy();
-        expect(formData.fullyQualifiedHostName).toBe(host.fullyQualifiedHostName);
-        expect(formData.inetAddresses).toEqual(['']);
+        expect(formData.inetAddresses).toEqual([ ]);
       });
     }));
 
@@ -206,18 +202,15 @@ describe('HostCreateComponent', () => {
       component = fixture.componentInstance;
       fixture.detectChanges();
       fixture.whenStable().then(() => {
-        component.hostForm.patchValue({ fullyQualifiedHostName: 'host.example.dev' });
         component.addInetAddress();
         expect(component.isEditForm).toBeTruthy();
-        expect(component.inetAddresses.length).toBe(2);
+        expect(component.hostForm.value.inetAddresses.length).toEqual(2);
         component.removeInetAddress(1);
-        expect(component.inetAddresses.length).toBe(1);
+        expect(component.hostForm.value.inetAddresses.length).toEqual(1);
+        component.removeInetAddress(0);
+        expect(component.hostForm.value.inetAddresses.length).toEqual(0);
         component.addInetAddress();
-        component.addInetAddress();
-        expect(component.inetAddresses.length).toBe(3);
-        component.removeInetAddress(2);
-        component.removeInetAddress(1);
-        expect(component.inetAddresses.length).toBe(1);
+        expect(component.hostForm.value.inetAddresses.length).toEqual(1);
       });
     }));
 
@@ -246,15 +239,12 @@ describe('HostCreateComponent', () => {
       fixture.detectChanges();
     });
 
-    it('should require fullyQualifiedHostName', () => {
-      component.hostForm.get('fullyQualifiedHostName').enable();
+    it('should require IP Address', () => {
       component.hostForm.get('inetAddresses').enable();
-      component.hostForm.patchValue({ fullyQualifiedHostName: '', inetAddress: ['']});
-      component.hostForm.get('fullyQualifiedHostName').markAsDirty();
+      component.hostForm.patchValue({ inetAddress: ['']});
       component.hostForm.get('inetAddresses').markAsDirty();
       component.onValueChanged();
       expect(component.hostForm.status).toBe('INVALID');
-      expect(component.formErrors.fullyQualifiedHostName).toBe('Host name is required. ');
     });
   });
 });

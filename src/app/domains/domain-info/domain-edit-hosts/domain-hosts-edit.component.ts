@@ -67,7 +67,6 @@ export class DomainHostsEditComponent implements OnInit {
   }
 
   initHosts(host?: string): FormGroup {
-    const ns = this.fb.group;
     return this.fb.group({
       nameserver: [host, Validators.required]
     });
