@@ -137,7 +137,7 @@ export class GoogleOauthService {
     });
   }
 
-  onSignedIn(fn: (Profile) => void): Subscription {
+  onSignedIn(fn: (profile: GoogleProfile) => void): Subscription {
     return this._successfulSignInObserver.subscribe(fn);
   }
 

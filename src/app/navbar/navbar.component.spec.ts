@@ -6,6 +6,7 @@ import { SearchBarComponent } from './search-bar/search-bar.component';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { By } from '@angular/platform-browser';
+import { User } from '../model/user.model';
 import { UserData } from '../model/profile.model';
 
 describe('NavbarComponent', () => {
@@ -26,13 +27,13 @@ describe('NavbarComponent', () => {
     getName: () => 'Donny Donuts',
     getImageUrl: () => 'http://donuts.co'
   };
-  const userEntity = {
+  const userEntity: User = {
     email: 'BobbyBrown@donuts.co',
     clientId: '1234',
     isRegistrarLogin: true,
     permissions: [],
     ianaId: 9999,
-    registrarName: 'Brodaddy'
+    registrarName: 'Brodaddy',
   };
   const mockRouter = {
     navigate: jasmine.createSpy('navigate')

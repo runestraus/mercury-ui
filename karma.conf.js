@@ -49,6 +49,7 @@ module.exports = function (config) {
     autoWatch: true,
     // customLaunchers: customLaunchers,
     browsers: ['PhantomJS'],
-    singleRun: false
+    singleRun: false,
+    browserNoActivityTimeout: 50000
   });
 };

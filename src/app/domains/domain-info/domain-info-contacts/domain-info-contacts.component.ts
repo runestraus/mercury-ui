@@ -5,6 +5,8 @@ import { ContactDetail } from '../../../contacts/contact.model';
 import { ContactEppService } from '../../../contacts/contactepp.service';
 import { DomainDetail } from '../../../model/domain.model';
 
+import * as logging from '../../../shared/logging';
+
 @Component({
   selector: 'app-domain-info-contacts',
   templateUrl: './domain-info-contacts.component.html',
