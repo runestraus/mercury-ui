@@ -13,7 +13,8 @@
       <button id="downloadReservedNameCsv" pButton type="button" icon="fa-file-o" label="CSV" [disabled]="isDownloadDisabled" (click)="exportCSV()"></button>
       <button id="downloadReservedNameTemplateCsv" pButton type="button" icon="fa-download" iconPos="left" label="CSV Template"
         (click)="downloadTemplate('reserved')"></button>
-      <p-fileUpload accept=".csv" name="file[]" (onBeforeUpload)="uploadCSV($event)" (onSelect)="validateFile($event)">
+      <p-fileUpload accept=".csv" name="file[]" (onBeforeUpload)="uploadCSV($event)" (onClear)="clearContentArea()" (onSelect)="validateFile($event)">
+        <ng-template pTemplate="file"></ng-template>
         <ng-template pTemplate="content">
           <div class="modal-body" [hidden]="hideChanges">
             <p id="csv-upload-error-result-lbl" class="error" *ngIf="error">{{ error }}</p>

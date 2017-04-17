@@ -47,9 +47,7 @@ export class ReservedNameComponent implements OnInit {
 
   ngOnInit() {
     this.displayDialog = true;
-    this.hideResult = true;
-    this.hideChanges = true;
-    this.hideErrors = true;
+    this.clearContentArea();
     if (this.reservedNames === undefined) {
       this.isDownloadDisabled = true;
     } else {
@@ -80,6 +78,13 @@ export class ReservedNameComponent implements OnInit {
   getUploadButton() {
     const btn = this.elRef.nativeElement.querySelector('button[icon=fa-upload]');
     return btn;
+  }
+
+  clearContentArea() {
+    this.hideChanges = true;
+    this.hideErrors = true;
+    this.hideResult = true;
+    this.error = null;
   }
 
   validateFile(event: Event) {
