@@ -15,4 +15,9 @@ Vagrant.configure("2") do |config|
     yum install yarn nodejs -y
     yarn global add @angular/cli
   SHELL
+
+  config.vm.synced_folder ".", "/vagrant", type: "rsync",
+    rsync__exclude: [".git/", "node_modules/"]
+
+  config.vm.network "forwarded_port", guest: 4200, host: 4200
 end
