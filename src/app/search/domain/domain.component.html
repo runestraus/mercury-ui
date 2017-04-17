@@ -7,7 +7,7 @@
   </p-header>
   <p-column id="domainName" field="domainName" header="Domain" [sortable]="true">
     <ng-template let-col let-domain="rowData" pTemplate="body">
-      <a routerLink="domains/{{domain[col.field]}}">{{domain[col.field]}}</a>
+      <a class="spanLink" routerLink="domains/{{domain[col.field]}}">{{domain[col.field]}}</a>
     </ng-template>
   </p-column>
   <p-column id="tld" field="tld" header="TLD" [sortable]="true"></p-column>
