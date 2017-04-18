@@ -31,7 +31,7 @@
     </span>
     <span id="domainStatusServerStatus" class="left fa-stack statusIcons" pTooltip="{{getStatusTooltipMessage()}}">
       <i (click)="openDomainServerStatusDialog()" id="domainStatusIconServerStatus" class="fa fa-check-square-o fa-2x"
-         [ngClass]="{'fa-stack-1x' : checkStatus(['serverUpdateProhibited']), 'fa-2x': !checkStatus(['serverUpdateProhibited'])}">></i>
+         [ngClass]="{'fa-stack-1x' : checkStatus(['serverUpdateProhibited']), 'fa-2x': !checkStatus(['serverUpdateProhibited'])}"></i>
       <i id="domainStatusIconServerStatusProhibited" *ngIf="checkStatus(['serverUpdateProhibited'])" class="fa fa-ban fa-stack-2x text-danger statusProhibited"></i>
     </span>
   </li>

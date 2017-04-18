@@ -24,26 +24,6 @@ import { By } from '@angular/platform-browser';
 
 class Page {
   fix: ComponentFixture<DomainStatusComponent>;
-
-  domainDetail = {
-    fullyQualifiedDomainName: 'dev.dev',
-    status: ['ok'],
-    repoId: 'FOO-123',
-    currentSponsorClientId: 'RegistrarX',
-    creationClientId: 'RegistrarX',
-    creationTime: '2001-01-01T00:00:00Z',
-    registrationExpirationTime: '2002-01-01T00:00:00Z',
-    authInfo: '',
-    nameservers: [],
-    subordinateHosts: [],
-    rgpStatus: '',
-    domainPrices: null,
-    contacts: {
-      'tech': 'foo',
-      'admin': 'foo',
-      'registrant': 'bar',
-    },
-  } as DomainDetail;
   query: DocQuery<DomainStatusComponent>;
   constructor(private fixture: ComponentFixture<DomainStatusComponent>) {
     this.query = new DocQuery(fixture);
@@ -62,28 +42,16 @@ class Page {
   }
 }
 
-describe('DomainStatusComponent testing add all stati', () => {
+describe('A DomainStatusComponent', () => {
   let component: DomainStatusComponent;
   let fixture: ComponentFixture<DomainStatusComponent>;
   let page: Page;
   let router;
   let route;
-
-  const mockRoute = createMockRoute(
-    ['search/dev.dev', 'domains/dev.dev/serverstatus'],
-    {domainName: 'dev.dev'}
-  );
-
-  const mockDomainEppService = {
-    updateStatus: jasmine.createSpy('updateStatus'),
-    info: jasmine.createSpy('info'),
-  };
-  const mockRouter = {
-    navigate: jasmine.createSpy('navigate')
-  };
+  let domainEppService;
 
   function resolveDomain(statuses: Array<string>) {
-    mockDomainEppService.info.and.returnValue(Promise.resolve({
+    domainEppService.info.and.returnValue(Promise.resolve({
       fullyQualifiedDomainName: 'dev.dev',
       status: statuses,
       repoId: 'FOO-123',
@@ -105,6 +73,19 @@ describe('DomainStatusComponent testing add all stati', () => {
   }
 
   beforeEach(async(() => {
+    const mockRoute = createMockRoute(
+      ['search/dev.dev', 'domains/dev.dev/serverstatus'],
+      {domainName: 'dev.dev'}
+    );
+
+    const mockDomainEppService = {
+      updateStatus: jasmine.createSpy('updateStatus'),
+      info: jasmine.createSpy('info'),
+    };
+    const mockRouter = {
+      navigate: jasmine.createSpy('navigate')
+    };
+
     TestBed.configureTestingModule({
       declarations: [ DomainStatusComponent ],
       providers: [
@@ -117,27 +98,21 @@ describe('DomainStatusComponent testing add all stati', () => {
         ReactiveFormsModule, RouterModule,
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
-    })
-      .compileComponents();
+    }).compileComponents();
   }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(DomainStatusComponent);
     router = TestBed.get(ActivatedRoute);
     route = TestBed.get(Router);
+    domainEppService = TestBed.get(DomainEppService);
     component = fixture.componentInstance;
-    resolveDomain(['ok']);
     page = new Page(fixture);
-    component.domainDetail = page.domainDetail;
-    fixture.detectChanges();
   });
 
-  it('should create', () => {
-    expect(component).toBeTruthy();
-  });
-
-  it('should save a list of status to be added', async(() => {
-    mockDomainEppService.updateStatus.and.returnValues(
+  it('should add status values that have been checked', async(() => {
+    resolveDomain(['ok']);
+    domainEppService.updateStatus.and.returnValues(
       Promise.resolve({
         code: '200',
         'msg': {
@@ -148,7 +123,6 @@ describe('DomainStatusComponent testing add all stati', () => {
     fixture.detectChanges();
     fixture.whenStable().then(() => {
       fixture.detectChanges();
-      component.domainDetail = page.domainDetail;
       page.clickCheckBox('#prohibited');
       page.clickCheckBox('#hold');
       page.clickCheckBox('#renew');
@@ -161,7 +135,7 @@ describe('DomainStatusComponent testing add all stati', () => {
       page.clickCheckBox('#clientupdate');
       page.clickSubmit();
       fixture.whenStable().then(() => {
-        expect(mockDomainEppService.updateStatus).toHaveBeenCalledWith('dev.dev',
+        expect(domainEppService.updateStatus).toHaveBeenCalledWith('dev.dev',
           [ 'serverDeleteProhibited',
             'serverHold',
             'serverRenewProhibited',
@@ -173,84 +147,24 @@ describe('DomainStatusComponent testing add all stati', () => {
             'clientTransferProhibited',
             'clientUpdateProhibited' ],
           [ ]);
-        expect(mockDomainEppService.updateStatus).toHaveBeenCalledTimes(1);
+        expect(domainEppService.updateStatus).toHaveBeenCalledTimes(1);
         expect(route.navigate).toHaveBeenCalledWith(['../'], {relativeTo: router});
       }).catch(err => fail(err));
     }).catch(err => fail(err));
   }));
-});
 
-describe('DomainStatusComponent remove status test', () => {
-  let component: DomainStatusComponent;
-  let fixture: ComponentFixture<DomainStatusComponent>;
-  let page: Page;
-  let router;
-  let route;
-  const mockRoute = createMockRoute(
-    ['search/dev.dev', 'domains/dev.dev/serverstatus'],
-    {domainName: 'dev.dev'}
-  );
-
-  const mockDomainEppService = {
-    updateStatus: jasmine.createSpy('updateStatus'),
-    info: jasmine.createSpy('info'),
-  };
-  const mockRouter = {
-    navigate: jasmine.createSpy('navigate')
-  };
-
-  function resolveDomain(statuses: Array<string>) {
-    mockDomainEppService.info.and.returnValue(Promise.resolve({
-      fullyQualifiedDomainName: 'dev.dev',
-      status: statuses,
-      repoId: 'FOO-123',
-      currentSponsorClientId: 'RegistrarX',
-      creationClientId: 'RegistrarX',
-      creationTime: '2001-01-01T00:00:00Z',
-      registrationExpirationTime: '2002-01-01T00:00:00Z',
-      authInfo: '',
-      nameservers: [],
-      subordinateHosts: [],
-      rgpStatus: '',
-      domainPrices: null,
-      contacts: {
-        'tech': 'foo',
-        'admin': 'foo',
-        'registrant': 'bar',
-      },
-    }));
-  }
-
-  beforeEach(async(() => {
-    TestBed.configureTestingModule({
-      declarations: [ DomainStatusComponent ],
-      providers: [
-        { provide: ActivatedRoute, useValue: mockRoute },
-        { provide: DomainEppService, useValue: mockDomainEppService },
-        { provide: Router, useValue: mockRouter },
-        FormBuilder
-      ],
-      imports: [
-        ReactiveFormsModule, RouterModule,
-      ],
-      schemas: [CUSTOM_ELEMENTS_SCHEMA]
-    })
-      .compileComponents();
-  }));
-
-  beforeEach(() => {
-    fixture = TestBed.createComponent(DomainStatusComponent);
-    router = TestBed.get(ActivatedRoute);
-    route = TestBed.get(Router);
-    component = fixture.componentInstance;
-    resolveDomain(['ok']);
-    page = new Page(fixture);
-    component.domainDetail = page.domainDetail;
-    fixture.detectChanges();
-  });
-
-  it('should save a list of status to be removed', async(() => {
-    mockDomainEppService.updateStatus.and.returnValues(
+  it('should remove status values that have been unchecked', async(() => {
+    resolveDomain(['serverDeleteProhibited',
+            'serverHold',
+            'serverRenewProhibited',
+            'serverTransferProhibited',
+            'serverUpdateProhibited',
+            'clientDeleteProhibited',
+            'clientHold',
+            'clientRenewProhibited',
+            'clientTransferProhibited',
+            'clientUpdateProhibited']);
+    domainEppService.updateStatus.and.returnValues(
       Promise.resolve({
         code: '200',
         'msg': {
@@ -259,22 +173,57 @@ describe('DomainStatusComponent remove status test', () => {
       })
     );
     fixture.detectChanges();
-    component.domainDetail = page.domainDetail;
-    page.clickSubmit();
     fixture.whenStable().then(() => {
-      expect(mockDomainEppService.updateStatus).toHaveBeenCalledWith('dev.dev',
-        [  ],
-        [ 'serverDeleteProhibited',
-          'serverHold',
-          'serverRenewProhibited',
-          'serverTransferProhibited',
-          'serverUpdateProhibited',
-          'clientDeleteProhibited',
-          'clientHold',
-          'clientRenewProhibited',
-          'clientTransferProhibited',
-          'clientUpdateProhibited' ]);
-      expect(mockDomainEppService.updateStatus).toHaveBeenCalledTimes(1);
-    });
+      fixture.detectChanges();
+      page.clickCheckBox('#prohibited');
+      page.clickCheckBox('#hold');
+      page.clickCheckBox('#renew');
+      page.clickCheckBox('#transfer');
+      page.clickCheckBox('#update');
+      page.clickCheckBox('#clientprohibited');
+      page.clickCheckBox('#clienthold');
+      page.clickCheckBox('#clientrenew');
+      page.clickCheckBox('#clienttransfer');
+      page.clickCheckBox('#clientupdate');
+      fixture.detectChanges();
+      page.clickSubmit();
+      fixture.whenStable().then(() => {
+        fixture.detectChanges();
+        expect(domainEppService.updateStatus).toHaveBeenCalledWith('dev.dev',
+          [  ],
+          [ 'serverDeleteProhibited',
+            'serverHold',
+            'serverRenewProhibited',
+            'serverTransferProhibited',
+            'serverUpdateProhibited',
+            'clientDeleteProhibited',
+            'clientHold',
+            'clientRenewProhibited',
+            'clientTransferProhibited',
+            'clientUpdateProhibited' ]);
+        expect(domainEppService.updateStatus).toHaveBeenCalledTimes(1);
+      }).catch(err => fail(err));
+    }).catch(err => fail(err));
+  }));
+
+  it('should not update any status values if form is not updated', async(() => {
+    domainEppService.updateStatus.and.returnValues(
+      Promise.resolve({
+        code: '200',
+        'msg': {
+          'keyValue': 'Success'
+        },
+      })
+    );
+    resolveDomain(['ok']);
+    fixture.detectChanges();
+    fixture.whenStable().then(() => {
+      fixture.detectChanges();
+      page.clickSubmit();
+      fixture.whenStable().then(() => {
+        expect(domainEppService.updateStatus).toHaveBeenCalledWith('dev.dev', [ ], [ ]);
+        expect(domainEppService.updateStatus).toHaveBeenCalledTimes(1);
+      }).catch(err => fail(err));
+    }).catch(err => fail(err));
   }));
 });

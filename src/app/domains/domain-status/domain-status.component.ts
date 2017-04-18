@@ -48,6 +48,7 @@ export class DomainStatusComponent implements OnInit {
     this.domainEppService.info(this.domainName, null).then(domainDetail => {
       this.loading = false;
       this.domainDetail = domainDetail;
+      this.populateForm();
     }).catch(err => {
       this.loading = false;
       // switch these blocks of code to test out the partial domain info display
@@ -76,16 +77,29 @@ export class DomainStatusComponent implements OnInit {
   }
 
   prepareStatusesForSave(): StatusData {
+    // Get a set of existing statuses and compare with the form model
+    const existingStatuses = this.domainDetail.status.reduce((result, status) => {
+      result[status] = true;
+      return result;
+    }, {});
     const serverFormModel = this.domainStatusForm.value;
     const statusData: StatusData = new StatusData();
     Object.keys(serverFormModel).forEach(key => {
-      if (serverFormModel[key]) {
+      if (serverFormModel[key] && !existingStatuses[key]) {
         statusData._addStatuses.push(key);
-      } else {
+      } else if (!serverFormModel[key] && existingStatuses[key]) {
         statusData._remStatuses.push(key);
       }
     });
     return statusData;
+  }
+
+  private populateForm() {
+    // don't try to populate the form with any keys that don't exist like 'ok'
+    const formData = this.domainDetail.status
+      .filter(key => this.domainStatusForm.contains(key))
+      .reduce((result, key) => { result[key] = true; return result; }, {});
+    this.domainStatusForm.patchValue(formData);
   }
 
   createForm() {
