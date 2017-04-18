@@ -29,11 +29,10 @@
          [ngClass]="{'fa-stack-1x' : checkStatus(['clientDeleteProhibited']), 'fa-2x': !checkStatus(['clientDeleteProhibited'])}"></i>
       <i id="domainStatusIconDeleteProhibited" *ngIf="checkStatus(['clientDeleteProhibited'])" class="fa fa-ban fa-stack-2x text-danger statusProhibited"></i>
     </span>
-    <span id="domainStatusServerStatus" class="left fa-stack statusIcons" pTooltip="Edit Domain Server Status">
-      <i (click)="openDomainServerStatusDialog()" id="domainStatusIconServerStatus" class="fa fa-check-square-o fa-2x"></i>
-    </span>
-    <span (click)="openDomainStatusDialog()" class="right statusIcons" pTooltip="Edit Domain Statuses">
-      <i class="fa fa-pencil-square-o fa-2x"></i>
+    <span id="domainStatusServerStatus" class="left fa-stack statusIcons" pTooltip="{{getStatusTooltipMessage()}}">
+      <i (click)="openDomainServerStatusDialog()" id="domainStatusIconServerStatus" class="fa fa-check-square-o fa-2x"
+         [ngClass]="{'fa-stack-1x' : checkStatus(['serverUpdateProhibited']), 'fa-2x': !checkStatus(['serverUpdateProhibited'])}">></i>
+      <i id="domainStatusIconServerStatusProhibited" *ngIf="checkStatus(['serverUpdateProhibited'])" class="fa fa-ban fa-stack-2x text-danger statusProhibited"></i>
     </span>
   </li>
 </ul>

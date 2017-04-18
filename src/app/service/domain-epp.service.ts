@@ -90,12 +90,13 @@ export class DomainEppService {
         if (Array.isArray(cd)) {
           cd = cd[0];
         }
-        const hasPrices = result['epp']['response']['extension']['fee:chkData'] != null;
+        const priceData = result['epp']['response']['extension']['fee:chkData'];
+        const domainPrices = priceData == null ? {} : this.getPriceData(priceData['fee:cd']).prices;
         return {
           fullyQualifiedDomainName: extractText(cd, 'domain:name'),
           avail: extractBoolean(cd, 'domain:name', '@avail'),
           reason: extractText(cd, 'domain:reason'),
-          domainPrices: hasPrices ? this.getPriceData(result['epp']['response']['extension']['fee:chkData']['fee:cd']).prices : {}
+          domainPrices: domainPrices,
         };
       });
   }

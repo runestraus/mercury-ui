@@ -41,6 +41,9 @@ export class DomainInfoStatusComponent implements OnInit {
     return this.checkStatus(['clientDeleteProhibited']) ? 'Client Delete Prohibited' : 'Delete Domain';
   }
 
+  getStatusTooltipMessage(): string {
+    return this.checkStatus(['clientDeleteProhibited']) ? 'Server Status Prohibited' : 'Edit Domain Server Status';
+  }
   openDomainTransferDialog(): void {
     alert('Not yet implemented');
   }
@@ -60,9 +63,4 @@ export class DomainInfoStatusComponent implements OnInit {
   openDomainServerStatusDialog(): void {
     this.router.navigate(['serverstatus'], {relativeTo: this.route});
   }
-
-  openDomainStatusDialog(): void {
-    alert('Not yet implemented');
-  }
-
 }

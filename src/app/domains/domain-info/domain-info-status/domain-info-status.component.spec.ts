@@ -159,8 +159,17 @@ describe('DomainInfoStatusComponent', () => {
     expect(page.isOperationProhibited('Delete')).toBeTruthy();
   });
 
-  // TODO: test domain server status click navigates to modal
+  it('should show a normal server status icon', () => {
+    component.domain = getDomainData(['ok']);
+    fixture.detectChanges();
+    expect(page.getOperationIconSize('ServerStatus')).toBe('normal');
+    expect(page.isOperationProhibited('ServerStatus')).toBeFalsy();
+  });
 
-  // TODO: test domain client status click navigates to modal
-
+  it('should show a prohibited server status icon when server status update is prohibited', () => {
+    component.domain = getDomainData(['ok', 'serverUpdateProhibited']);
+    fixture.detectChanges();
+    expect(page.getOperationIconSize('ServerStatus')).toBe('small');
+    expect(page.isOperationProhibited('ServerStatus')).toBeTruthy();
+  });
 });
