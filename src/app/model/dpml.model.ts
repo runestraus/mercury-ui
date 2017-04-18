@@ -18,7 +18,7 @@ import { Domain } from './domain.model';
 
 export class Dpml {
   label: string;
-  reservedNames: ReservedName[];
-  premiumNames: CategorizedPremiumName[];
-  domainNames: Domain[];
+  reservedNames?: ReservedName[];
+  premiumNames?: CategorizedPremiumName[];
+  domainNames?: Domain[];
 }

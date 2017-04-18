@@ -91,7 +91,7 @@ export class DomainEppService {
           cd = cd[0];
         }
         const priceData = result['epp']['response']['extension']['fee:chkData'];
-        const domainPrices = priceData == null ? {} : this.getPriceData(priceData['fee:cd']).prices;
+        const domainPrices = priceData == null ? {} : this.getPriceData(priceData['fee:cd']);
         return {
           fullyQualifiedDomainName: extractText(cd, 'domain:name'),
           avail: extractBoolean(cd, 'domain:name', '@avail'),

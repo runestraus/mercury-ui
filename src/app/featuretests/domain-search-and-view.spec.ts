@@ -3,19 +3,15 @@ import { MockBackend } from '@angular/http/testing';
 import {
   fakeAsync, tick, TestBed, ComponentFixture
 } from '@angular/core/testing';
-import { ActivatedRoute, Router } from '@angular/router';
+import { Router } from '@angular/router';
 import { APP_BASE_HREF } from '@angular/common';
-import { DebugElement } from '@angular/core';
 
 import { AppModule } from '../app.module';
 import { AppComponent } from '../app.component';
-import { DocQuery } from '../shared/testutils';
 import { mockGoogleService } from './mocks';
 import { MockServer } from './server.mock';
 
 import { GoogleOauthService } from '../service/google-oauth.service';
-import { GoogleProfile } from '../model/profile.model';
-import { User } from '../model/user.model';
 import { LoginLogoutPage } from './pages/login-logout.po';
 import { SearchPage } from './pages/search.po';
 import { DomainPopupPage } from './pages/domain-pop-po';
@@ -23,7 +19,7 @@ import * as testusers from './testdata/testusers';
 import * as searchresults from './testdata/searchresults';
 import * as testcontacts from './testdata/testcontacts';
 import * as testdomains from './testdata/testdomains';
-import * as logging from '../shared/logging';
+import {DpmlBlockService} from '../service/dpml-block.service';
 
 describe('domain search', () => {
   let component: AppComponent;
@@ -36,6 +32,10 @@ describe('domain search', () => {
   let mockServer: MockServer;
   let router: Router;
 
+  const mockDpmlService = {
+    getDpmlBlock: jasmine.createSpy('getDpmlBlock'),
+  };
+
   beforeEach(() => {
     // clear any existing session
     localStorage.clear();
@@ -46,6 +46,7 @@ describe('domain search', () => {
         {provide: APP_BASE_HREF, useValue: '/'},
         {provide: GoogleOauthService, useValue: mockGoogleService()},
         {provide: XHRBackend, useClass: MockBackend},
+        { provide: DpmlBlockService, useValue: mockDpmlService}
       ],
     })
     .compileComponents();
@@ -166,6 +167,8 @@ describe('domain search', () => {
       'IANA ID': '',
       'Registrar': 'BroDaddy'
     });
+
+    mockDpmlService.getDpmlBlock.and.returnValue(Promise.resolve({label: null, }));
 
     // program response for domain and contact info commands
     // since this is epp, a single handler needs to deal with multiple request types

@@ -7,6 +7,9 @@ import { Observer } from 'rxjs/Observer';
 import { DomainEppService } from '../../service/domain-epp.service';
 import { DomainInfoComponent } from './domain-info.component';
 import { DocQuery } from '../../shared/testutils';
+import { DpmlBlockService } from '../../service/dpml-block.service';
+import { HttpClient } from '../../shared/http.client';
+import { HttpModule } from '@angular/http';
 import { DomainPrice } from '../../model/domain.model';
 
 class Page {
@@ -27,6 +30,10 @@ class Page {
 
   hasInfoIcon(): boolean {
     return this.query.getElementByCss('#domainInfoIcon') != null;
+  }
+
+  hasBlockedIcon(): boolean {
+    return this.query.getElementByCss('#dpmlBlock') != null;
   }
 
   getDomainExpiration(): string {
@@ -58,6 +65,10 @@ describe('DomainInfoComponent', () => {
     isPremium: jasmine.createSpy('isPremium')
   };
 
+  const mockDpmlService = {
+    getDpmlBlock: jasmine.createSpy('getDpmlBlock'),
+  };
+
   const mockRouter = {
     navigate: jasmine.createSpy('navigate')
   };
@@ -84,7 +95,22 @@ describe('DomainInfoComponent', () => {
       registrationExpirationTime: '2010-01-01T00:00:00Z',
     }));
   }
-
+  function resolveNotBlockedDomain() {
+    mockDpmlService.getDpmlBlock.and.returnValue(Promise.resolve({
+      label: null,
+    }));
+  }
+  function resolveBlockedDomain() {
+    mockDpmlService.getDpmlBlock.and.returnValue(Promise.resolve({
+      label: 'dpml',
+    }));
+  }
+  function rejectDomainCreate(message: string) {
+    mockDomainEppService.info.and.returnValue(Promise.reject({
+      code: '2303',
+      message: message,
+    }));
+  }
   function resolvePremiumDomain() {
     mockDomainEppService.info.and.returnValue(Promise.resolve({
       fullyQualifiedDomainName: 'holy.cow',
@@ -113,7 +139,6 @@ describe('DomainInfoComponent', () => {
       message: message,
     }));
   }
-
   function verifyNoErrorMessage() {
     expect(page.getErrorMessage()).toBeFalsy('Expected no error message');
   }
@@ -123,13 +148,14 @@ describe('DomainInfoComponent', () => {
     TestBed.configureTestingModule({
       declarations: [ DomainInfoComponent ],
       providers: [
-        RouterOutletMap,
+        RouterOutletMap, HttpClient,
         { provide: ActivatedRoute, useValue: mockRoute },
         { provide: DomainEppService, useValue: mockDomainEppService },
         { provide: Router, useValue: mockRouter },
+        { provide: DpmlBlockService, useValue: mockDpmlService}
       ],
       imports: [
-        RouterModule,
+        RouterModule, HttpModule,
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
     })
@@ -155,11 +181,23 @@ describe('DomainInfoComponent', () => {
 
   it('should not be in loading state after service promise resolves', async(() => {
     resolveDomain(['ok']);
+    resolveNotBlockedDomain();
     fixture.detectChanges();
     fixture.whenStable().then(() => {
       fixture.detectChanges();
       expect(page.isLoading()).toBeFalsy('Expected no loading div');
       verifyNoErrorMessage();
+    });
+  }));
+
+  it('should not be in loading state after service promise resolves', async(() => {
+    resolveDomain(['ok']);
+    resolveBlockedDomain();
+    fixture.detectChanges();
+    fixture.whenStable().then(() => {
+      fixture.detectChanges();
+      expect(page.isLoading()).toBeFalsy('Expected no loading div');
+      expect(page.hasBlockedIcon).toBeTruthy('Expected Blocked Icon');
     });
   }));
 
@@ -215,6 +253,27 @@ describe('DomainInfoComponent', () => {
     fixture.whenStable().then(() => {
       fixture.detectChanges();
       expect(page.getErrorMessage()).toBe('You broke it!');
+    });
+  }));
+
+  it('should show no dpml block icon', async(() => {
+    rejectDomainCreate('Create Domain');
+    resolveNotBlockedDomain();
+    fixture.detectChanges();
+    fixture.whenStable().then(() => {
+      fixture.detectChanges();
+      verifyNoErrorMessage();
+    });
+  }));
+
+  it('should show dpml block icon', async(() => {
+    rejectDomainCreate('Create Domain');
+    resolveBlockedDomain();
+    fixture.detectChanges();
+    fixture.whenStable().then(() => {
+      fixture.detectChanges();
+      verifyNoErrorMessage();
+      expect(page.hasBlockedIcon).toBeTruthy('Expected Blocked Icon');
     });
   }));
 

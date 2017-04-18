@@ -5,6 +5,7 @@
     <span *ngIf="domainDetail?.registrationExpirationTime" class="domainExpirationHeader">Expires: {{domainDetail.registrationExpirationTime | date:'yyyy MMM d'}}</span><br/>
     <h3 id="domain-info-header" class="modal-title wordBreak">{{domainName}}
       <span *ngIf="isPremium" id="premiumDomainInfo" class="label label-default">{{domainDetail?.domainPrices.prices['renew'].fee['renew'] | currency: domainDetail?.domainPrices.prices['renew'].currency:true}}</span>
+      <span *ngIf="dpmlBlock" id="dpmlBlock" class="label label-danger">{{dpmlBlock}}</span>
     </h3>
   </p-header>
   <div *ngIf="error" class="alert alert-danger" role="alert" id="domainInfoError">{{error}}</div>

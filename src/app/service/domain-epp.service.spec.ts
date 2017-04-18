@@ -228,12 +228,12 @@ describe('DomainEppService', () => {
       expect(result.fullyQualifiedDomainName).toBe('available.domain');
       expect(result.avail).toBe(true);
       expect(result.reason).toBe('');
-      expect(result.domainPrices['create']).toBeDefined();
-      expect(result.domainPrices['renew']).toBeDefined();
-      expect(result.domainPrices['transfer']).toBeDefined();
-      expect(result.domainPrices['restore']).toBeDefined();
-      expect(result.domainPrices['restore'].fee['restore']).toBe('100.00');
-      expect(result.domainPrices['transfer'].fee['renew']).toBe('8.00');
+      expect(result.domainPrices.prices['create']).toBeDefined();
+      expect(result.domainPrices.prices['renew']).toBeDefined();
+      expect(result.domainPrices.prices['transfer']).toBeDefined();
+      expect(result.domainPrices.prices['restore']).toBeDefined();
+      expect(result.domainPrices.prices['restore'].fee['restore']).toBe('100.00');
+      expect(result.domainPrices.prices['transfer'].fee['renew']).toBe('8.00');
     });
   }));
 
@@ -247,13 +247,13 @@ describe('DomainEppService', () => {
       expect(result.fullyQualifiedDomainName).toBe('premium.domain');
       expect(result.avail).toBe(true);
       expect(result.reason).toBe('');
-      expect(result.domainPrices['create']).toBeDefined();
-      expect(result.domainPrices['renew']).toBeDefined();
-      expect(result.domainPrices['transfer']).toBeDefined();
-      expect(result.domainPrices['restore']).toBeDefined();
-      expect(result.domainPrices['restore'].fee['restore']).toBe('100.00');
-      expect(result.domainPrices['transfer'].fee['renew']).toBe('999.00');
-      expect(result.domainPrices['transfer'].feeClass).toBe('premium');
+      expect(result.domainPrices.prices['create']).toBeDefined();
+      expect(result.domainPrices.prices['renew']).toBeDefined();
+      expect(result.domainPrices.prices['transfer']).toBeDefined();
+      expect(result.domainPrices.prices['restore']).toBeDefined();
+      expect(result.domainPrices.prices['restore'].fee['restore']).toBe('100.00');
+      expect(result.domainPrices.prices['transfer'].fee['renew']).toBe('999.00');
+      expect(result.domainPrices.prices['transfer'].feeClass).toBe('premium');
     });
   }));
 
