@@ -13,10 +13,34 @@
           <select class="form-control" [(ngModel)]="icannTld.tld" name="tld" id="tld"required ><option  *ngFor="let tld of allTlds">{{tld.name}}</option></select>
         </div>
         <div class="form-group left modal-form-group count">
-          <label>ICANN Report Period*:</label><br>
-          <p-calendar [(ngModel)]="icannTld.date" name="date" id="date" dateFormat="mm/yyyy" required></p-calendar>
+          <label for="month">Month*:</label>
+          <select type="string" [(ngModel)]="icannTld.month" name="month" id="month" class="form-control" required>
+            <option value=''>--Select Month--</option>
+            <option selected value='1'>Janaury</option>
+            <option value='2'>February</option>
+            <option value='3'>March</option>
+            <option value='4'>April</option>
+            <option value='5'>May</option>
+            <option value='6'>June</option>
+            <option value='7'>July</option>
+            <option value='8'>August</option>
+            <option value='9'>September</option>
+            <option value='10'>October</option>
+            <option value='11'>November</option>
+            <option value='12'>December</option>
+          </select>
+        </div>
+        <div class="form-group left modal-form-group count">
+          <label for="year">Year*:</label>
+          <select type="string" [(ngModel)]="icannTld.year" name="year" id="year" class="form-control" required>
+            <option *ngFor="let year of years" [value]="year">{{year}}</option>
+          </select>
         </div>
         <span class="clear"></span>
+        <div class="form-group left modal-form-group count">
+        <label for="clientId"> Client Id*:</label>
+          <input type="string" *ngIf="icannTld" [(ngModel)]="icannTld.clientId" name="clientId" id="clientId" class="form-control" required/>
+        </div>
         <div class="form-group left modal-form-group count">
           <label for="wonCount">Transfer Disputes Won*:</label>
           <input type="number" *ngIf="icannTld" [(ngModel)]="icannTld.transferDisputedWonCount" name="wonCount" id="wonCount" class="form-control" required/>
@@ -34,15 +58,16 @@
           <input type="number" *ngIf="icannTld" [(ngModel)]="icannTld.agpExemptionRequestsCount" name="reqCount" id="reqCount" class="form-control" required/>
         </div>
         <div class="form-group left modal-form-group count">
-          <label for="greantedCount">AGP Exemptions Granted*:</label>
-          <input type="number" *ngIf="icannTld" [(ngModel)]="icannTld.agpExemptionsGrantedCount" name="greantedCount" id="greantedCount" class="form-control" required/>
+          <label for="grantedCount">AGP Exemptions Granted*:</label>
+          <input type="number" *ngIf="icannTld" [(ngModel)]="icannTld.agpExemptionsGrantedCount" name="grantedCount" id="grantedCount" class="form-control" required/>
         </div>
         <div class="form-group left modal-form-group count">
           <label for="domainsCount">AGP Exempt Domains*:</label>
           <input type="number" *ngIf="icannTld" [(ngModel)]="icannTld.agpExemptedDomainsCount" name="domainsCount" id="domainsCount" class="form-control" required/>
         </div>
       </div>
-      <button class="modal-footer" type="submit" class="btn btn-primary left">Submit</button>
+    <button class="modal-footer" type="submit" class="btn btn-primary right">Submit</button>
+    <button type="button" class="btn btn-default right" id="cancelBtn" (click)="onCancel()" >Cancel</button>
     </form>
 </div>
 

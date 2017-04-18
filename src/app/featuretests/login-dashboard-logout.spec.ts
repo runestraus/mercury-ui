@@ -3,7 +3,7 @@ import { MockBackend } from '@angular/http/testing';
 import {
   fakeAsync, tick, TestBed, ComponentFixture
 } from '@angular/core/testing';
-import { ActivatedRoute, Router } from '@angular/router';
+import { Router } from '@angular/router';
 import { APP_BASE_HREF } from '@angular/common';
 import { AppModule } from '../app.module';
 import { AppComponent } from '../app.component';
@@ -11,8 +11,6 @@ import { DocQuery } from '../shared/testutils';
 import { mockGoogleService } from './mocks';
 import { MockServer } from './server.mock';
 import { GoogleOauthService } from '../service/google-oauth.service';
-import { GoogleProfile } from '../model/profile.model';
-import { User } from '../model/user.model';
 import { LoginLogoutPage } from './pages/login-logout.po';
 import * as testusers from './testdata/testusers';
 

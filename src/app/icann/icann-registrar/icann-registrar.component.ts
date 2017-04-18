@@ -3,6 +3,7 @@ import { IcannService } from '../../service/icann.service';
 import { IcannRegistrar } from '../../model/icannRegistrar.counter.model';
 import { Tld } from '../../model/tld.model';
 import { MeService } from '../../service/me.service';
+import {ActivatedRoute, Router} from '@angular/router';
 
 @Component({
   selector: 'app-icann-registrar',
@@ -12,10 +13,18 @@ import { MeService } from '../../service/me.service';
 export class IcannRegistrarComponent implements OnInit {
   errorMessage: string;
   allTlds: Tld[];
+  years: string[] = [];
   @Input() icannRegistrar: IcannRegistrar;
-  constructor(private service: IcannService, private meService: MeService) { }
+  constructor(private route: ActivatedRoute,
+              private router: Router,
+              private service: IcannService,
+              private meService: MeService) { }
 
   ngOnInit() {
+    const currentYear = new Date().getFullYear();
+    for (let i = currentYear; i < currentYear + 10; i++) {
+      this.years.push(i.toString());
+    }
     this.icannRegistrar = new IcannRegistrar();
     this.meService.get().then(user => {
       this.icannRegistrar.clientId = user.clientId;
@@ -29,13 +38,21 @@ export class IcannRegistrarComponent implements OnInit {
   }
 
   submit() {
-    this.icannRegistrar.month = this.icannRegistrar.date.getMonth() + 1;
-    this.icannRegistrar.year  = this.icannRegistrar.date.getFullYear();
-    delete this.icannRegistrar.date;
     this.service.submitIcannRegistrar(this.icannRegistrar)
-      .then(results => this.icannRegistrar = results)
+      .then(results => {
+        this.errorMessage = null;
+        this.icannRegistrar = results;
+      })
       .catch(error => {
-        this.errorMessage = error;
+        this.errorMessage = this.extractErrorMessage(error);
       });
+  }
+
+  extractErrorMessage(error: string): string {
+    return error.substring(error.indexOf(':') + 1);
+  }
+
+  onCancel() {
+    this.router.navigate(['../..'], { relativeTo: this.route });
   }
 }

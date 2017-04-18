@@ -14,6 +14,7 @@
 
 export class IcannTld {
   tld: string;
+  clientId: string;
   transferDisputedWonCount: number;
   transferDisputedLostCount: number;
   transferDisputedNondecisionCount: number;

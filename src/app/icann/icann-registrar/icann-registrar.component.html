@@ -14,8 +14,28 @@
         <select [(ngModel)]="icannRegistrar.tld" name="tld" id="tld" class="form-control" required><option  *ngFor="let tld of allTlds">{{tld.name}}</option></select>
       </div>
       <div class="form-group left modal-form-group count">
-        <label>ICANN Report Period*:</label><br>
-        <p-calendar [(ngModel)]="icannRegistrar.date" name="date" id="date" dateFormat="dd/mm/yyyy"></p-calendar>
+        <label for="month">Month*:</label>
+        <select type="string" [(ngModel)]="icannRegistrar.month" name="month" id="month" class="form-control" required>
+          <option value=''>--Select Month--</option>
+          <option selected value='1'>Janaury</option>
+          <option value='2'>February</option>
+          <option value='3'>March</option>
+          <option value='4'>April</option>
+          <option value='5'>May</option>
+          <option value='6'>June</option>
+          <option value='7'>July</option>
+          <option value='8'>August</option>
+          <option value='9'>September</option>
+          <option value='10'>October</option>
+          <option value='11'>November</option>
+          <option value='12'>December</option>
+        </select>
+      </div>
+      <div class="form-group left modal-form-group count">
+        <label for="year">Year*:</label>
+        <select type="string" [(ngModel)]="icannRegistrar.year" name="year" id="year" class="form-control" required>
+          <option *ngFor="let year of years" [value]="year">{{year}}</option>
+        </select>
       </div>
       <span class="clear"></span>
       <div class="form-group left modal-form-group count">
@@ -32,7 +52,8 @@
       </div>
     </div>
     <div class="modal-footer" data-ng-show="ctrl.showform">
-      <button class="modal-footer" type="submit" class="btn btn-primary left">Submit</button>
+      <button class="modal-footer" type="submit" class="btn btn-primary right">Submit</button>
+      <button type="button" class="btn btn-default right" id="cancelBtn" (click)="onCancel()" >Cancel</button>
     </div>
   </form>
 </div>

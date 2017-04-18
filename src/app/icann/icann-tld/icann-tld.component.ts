@@ -2,6 +2,7 @@ import { Component, OnInit, Input } from '@angular/core';
 import { IcannTld } from '../../model/icannTld.counter.model';
 import { IcannService } from '../../service/icann.service';
 import { Tld } from '../../model/tld.model';
+import {ActivatedRoute, Router} from '@angular/router';
 
 @Component({
   selector: 'app-icann-tld',
@@ -11,11 +12,19 @@ import { Tld } from '../../model/tld.model';
 export class IcannTldComponent implements OnInit {
   errorMessage: string;
   allTlds: Tld[];
+  years: string[] = [];
   @Input() icannTld: IcannTld;
-  constructor(private service: IcannService) { }
+  constructor(private route: ActivatedRoute,
+              private router: Router,
+              private service: IcannService) { }
 
   ngOnInit() {
+    const currentYear = new Date().getFullYear();
+    for (let i = currentYear; i < currentYear + 10; i++) {
+      this.years.push(i.toString());
+    }
     this.icannTld = new IcannTld();
+    this.icannTld.clientId = '';
     this.icannTld.transferDisputedWonCount = 0;
     this.icannTld.transferDisputedLostCount = 0;
     this.icannTld.agpExemptedDomainsCount = 0;
@@ -29,13 +38,21 @@ export class IcannTldComponent implements OnInit {
   };
 
   submit() {
-    this.icannTld.month = this.icannTld.date.getMonth() + 1;
-    this.icannTld.year  = this.icannTld.date.getFullYear();
-    delete this.icannTld.date;
     this.service.submitIcannTld(this.icannTld)
-      .then(results => this.icannTld = results)
+      .then(results => {
+        this.errorMessage = null;
+        this.icannTld = results;
+      })
       .catch(error => {
-        this.errorMessage = error;
+        this.errorMessage = this.extractErrorMessage(error);
       });
+  }
+
+  extractErrorMessage(error): string {
+    return error.substring(error.indexOf(':') + 1);
+  }
+
+  onCancel() {
+    this.router.navigate(['../..'], { relativeTo: this.route });
   }
 }

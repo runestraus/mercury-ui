@@ -2,6 +2,7 @@ import { Component, OnInit, Input } from '@angular/core';
 import { IcannDns } from '../../model/icannDns.counter.model';
 import { IcannService } from '../../service/icann.service';
 import { Tld } from '../../model/tld.model';
+import {ActivatedRoute, Router} from '@angular/router';
 
 @Component({
   selector: 'app-icann-dns',
@@ -11,12 +12,17 @@ import { Tld } from '../../model/tld.model';
 export class IcannDnsComponent implements OnInit {
   errorMessage: string;
   allTlds: Tld[];
-
+  years: string[] = [];
   @Input() icannDns: IcannDns;
-
-  constructor(private service: IcannService) { }
+  constructor(private route: ActivatedRoute,
+              private router: Router,
+              private service: IcannService) { }
 
   ngOnInit() {
+    const currentYear = new Date().getFullYear();
+    for (let i = currentYear; i < currentYear + 10; i++) {
+      this.years.push(i.toString());
+    }
     this.icannDns = new IcannDns();
     this.icannDns.dnsTcpQueriesReceivedCount = 0;
     this.icannDns.dnsTcpQueriesRespondedCount = 0;
@@ -29,13 +35,20 @@ export class IcannDnsComponent implements OnInit {
   }
 
   submit() {
-    this.icannDns.month = this.icannDns.date.getMonth() + 1;
-    this.icannDns.year = this.icannDns.date.getFullYear();
-    delete this.icannDns.date;
     this.service.submitIcannDns(this.icannDns)
-      .then()
+      .then(results => {
+        this.icannDns = results;
+      })
       .catch(error => {
-        this.errorMessage = error;
+        this.errorMessage = this.extractErrorMessage(error);
       });
+  }
+
+  extractErrorMessage(error): string {
+    return error.substring(error.indexOf(':') + 1);
+  }
+
+  onCancel() {
+    this.router.navigate(['../..'], { relativeTo: this.route });
   }
 }
