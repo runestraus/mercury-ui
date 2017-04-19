@@ -60,10 +60,10 @@ export class MockServer {
           // console.debug(`Backend Request (expected): method='${methodName}', url='${url}'`);
           connection.mockRespond(new Response(new ResponseOptions(reply(connection.request))));
         } else {
-          console.error(`Backend Request (unexpected method): method='${methodName}', 'url=${url}'`);
+          fail(`Backend Request (unexpected method): method='${methodName}', 'url=${url}'`);
         }
       } else {
-        console.error(`Backend Request (unexpected url): method='${methodName}', url='${url}'`);
+        fail(`Backend Request (unexpected url): method='${methodName}', url='${url}'`);
       }
     });
   }
