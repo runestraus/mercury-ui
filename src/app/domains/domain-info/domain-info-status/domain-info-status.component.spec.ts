@@ -6,6 +6,8 @@ import { DocQuery } from '../../../shared/testutils';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { ActivatedRoute, Router, RouterOutletMap } from '@angular/router';
 import { DomainEppService } from '../../../service/domain-epp.service';
+import { RegistrarService } from '../../../service/registrar.service';
+import { Registrar } from '../../../model/registrar.model';
 import { Observable } from 'rxjs/Observable';
 import { Observer } from 'rxjs/Observer';
 
@@ -40,11 +42,21 @@ class Page {
   isOperationProhibited(operationName: string): boolean {
     return this.query.getElementByCss(`#domainStatusIcon${operationName}Prohibited`) != null;
   }
+
+  getRegistrarName() {
+    return this.query.getElementByCss('#domainRegistrar');
+  }
 }
 
 const mockDomainEppService = {
   info: jasmine.createSpy('info'),
 };
+
+let mockRegistrarService = {
+  get: jasmine.createSpy('get')
+};
+
+const registrar: Registrar = new Registrar();
 
 const mockRouter = {
   navigate: jasmine.createSpy('navigate')
@@ -76,6 +88,13 @@ describe('DomainInfoStatusComponent', () => {
       currentSponsorClientId: 'brodaddy',
     } as DomainDetail;
   }
+
+  function getRegistrar(): Registrar {
+    return {
+      registrarName: 'Donuts, Inc'
+    } as Registrar;
+  }
+
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [ DomainInfoStatusComponent ],
@@ -83,6 +102,7 @@ describe('DomainInfoStatusComponent', () => {
         RouterOutletMap,
         { provide: ActivatedRoute, useValue: mockRoute },
         { provide: DomainEppService, useValue: mockDomainEppService },
+        { provide: RegistrarService, useValue: mockRegistrarService },
         { provide: Router, useValue: mockRouter },
       ],
       imports: [ TooltipModule ],
@@ -95,6 +115,16 @@ describe('DomainInfoStatusComponent', () => {
     fixture = TestBed.createComponent(DomainInfoStatusComponent);
     component = fixture.componentInstance;
     page = new Page(fixture);
+    mockRegistrarService = TestBed.get(RegistrarService);
+    mockRegistrarService.get.and.returnValue(Promise.resolve(getRegistrar()));
+  });
+
+  it('should get a registrar name', () => {
+    component.domain = getDomainData(['ok']);
+    component.getRegistrar();
+    component.registrar = getRegistrar();
+    fixture.detectChanges();
+    expect(page.getRegistrarName().nativeElement.innerText).toBe('Donuts, Inc');
   });
 
   it('should show a smiley icon for active domain', () => {

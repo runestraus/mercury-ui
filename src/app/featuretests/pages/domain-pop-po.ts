@@ -33,4 +33,9 @@ export class DomainPopupPage {
     const el = this.query.getElementByCss(`#contact-type-${contactId}`);
     return el == null ? null : el.nativeElement.textContent.trim();
   }
+
+  getRegistrar(): string {
+    const el = this.query.getElementByCss('#domainRegistrar');
+    return el == null ? null : el.nativeElement.textContent.trim();
+  }
 }

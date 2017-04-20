@@ -1,6 +1,8 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { DomainDetail } from '../../../model/domain.model';
-import { ActivatedRoute, Router} from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
+import { RegistrarService } from '../../../service/registrar.service';
+import { Registrar } from '../../../model/registrar.model';
 
 @Component({
   selector: 'app-domain-info-status',
@@ -8,12 +10,22 @@ import { ActivatedRoute, Router} from '@angular/router';
   styleUrls: ['./domain-info-status.component.css']
 })
 export class DomainInfoStatusComponent implements OnInit {
-
   @Input() domain: DomainDetail;
+  registrar: Registrar;
 
   constructor(private route: ActivatedRoute,
-              private router: Router) { }
+              private router: Router,
+              private registrarService: RegistrarService) { }
+
   ngOnInit() {
+    this.getRegistrar();
+  }
+
+  getRegistrar() {
+   this.registrarService.get(this.domain.currentSponsorClientId)
+     .then(reg => {
+        this.registrar = reg;
+      });
   }
 
   checkStatus(statuses: Array<string>): boolean {

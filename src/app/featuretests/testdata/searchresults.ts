@@ -1,4 +1,5 @@
 import { SearchResults } from '../../model/search-results.model';
+import { Registrar } from '../../model/registrar.model';
 
 const searchdb: {[key: string]: SearchResults} = {
   'dev.dev': {
@@ -53,4 +54,12 @@ const searchdb: {[key: string]: SearchResults} = {
 
 export function getSearchResult(term: string): SearchResults {
   return searchdb[term];
+}
+
+const registrar: Registrar = {
+  registrarName: 'Donuts, Inc.'
+} as Registrar;
+
+export function getRegistrar(): Registrar {
+  return registrar;
 }

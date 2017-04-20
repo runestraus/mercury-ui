@@ -186,11 +186,17 @@ describe('domain search', () => {
         };
       }
     });
+    mockServer.on('/api/registrars/brodaddy', 'GET', {
+      body: JSON.stringify(searchresults.getRegistrar())
+    });
     // Click on domain name to view details in popup
     searchPage.clickSearchResult(0);
     // wait for the second contact:info command to complete and display contact info
     tick();
     fixture.detectChanges();
+    const getRegistrarRequest = mockServer.getRequests('/api/registrars/brodaddy');
+    expect(domainPopupPage.getRegistrar()).toBe('Donuts, Inc.');
+    expect(getRegistrarRequest.length).toBe(1);
     expect(domainPopupPage.getHeaderDomainName()).toBe('dev.dev');
     expect(domainPopupPage.getDisplayedContactName('bobby')).toBe('Bob Smith - Tacoma, US');
     expect(domainPopupPage.getDisplayedContactType('bobby')).toBe('registrant');

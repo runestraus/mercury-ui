@@ -77,6 +77,7 @@ import { ContactsComponent } from './contacts/contacts/contacts.component';
 import { DomainDeleteComponent } from './domains/domain-delete/domain-delete.component';
 import { DpmlBlockService } from './service/dpml-block.service';
 import { DomainHostsEditComponent } from './domains/domain-info/domain-edit-hosts/domain-hosts-edit.component';
+import { RegistrarService } from './service/registrar.service';
 
 @NgModule({
   declarations: [
@@ -155,6 +156,7 @@ import { DomainHostsEditComponent } from './domains/domain-info/domain-edit-host
     ToolsService,
     GoogleOauthService,
     GapiLoader,
+    RegistrarService,
     DpmlBlockService
   ],
   entryComponents: [],
