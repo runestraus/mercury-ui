@@ -12,6 +12,7 @@ import { Registrar } from '../../../model/registrar.model';
 export class DomainInfoStatusComponent implements OnInit {
   @Input() domain: DomainDetail;
   registrar: Registrar;
+  error: string;
 
   constructor(private route: ActivatedRoute,
               private router: Router,
@@ -25,7 +26,10 @@ export class DomainInfoStatusComponent implements OnInit {
    this.registrarService.get(this.domain.currentSponsorClientId)
      .then(reg => {
         this.registrar = reg;
-      });
+      })
+     .catch(err => {
+       this.error = err.message;
+     });
   }
 
   checkStatus(statuses: Array<string>): boolean {
@@ -56,12 +60,13 @@ export class DomainInfoStatusComponent implements OnInit {
   getStatusTooltipMessage(): string {
     return this.checkStatus(['clientDeleteProhibited']) ? 'Server Status Prohibited' : 'Edit Domain Server Status';
   }
+
   openDomainTransferDialog(): void {
     alert('Not yet implemented');
   }
 
   openDomainRenewDialog(): void {
-    alert('Not yet implemented');
+    this.router.navigate(['domainrenew'], {relativeTo: this.route});
   }
 
   openDomainRestoreDialog(): void {

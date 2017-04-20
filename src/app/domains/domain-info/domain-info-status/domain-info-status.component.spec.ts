@@ -26,21 +26,16 @@ class Page {
     return this.query.getElementByCss('#domainStatusIconInactive') != null;
   }
 
-  getOperationIconSize(operationName: string): string {
+  isOperationIconDisabled(operationName: string): boolean {
     const el = this.query.getElementByCss(`#domainStatusIcon${operationName}`);
-    if (!el) {
-      return null;
-    }
-    if (el.classes['fa-2x']) {
-      return 'normal';
-    } else if (el.classes['fa-stack-1x']) {
-      return 'small';
-    }
-    return 'unknown';
+    expect(el).not.toBeNull();
+    return el.classes['icon-disabled'];
   }
 
-  isOperationProhibited(operationName: string): boolean {
-    return this.query.getElementByCss(`#domainStatusIcon${operationName}Prohibited`) != null;
+  clickDomainRenew() {
+    const el = this.query.getElementByCss('#domainStatusIconRenew');
+    expect(el).not.toBeNull();
+    el.nativeElement.click();
   }
 
   getRegistrarName() {
@@ -48,7 +43,7 @@ class Page {
   }
 }
 
-const mockDomainEppService = {
+let mockDomainEppService = {
   info: jasmine.createSpy('info'),
 };
 
@@ -56,13 +51,11 @@ let mockRegistrarService = {
   get: jasmine.createSpy('get')
 };
 
-const registrar: Registrar = new Registrar();
-
-const mockRouter = {
+let mockRouter = {
   navigate: jasmine.createSpy('navigate')
 };
 
-const mockRoute = {
+let mockRoute = {
   snapshot: {
     params: {
       'domainName': 'holy.cow',
@@ -115,6 +108,9 @@ describe('DomainInfoStatusComponent', () => {
     fixture = TestBed.createComponent(DomainInfoStatusComponent);
     component = fixture.componentInstance;
     page = new Page(fixture);
+    mockRouter = TestBed.get(Router);
+    mockRoute = TestBed.get(ActivatedRoute);
+    mockDomainEppService = TestBed.get(DomainEppService);
     mockRegistrarService = TestBed.get(RegistrarService);
     mockRegistrarService.get.and.returnValue(Promise.resolve(getRegistrar()));
   });
@@ -144,15 +140,13 @@ describe('DomainInfoStatusComponent', () => {
   it('should show a normal domain transfer icon when transfer is not prohibited', () => {
     component.domain = getDomainData(['ok']);
     fixture.detectChanges();
-    expect(page.getOperationIconSize('Transfer')).toBe('normal');
-    expect(page.isOperationProhibited('Transfer')).toBeFalsy();
+    expect(page.isOperationIconDisabled('Transfer')).toBeFalsy();
   });
 
   it('should show a prohibited transfer icon when transfer is prohibited', () => {
     component.domain = getDomainData(['ok', 'clientTransferProhibited']);
     fixture.detectChanges();
-    expect(page.getOperationIconSize('Transfer')).toBe('small');
-    expect(page.isOperationProhibited('Transfer')).toBeTruthy();
+    expect(page.isOperationIconDisabled('Transfer')).toBeTruthy();
   });
 
   // TODO: test transfer click navigates to modal
@@ -160,46 +154,49 @@ describe('DomainInfoStatusComponent', () => {
   it('should show a normal domain renew icon when renew is not prohibited', () => {
     component.domain = getDomainData(['ok']);
     fixture.detectChanges();
-    expect(page.getOperationIconSize('Renew')).toBe('normal');
-    expect(page.isOperationProhibited('Renew')).toBeFalsy();
+    expect(page.isOperationIconDisabled('Renew')).toBeFalsy();
   });
 
   it('should show a prohibited renew icon when renew is prohibited', () => {
     component.domain = getDomainData(['ok', 'clientRenewProhibited']);
     fixture.detectChanges();
-    expect(page.getOperationIconSize('Renew')).toBe('small');
-    expect(page.isOperationProhibited('Renew')).toBeTruthy();
+    expect(page.isOperationIconDisabled('Renew')).toBeTruthy();
   });
 
-  // TODO: test renew click navigates to modal
+  it('should navigate to domain renew when renew icon is clicked', () => {
+    component.domain = getDomainData(['ok']);
+    fixture.detectChanges();
+    page.clickDomainRenew();
+    fixture.detectChanges();
+    fixture.whenStable().then(() => {
+      fixture.detectChanges();
+      expect(mockRouter.navigate).toHaveBeenCalledWith(['domainrenew'], {relativeTo: mockRoute});
+    }).catch(fail);
+  });
 
   // TODO: test restore click navigates to modal
 
   it('should show a normal domain delete icon when delete is not prohibited', () => {
     component.domain = getDomainData(['ok']);
     fixture.detectChanges();
-    expect(page.getOperationIconSize('Delete')).toBe('normal');
-    expect(page.isOperationProhibited('Delete')).toBeFalsy();
+    expect(page.isOperationIconDisabled('Delete')).toBeFalsy();
   });
 
   it('should show a prohibited delete icon when delete is prohibited', () => {
     component.domain = getDomainData(['ok', 'clientDeleteProhibited']);
     fixture.detectChanges();
-    expect(page.getOperationIconSize('Delete')).toBe('small');
-    expect(page.isOperationProhibited('Delete')).toBeTruthy();
+    expect(page.isOperationIconDisabled('Delete')).toBeTruthy();
   });
 
   it('should show a normal server status icon', () => {
     component.domain = getDomainData(['ok']);
     fixture.detectChanges();
-    expect(page.getOperationIconSize('ServerStatus')).toBe('normal');
-    expect(page.isOperationProhibited('ServerStatus')).toBeFalsy();
+    expect(page.isOperationIconDisabled('ServerStatus')).toBeFalsy();
   });
 
   it('should show a prohibited server status icon when server status update is prohibited', () => {
     component.domain = getDomainData(['ok', 'serverUpdateProhibited']);
     fixture.detectChanges();
-    expect(page.getOperationIconSize('ServerStatus')).toBe('small');
-    expect(page.isOperationProhibited('ServerStatus')).toBeTruthy();
+    expect(page.isOperationIconDisabled('ServerStatus')).toBeTruthy();
   });
 });

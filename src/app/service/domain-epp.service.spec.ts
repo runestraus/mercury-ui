@@ -184,7 +184,7 @@ describe('DomainEppService', () => {
     service.renew(domain, '2006-11-11T19:22:10+00:00', '312312', '500', 'USD')
       .then(result => expect(result).toBe('successful'));
     tick();
-    expect(eppHelper.send).toHaveBeenCalledWith(domainRenew(domain, 'WBP-00000', '2006-11-11T19:22:10+00:00', '312312', '500', 'USD'));
+    expect(eppHelper.send).toHaveBeenCalledWith(domainRenew(domain, '2006-11-11T19:22:10+00:00', '312312', 'WBP-00000', '500', 'USD'));
     expect(eppHelper.getEppMessageAndStatus).toHaveBeenCalledWith('the result');
   }));
 

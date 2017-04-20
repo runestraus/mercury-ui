@@ -1,0 +1,29 @@
+<p-dialog [(visible)]="showDialog" modal="modal" width="500" responsive="true" [closable]="false">
+  <p-header>
+    <button id="buttonCloseX" tooltip="Close" type="button" class="close" (click)="onCloseClicked()" aria-hidden="true">&times;</button>
+    <h3 id="domain-status-header" class="modal-title wordBreak">Domain Renew</h3>
+  </p-header>
+  <h3 id="domainName">{{domainName}}</h3>
+  <form [formGroup]="domainRenewForm" (submit)="onSubmit()" novalidate>
+    <div class="alert alert-danger" *ngIf="error" role="alert">{{error}}</div>
+    <label for="renewalPeriod">Renewal Period</label>
+    <select id="renewalPeriod" formControlName="renewalPeriod" class="form-control modal-form-control">
+      <option value="1">1 year</option>
+      <option value="2">2 years</option>
+      <option value="3">3 years</option>
+      <option value="4">4 years</option>
+      <option value="5">5 years</option>
+      <option value="6">6 years</option>
+      <option value="7">7 years</option>
+      <option value="8">8 years</option>
+      <option value="9">9 years</option>
+      <option value="10">10 years</option>
+    </select>
+  </form>
+  <p-footer>
+    <div class="ui-dialog-buttonpane ui-widget-content ui-helper-clearfix">
+      <button type="button" class="btn btn-primary" id="domainRenewSubmit" (click)="onSubmit()">Submit</button>
+      <button type="button" class="btn btn-default" id="domainRenewClose" (click)="onCloseClicked()">Cancel</button>
+    </div>
+  </p-footer>
+</p-dialog>

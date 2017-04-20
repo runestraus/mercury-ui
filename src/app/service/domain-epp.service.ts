@@ -121,7 +121,7 @@ export class DomainEppService {
         renewPrice?: string,
         renewCurrency?: string): Promise<EppMessageAndStatus> {
     const clTrid = this.textStrings.EPP_CLTRID;
-    const xml = domainRenew(name, clTrid, currentExpirationDate, newRegistrationPeriod, renewPrice, renewCurrency);
+    const xml = domainRenew(name, currentExpirationDate, newRegistrationPeriod, clTrid, renewPrice, renewCurrency);
     return this.eppHelper.send(xml).toPromise()
       .then(result => this.eppHelper.getEppMessageAndStatus(result));
   }
