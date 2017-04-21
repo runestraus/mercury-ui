@@ -82,7 +82,7 @@ describe('PriceCategoriesComponent', () => {
     expect(getElementByCss('#price')).toBeTruthy();
     expect(getElementByCss('#price').nativeElement.getAttribute('placeholder')).toEqual('1.00');
     expect(getElementByCss('button')).toBeTruthy();
-    expect(getElementByCss('button').nativeElement.getAttribute('label')).toEqual('Save');
+    expect(getElementByCss('#save').nativeElement.textContent).toEqual('Save');
   });
 
   it('should open edit dialog', () => {

@@ -7,11 +7,16 @@
   </div>
 
   <div class="row">
-    <div class="col-md-6">Lorem ipsum dolor sit amet<br/><img src="/assets/images/pie_chart.png"></div>
-    <div class="col-md-6">Consectetur adipiscing elit<br/><img src="/assets/images/bar_chart.png"></div>
+    <div class="col-md-4"><p-chart type="doughnut" [data]="tldData" [options]="tldOptions"></p-chart></div>
+    <div class="col-md-2"></div>
+    <div class="col-md-6"><p-chart type="bar" [height]="200" [data]="domainsData" [options]="domainsOptions"></p-chart></div>
   </div>
   <div class="row">
-    <div class="col-md-6">Donec iaculis luctus fermentum<br/><img src="/assets/images/combo_chart.png"></div>
-    <div class="col-md-6">Praesent vel sagittis eros<br/><img src="/assets/images/column_chart.png"></div>
+    <div class="col-md-4">&nbsp;<p></div>
+  </div>
+  <div class="row">
+    <div class="col-md-6"><p-chart type="line" [height]="200" [data]="resVsPremData" [options]="resVsPremOptions"></p-chart></div>
+    <div class="col-md-1"></div>
+    <div class="col-md-4"><p-chart type="polarArea" [data]="priceCatData" [options]="priceCatOptions">></p-chart></div>
   </div>
 </div>

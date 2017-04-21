@@ -39,9 +39,9 @@
     </div>
     <p-footer>
         <div class="ui-dialog-buttonpane ui-widget-content ui-helper-clearfix">
-          <button type="submit" pButton icon="fa-check" id="save" label="Save"></button>
-          <button *ngIf="!createPriceCategory" type="submit" pButton icon="fa-trash" (click)="delete()" class="ui-button-danger" label="Delete" [disabled]="disableDelete"></button>
-          <button type="button" pButton (click)="cancelDialog()" label="Cancel" class="ui-button-secondary"></button>
+          <button type="submit" icon="fa-check" id="save" class="btn btn-primary">Save</button>
+          <button *ngIf="!createPriceCategory" type="submit" icon="fa-trash" (click)="delete()" class="btn btn-danger" label="Delete" [disabled]="disableDelete">Delete</button>
+          <button type="button" (click)="cancelDialog()" label="Cancel" class="btn btn-default">Cancel</button>
         </div>
     </p-footer>
 </form>

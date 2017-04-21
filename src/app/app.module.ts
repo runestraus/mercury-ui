@@ -46,7 +46,7 @@ import { IcannTldComponent } from './icann/icann-tld/icann-tld.component';
 import { IcannDnsComponent } from './icann/icann-dns/icann-dns.component';
 import { IcannRegistrarComponent } from './icann/icann-registrar/icann-registrar.component';
 import { IcannService } from './service/icann.service';
-import { CalendarModule, DropdownModule, FileUploadModule, TooltipModule } from 'primeng/primeng';
+import { CalendarModule, DropdownModule, FileUploadModule, TooltipModule, ChartModule } from 'primeng/primeng';
 import { UsersComponent } from './users/users.component';
 import { ContactCreateComponent } from './contacts/contact-create/contact-create.component';
 import { ContactEppService } from './contacts/contactepp.service';
@@ -140,6 +140,7 @@ import { RegistrarService } from './service/registrar.service';
     ReactiveFormsModule,
     AppRoutingModule,
     TooltipModule,
+    ChartModule,
   ],
   providers: [
     SearchService,
