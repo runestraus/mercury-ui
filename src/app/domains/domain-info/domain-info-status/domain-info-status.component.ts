@@ -3,6 +3,8 @@ import { DomainDetail } from '../../../model/domain.model';
 import { ActivatedRoute, Router } from '@angular/router';
 import { RegistrarService } from '../../../service/registrar.service';
 import { Registrar } from '../../../model/registrar.model';
+import { PermissionService } from '../../../service/permission.service';
+import { DomainDetailPolicy } from '../../../policy/domain-detail.policy';
 
 @Component({
   selector: 'app-domain-info-status',
@@ -13,13 +15,26 @@ export class DomainInfoStatusComponent implements OnInit {
   @Input() domain: DomainDetail;
   registrar: Registrar;
   error: string;
+  canRenew = false;
 
   constructor(private route: ActivatedRoute,
               private router: Router,
-              private registrarService: RegistrarService) { }
+              private registrarService: RegistrarService,
+              private permissionService: PermissionService) { }
 
   ngOnInit() {
     this.getRegistrar();
+    this.setPermissions();
+  }
+
+  setPermissions() {
+    this.permissionService.authorize(DomainDetailPolicy.renew, this.domain)
+      .then(res => {
+        this.canRenew = res.authorized;
+      })
+      .catch(() => {
+        this.error = 'Error obtaining permissions.';
+      });
   }
 
   getRegistrar() {
@@ -66,7 +81,9 @@ export class DomainInfoStatusComponent implements OnInit {
   }
 
   openDomainRenewDialog(): void {
-    this.router.navigate(['domainrenew'], {relativeTo: this.route});
+    if (this.canRenew) {
+      this.router.navigate(['domainrenew'], { relativeTo: this.route });
+    }
   }
 
   openDomainRestoreDialog(): void {

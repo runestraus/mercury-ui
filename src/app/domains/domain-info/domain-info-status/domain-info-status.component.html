@@ -18,7 +18,7 @@
     </span>
     <span id="domainStatusRenew" class="left fa-stack statusIcons" pTooltip="{{getRenewTooltipMessage()}}">
       <i (click)="openDomainRenewDialog()" id="domainStatusIconRenew" class="fa fa-calendar fa-2x"
-         [ngClass]="{'icon-disabled' : checkStatus(['clientRenewProhibited'])}"></i>
+         [ngClass]="{'icon-disabled' : !canRenew}"></i>
     </span>
     <span id="domainStatusRestore" class="left fa-stack statusIcons" pTooltip="{{getRestoreTooltipMessage()}}">
       <i (click)="openDomainRestoreDialog()" id="domainStatusIconRestore" class="fa fa-unlock fa-2x"></i>

@@ -55,4 +55,31 @@ describe('PermissionService', () => {
       });
     tick();
   }));
+
+  it('should resolve authorized true when the user can perform the action', fakeAsync(() => {
+    const testObject = {theTest: 'Valid'};
+    const mockPolicy = { assertion: jasmine.createSpy('assertion') };
+    mockPolicy.assertion.and.returnValue(null);
+    service.authorize(mockPolicy.assertion, testObject)
+      .then(res => {
+        expect(res.authorized).toBeTruthy();
+      })
+      .catch(fail);
+    tick();
+    expect(mockPolicy.assertion).toHaveBeenCalledWith(testObject, mockUser);
+  }));
+
+  it('should throw an error when the user can not perform the action', fakeAsync(() => {
+    const testObject = {theTest: 'NotValid'};
+    const mockPolicy = { assertion: jasmine.createSpy('assertion') };
+    mockPolicy.assertion.and.returnValue('Not valid for this operation');
+    service.authorize(mockPolicy.assertion, testObject)
+      .then(res => {
+        expect(res.message).toBe('Not valid for this operation');
+        expect(res.authorized).toBeFalsy();
+      })
+      .catch(fail);
+    tick();
+    expect(mockPolicy.assertion).toHaveBeenCalledWith(testObject, mockUser);
+  }));
 });

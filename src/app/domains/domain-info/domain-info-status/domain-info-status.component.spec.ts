@@ -10,6 +10,7 @@ import { RegistrarService } from '../../../service/registrar.service';
 import { Registrar } from '../../../model/registrar.model';
 import { Observable } from 'rxjs/Observable';
 import { Observer } from 'rxjs/Observer';
+import { PermissionService } from '../../../service/permission.service';
 
 class Page {
   query: DocQuery<DomainInfoStatusComponent>;
@@ -55,6 +56,10 @@ let mockRouter = {
   navigate: jasmine.createSpy('navigate')
 };
 
+let mockPermissionService = {
+  authorize: jasmine.createSpy('authorize')
+};
+
 let mockRoute = {
   snapshot: {
     params: {
@@ -96,6 +101,7 @@ describe('DomainInfoStatusComponent', () => {
         { provide: ActivatedRoute, useValue: mockRoute },
         { provide: DomainEppService, useValue: mockDomainEppService },
         { provide: RegistrarService, useValue: mockRegistrarService },
+        { provide: PermissionService, useValue: mockPermissionService },
         { provide: Router, useValue: mockRouter },
       ],
       imports: [ TooltipModule ],
@@ -112,7 +118,11 @@ describe('DomainInfoStatusComponent', () => {
     mockRoute = TestBed.get(ActivatedRoute);
     mockDomainEppService = TestBed.get(DomainEppService);
     mockRegistrarService = TestBed.get(RegistrarService);
+    mockPermissionService = TestBed.get(PermissionService);
+    mockPermissionService.authorize.and.returnValue(Promise.reject({ authorized: true }));
     mockRegistrarService.get.and.returnValue(Promise.resolve(getRegistrar()));
+    component.domain = getDomainData(['ok']);
+    fixture.detectChanges();
   });
 
   it('should get a registrar name', () => {
@@ -151,28 +161,48 @@ describe('DomainInfoStatusComponent', () => {
 
   // TODO: test transfer click navigates to modal
 
-  it('should show a normal domain renew icon when renew is not prohibited', () => {
-    component.domain = getDomainData(['ok']);
-    fixture.detectChanges();
-    expect(page.isOperationIconDisabled('Renew')).toBeFalsy();
-  });
-
-  it('should show a prohibited renew icon when renew is prohibited', () => {
-    component.domain = getDomainData(['ok', 'clientRenewProhibited']);
-    fixture.detectChanges();
-    expect(page.isOperationIconDisabled('Renew')).toBeTruthy();
-  });
-
-  it('should navigate to domain renew when renew icon is clicked', () => {
-    component.domain = getDomainData(['ok']);
-    fixture.detectChanges();
-    page.clickDomainRenew();
+  it('should show a normal domain renew icon when renew is not prohibited', async(() => {
+    mockPermissionService.authorize.and.returnValue(Promise.resolve({ authorized: true }));
+    component.ngOnInit();
     fixture.detectChanges();
     fixture.whenStable().then(() => {
       fixture.detectChanges();
-      expect(mockRouter.navigate).toHaveBeenCalledWith(['domainrenew'], {relativeTo: mockRoute});
+      expect(page.isOperationIconDisabled('Renew')).toBeFalsy();
     }).catch(fail);
-  });
+  }));
+
+  it('should show a prohibited renew icon when renew is prohibited', async(() => {
+    component.domain = getDomainData(['ok', 'clientRenewProhibited']);
+    mockRegistrarService.get.and.returnValue(Promise.resolve(getRegistrar()));
+    component.ngOnInit();
+    fixture.detectChanges();
+    mockPermissionService.authorize.and.returnValue(Promise.resolve({ authorized: false, message: 'Not Authorized!'}));
+    fixture.detectChanges();
+    fixture.whenStable().then(() => {
+      fixture.detectChanges();
+      page.clickDomainRenew();
+      fixture.detectChanges();
+      expect(component.canRenew).toBeFalsy();
+      expect(page.isOperationIconDisabled('Renew')).toBeTruthy();
+      expect(mockRouter.navigate).not.toHaveBeenCalled();
+    }).catch(fail);
+  }));
+
+  it('should navigate to domain renew when renew icon is clicked', async(() => {
+    component.domain = getDomainData(['ok']);
+    mockPermissionService.authorize.and.returnValue(Promise.resolve({ authorized: true }));
+    component.ngOnInit();
+    fixture.detectChanges();
+    fixture.whenStable().then(() => {
+      fixture.detectChanges();
+      page.clickDomainRenew();
+      fixture.detectChanges();
+      fixture.whenStable().then(() => {
+        fixture.detectChanges();
+        expect(mockRouter.navigate).toHaveBeenCalledWith(['domainrenew'], {relativeTo: mockRoute});
+      }).catch(fail);
+    }).catch(fail);
+  }));
 
   // TODO: test restore click navigates to modal
 
