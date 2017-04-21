@@ -87,7 +87,7 @@ export class DomainInfoStatusComponent implements OnInit {
   }
 
   openDomainRestoreDialog(): void {
-    alert('Not yet implemented');
+    this.router.navigate(['restore'], {relativeTo: this.route});
   }
 
   openDomainDeleteDialog(): void {

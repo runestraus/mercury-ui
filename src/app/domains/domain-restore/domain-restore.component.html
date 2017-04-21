@@ -1,0 +1,14 @@
+<p-dialog [(visible)]="showDialog" modal="modal" width="500" responsive="true" [closable]="false">
+  <div *ngIf="error" class="alert alert-danger" id="domainRestoreError">{{error}}</div>
+  <p-header>
+    <button id="buttonCloseX" tooltip="Close" type="button" class="close" (click)="onCloseClicked()" aria-hidden="true">&times;</button>
+    <h3 id="domain-delete-header" class="modal-title wordBreak">Restore Domain</h3>
+  </p-header>
+  <span>Restore {{domainName}}?</span>
+  <p-footer>
+    <div class="ui-dialog-buttonpane ui-widget-content ui-helper-clearfix">
+      <button type="button" class="btn btn-primary" id="domainRestoreSubmit" (click)="onSubmit()">Restore</button>
+      <button type="button" class="btn btn-default" id="domainRestoreClose" (click)="onCloseClicked()">Cancel</button>
+    </div>
+  </p-footer>
+</p-dialog>

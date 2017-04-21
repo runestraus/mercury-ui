@@ -33,6 +33,7 @@ import { ContactCreateComponent } from './contacts/contact-create/contact-create
 import { ContactsComponent } from './contacts/contacts/contacts.component';
 import { DomainDeleteComponent } from './domains/domain-delete/domain-delete.component';
 import { DomainHostsEditComponent } from './domains/domain-info/domain-edit-hosts/domain-hosts-edit.component';
+import { DomainRestoreComponent } from './domains/domain-restore/domain-restore.component';
 import { DomainRenewComponent } from './domains/domain-renew/domain-renew.component';
 
 export const routes: Routes = [
@@ -109,6 +110,11 @@ export const routes: Routes = [
           {
             path: 'domains/:domainName/serverstatus',
             component: DomainStatusComponent,
+            children: []
+          },
+          {
+            path: 'domains/:domainName/restore',
+            component: DomainRestoreComponent,
             children: []
           },
           {

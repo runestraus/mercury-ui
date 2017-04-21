@@ -77,6 +77,7 @@ import { ContactsComponent } from './contacts/contacts/contacts.component';
 import { DomainDeleteComponent } from './domains/domain-delete/domain-delete.component';
 import { DpmlBlockService } from './service/dpml-block.service';
 import { DomainHostsEditComponent } from './domains/domain-info/domain-edit-hosts/domain-hosts-edit.component';
+import { DomainRestoreComponent } from './domains/domain-restore/domain-restore.component';
 import { DomainRenewComponent } from './domains/domain-renew/domain-renew.component';
 import { RegistrarService } from './service/registrar.service';
 
@@ -122,6 +123,7 @@ import { RegistrarService } from './service/registrar.service';
     DomainDeleteComponent,
     DomainHostsEditComponent,
     ContactsComponent,
+    DomainRestoreComponent,
     DomainRenewComponent,
   ],
   imports: [
