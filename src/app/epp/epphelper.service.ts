@@ -27,10 +27,11 @@ export class EppHelperService {
    * code is not 200, an error message is returned.
    *
    * @param xml Payload of the epp xml request
+   * @param superuser if true
    * @return Result object or error message angular.Promise
    */
-  send(xml: string): Observable<any> {
-    return this.http.post('/api/epp', xml, new Headers({
+  send(xml: string, superuser = false): Observable<any> {
+    return this.http.post(`/api/epp${superuser ? '?superuser=true' : ''}`, xml, new Headers({
         'Content-Type': 'application/xml',
     })).map(response => {
       const parsed = convertToJson(response.text());

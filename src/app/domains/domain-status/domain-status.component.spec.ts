@@ -18,16 +18,14 @@ import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { DomainEppService } from '../../service/domain-epp.service';
 import { FormBuilder, ReactiveFormsModule } from '@angular/forms';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
-import { DomainDetail } from '../../model/domain.model';
 import { createMockRoute, DocQuery } from '../../shared/testutils';
 import { By } from '@angular/platform-browser';
+import { PermissionService } from '../../service/permission.service';
 
 class Page {
-  fix: ComponentFixture<DomainStatusComponent>;
   query: DocQuery<DomainStatusComponent>;
   constructor(private fixture: ComponentFixture<DomainStatusComponent>) {
     this.query = new DocQuery(fixture);
-    this.fix = fixture;
   }
   clickSubmit() {
     const el = this.query.getElementByCss('#domainStatusSubmit');
@@ -36,7 +34,7 @@ class Page {
   }
 
   clickCheckBox(elementName) {
-    const elCheckBox = this.fix.debugElement.query(By.css(elementName));
+    const elCheckBox = this.fixture.debugElement.query(By.css(elementName));
     expect(elCheckBox).toBeTruthy();
     elCheckBox.nativeElement.click();
   }
@@ -46,9 +44,10 @@ describe('A DomainStatusComponent', () => {
   let component: DomainStatusComponent;
   let fixture: ComponentFixture<DomainStatusComponent>;
   let page: Page;
-  let router;
   let route;
   let domainEppService;
+  let router;
+  let permissionService;
 
   function resolveDomain(statuses: Array<string>) {
     domainEppService.info.and.returnValue(Promise.resolve({
@@ -86,12 +85,17 @@ describe('A DomainStatusComponent', () => {
       navigate: jasmine.createSpy('navigate')
     };
 
+    const mockPermissionService = {
+      authorize: jasmine.createSpy('authorize')
+    };
+
     TestBed.configureTestingModule({
       declarations: [ DomainStatusComponent ],
       providers: [
         { provide: ActivatedRoute, useValue: mockRoute },
         { provide: DomainEppService, useValue: mockDomainEppService },
         { provide: Router, useValue: mockRouter },
+        { provide: PermissionService, useValue: mockPermissionService },
         FormBuilder
       ],
       imports: [
@@ -103,11 +107,13 @@ describe('A DomainStatusComponent', () => {
 
   beforeEach(() => {
     fixture = TestBed.createComponent(DomainStatusComponent);
-    router = TestBed.get(ActivatedRoute);
-    route = TestBed.get(Router);
+    route = TestBed.get(ActivatedRoute);
+    router = TestBed.get(Router);
     domainEppService = TestBed.get(DomainEppService);
+    permissionService = TestBed.get(PermissionService);
     component = fixture.componentInstance;
     page = new Page(fixture);
+    permissionService.authorize.and.returnValue(Promise.resolve({ authorized: true }));
   });
 
   it('should add status values that have been checked', async(() => {
@@ -118,8 +124,7 @@ describe('A DomainStatusComponent', () => {
         'msg': {
           'keyValue': 'Success'
         },
-      })
-    );
+      }));
     fixture.detectChanges();
     fixture.whenStable().then(() => {
       fixture.detectChanges();
@@ -146,9 +151,9 @@ describe('A DomainStatusComponent', () => {
             'clientRenewProhibited',
             'clientTransferProhibited',
             'clientUpdateProhibited' ],
-          [ ]);
+          [ ], true);
         expect(domainEppService.updateStatus).toHaveBeenCalledTimes(1);
-        expect(route.navigate).toHaveBeenCalledWith(['../'], {relativeTo: router});
+        expect(router.navigate).toHaveBeenCalledWith(['../'], {relativeTo: route});
       }).catch(err => fail(err));
     }).catch(err => fail(err));
   }));
@@ -200,10 +205,10 @@ describe('A DomainStatusComponent', () => {
             'clientHold',
             'clientRenewProhibited',
             'clientTransferProhibited',
-            'clientUpdateProhibited' ]);
+            'clientUpdateProhibited' ], true);
         expect(domainEppService.updateStatus).toHaveBeenCalledTimes(1);
-      }).catch(err => fail(err));
-    }).catch(err => fail(err));
+      }).catch(fail);
+    }).catch(fail);
   }));
 
   it('should not update any status values if form is not updated', async(() => {
@@ -221,9 +226,44 @@ describe('A DomainStatusComponent', () => {
       fixture.detectChanges();
       page.clickSubmit();
       fixture.whenStable().then(() => {
-        expect(domainEppService.updateStatus).toHaveBeenCalledWith('dev.dev', [ ], [ ]);
+        expect(domainEppService.updateStatus).toHaveBeenCalledWith('dev.dev', [ ], [ ], true);
         expect(domainEppService.updateStatus).toHaveBeenCalledTimes(1);
-      }).catch(err => fail(err));
-    }).catch(err => fail(err));
+      }).catch(fail);
+    }).catch(fail);
   }));
+
+  it('should disable the checkboxes when the user does not have permission', () => {
+    domainEppService.updateStatus.and.returnValues(
+      Promise.resolve({
+        code: '200',
+        'msg': {
+          'keyValue': 'Success'
+        },
+      })
+    );
+    permissionService.authorize.and.returnValue(Promise.resolve({ authorized: false }));
+    resolveDomain(['ok']);
+    fixture.detectChanges();
+    fixture.whenStable().then(() => {
+      fixture.detectChanges();
+      page.clickCheckBox('#prohibited');
+      page.clickCheckBox('#hold');
+      page.clickCheckBox('#renew');
+      page.clickCheckBox('#transfer');
+      page.clickCheckBox('#update');
+      page.clickCheckBox('#clientprohibited');
+      page.clickCheckBox('#clienthold');
+      page.clickCheckBox('#clientrenew');
+      page.clickCheckBox('#clienttransfer');
+      page.clickCheckBox('#clientupdate');
+      fixture.detectChanges();
+      page.clickSubmit();
+      fixture.whenStable().then(() => {
+        expect(domainEppService.updateStatus).toHaveBeenCalledWith('dev.dev',
+          [  ],
+          [  ], false);
+        expect(permissionService.authorize).toHaveBeenCalledTimes(2);
+      });
+    }).catch(fail);
+  });
 });

@@ -2,6 +2,9 @@
 /*
  * admin and whois specific CSS
  */
+fieldset[disabled] label {
+  color: #d3d3d3;
+}
 
 .left{
   float: left;
@@ -331,11 +334,6 @@ label.modal-label, .modal-input-group, .modal-text, .modal-form-control {
  * mobile first
  */
 @media only screen {
-  fieldset {
-    margin-top: 10px;
-    padding: .35em .625em .75em;
-    border: 1px solid #c0c0c0;
-  }
   #whoisdomain {
     clear: both;
     margin-bottom: 10px;

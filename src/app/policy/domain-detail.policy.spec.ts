@@ -50,4 +50,91 @@ describe('DomainDetailPolicy', () => {
 
     expect(DomainDetailPolicy.renew(detail, user)).toBeNull();
   });
+
+  describe('updateServerStatus', () => {
+    it('should return null when the user is a registry admin', () => {
+      const detail = {
+        currentSponsorClientId: 'theUsers',
+        fullyQualifiedDomainName: 'dev.dev',
+        status: [] } as DomainDetail;
+      const user = { clientId: 'theUsers', role: {name: 'REGISTRY_ADMIN'} } as User;
+      expect(DomainDetailPolicy.updateServerStatus(detail, user)).toBeNull();
+    });
+
+    it('should return null when the user is a registry operator', () => {
+      const detail = {
+        currentSponsorClientId: 'theUsers',
+        fullyQualifiedDomainName: 'dev.dev',
+        status: [] } as DomainDetail;
+      const user = { clientId: 'theUsers', role: {name: 'REGISTRY_USER'} } as User;
+      expect(DomainDetailPolicy.updateServerStatus(detail, user)).toBeNull();
+    });
+
+    it('should return an error when the user is a not registry operator or registry admin', () => {
+      const detail = {
+        currentSponsorClientId: 'theUsers',
+        fullyQualifiedDomainName: 'dev.dev',
+        status: [] } as DomainDetail;
+      const user = { clientId: 'theUsers', role: {name: 'INVALID_ROLE'} } as User;
+      expect(DomainDetailPolicy.updateServerStatus(detail, user))
+        .toBe(`User with role: 'INVALID_ROLE' is not allowed to update server status`);
+    });
+  });
+
+  describe('updateClientStatus', () => {
+    it('should return null when user is a registry admin', () => {
+      const detail = {
+        currentSponsorClientId: 'theUsers',
+        fullyQualifiedDomainName: 'dev.dev',
+        status: [] } as DomainDetail;
+      const user = { clientId: 'theUsers', role: {name: 'REGISTRY_ADMIN'} } as User;
+      expect(DomainDetailPolicy.updateClientStatus(detail, user)).toBeNull();
+    });
+
+    it('should return null when user is a registry user', () => {
+      const detail = {
+        currentSponsorClientId: 'theUsers',
+        fullyQualifiedDomainName: 'dev.dev',
+        status: [] } as DomainDetail;
+      const user = { clientId: 'theUsers', role: {name: 'REGISTRY_USER'} } as User;
+      expect(DomainDetailPolicy.updateClientStatus(detail, user)).toBeNull();
+    });
+
+    it('should return null when user is a registrar user', () => {
+      const detail = {
+        currentSponsorClientId: 'theUsers',
+        fullyQualifiedDomainName: 'dev.dev',
+        status: [] } as DomainDetail;
+      const user = { clientId: 'theUsers', role: {name: 'REGISTRAR_USER'} } as User;
+      expect(DomainDetailPolicy.updateClientStatus(detail, user)).toBeNull();
+    });
+
+    it('should return null when user is a registrar admin', () => {
+      const detail = {
+        currentSponsorClientId: 'theUsers',
+        fullyQualifiedDomainName: 'dev.dev',
+        status: [] } as DomainDetail;
+      const user = { clientId: 'theUsers', role: {name: 'REGISTRAR_ADMIN'} } as User;
+      expect(DomainDetailPolicy.updateClientStatus(detail, user)).toBeNull();
+    });
+
+    it('should return an error when user is not valid', () => {
+      const detail = {
+        currentSponsorClientId: 'theUsers',
+        fullyQualifiedDomainName: 'dev.dev',
+        status: [] } as DomainDetail;
+      const user = { clientId: 'theUsers', role: {name: 'INVALID_ROLE'} } as User;
+      expect(DomainDetailPolicy.updateClientStatus(detail, user))
+        .toBe(`User with role: 'INVALID_ROLE' is not allowed to update client status`);
+    });
+
+    it('should return an error when the users registrar is not the current sponsoring registrar', () => {
+      const detail = {
+        currentSponsorClientId: 'theUsers',
+        fullyQualifiedDomainName: 'dev.dev',
+        status: [] } as DomainDetail;
+      const user = { clientId: 'notTheSponsor', role: {name: 'REGISTRAR_ADMIN'} } as User;
+      expect(DomainDetailPolicy.updateClientStatus(detail, user)).toBe('Current user\'s Registrar is not the sponsoring registrar');
+    });
+  });
 });

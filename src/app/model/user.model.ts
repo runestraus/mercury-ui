@@ -12,11 +12,13 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+import { Role } from './roles.model';
 export class User {
   email: string;
   clientId: string;
   isRegistrarLogin: boolean;
-  permissions: string[];
+  permissions: string[]; // Deprecated: Use permissions on role. This will be removed
   ianaId: number;
   registrarName: string;
+  role?: Role;
 }

@@ -12,12 +12,13 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { DomainEppService } from '../../service/domain-epp.service';
 import { DomainDetail } from '../../model/domain.model';
 import { ActivatedRoute, Router } from '@angular/router';
-import { getParentRouteUrl } from '../../shared/routeutils';
+import { PermissionService } from '../../service/permission.service';
+import { DomainDetailPolicy } from '../../policy/domain-detail.policy';
 
 @Component({
   selector: 'app-domain-status',
@@ -31,10 +32,14 @@ export class DomainStatusComponent implements OnInit {
   domainStatusForm: FormGroup;
   loading = true;
   error: string = null;
+  canUpdateClientStatus = true;
+  canUpdateServerStatus = true;
+
   constructor(private fb: FormBuilder,
               private route: ActivatedRoute,
               private router: Router,
-              private domainEppService: DomainEppService) {
+              private domainEppService: DomainEppService,
+              private permissionService: PermissionService) {
   }
 
   ngOnInit() {
@@ -48,6 +53,12 @@ export class DomainStatusComponent implements OnInit {
     this.domainEppService.info(this.domainName, null).then(domainDetail => {
       this.loading = false;
       this.domainDetail = domainDetail;
+      return this.permissionService.authorize(DomainDetailPolicy.updateClientStatus, this.domainDetail);
+    }).then(canUpdateClientStatus => {
+      this.canUpdateClientStatus = canUpdateClientStatus.authorized;
+      return this.permissionService.authorize(DomainDetailPolicy.updateServerStatus, this.domainDetail);
+    }).then(canUpdateServerStatus => {
+      this.canUpdateServerStatus = canUpdateServerStatus.authorized;
       this.populateForm();
     }).catch(err => {
       this.loading = false;
@@ -60,10 +71,11 @@ export class DomainStatusComponent implements OnInit {
       }
     });
   };
+
   onSubmit() {
     this.error = null;
     const statusData = this.prepareStatusesForSave();
-    this.domainEppService.updateStatus(this.domainName, statusData._addStatuses, statusData._remStatuses)
+    this.domainEppService.updateStatus(this.domainName, statusData._addStatuses, statusData._remStatuses, this.canUpdateServerStatus)
       .then(() => {
         this.router.navigate(['../'], {relativeTo: this.route});
       })
@@ -123,6 +135,6 @@ export class DomainStatusComponent implements OnInit {
 }
 
 export class StatusData {
-  _addStatuses = new Array();
-  _remStatuses = new Array();
+  _addStatuses = [];
+  _remStatuses = [];
 }

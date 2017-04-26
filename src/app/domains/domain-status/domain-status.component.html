@@ -1,40 +1,47 @@
-<p-dialog [(visible)]="showDialog" modal="modal" width="500" responsive="true" [closable]="false">
+<p-dialog [(visible)]="showDialog" modal="modal" width="500" [responsive]="true" [closable]="false" [resizable]="false">
   <p-header>
     <button id="buttonCloseX" tooltip="Close" type="button" class="close" (click)="onCloseClicked()" aria-hidden="true">&times;</button>
     <h3 id="domain-status-header" class="modal-title wordBreak">Domain Status</h3>
   </p-header>
   <h3 id="domainName">{{domainName}}</h3>
-  <form [formGroup]="domainStatusForm" (submit)="onSubmit()" novalidate>
+  <div id="domainInfoLoading" class="text-align-center" *ngIf="loading">
+    <i class="fa fa-circle-o-notch fa-spin fa-5x"></i>
+  </div>
+  <form [formGroup]="domainStatusForm" (submit)="onSubmit()" novalidate *ngIf="!loading">
     <div class="alert alert-danger" *ngIf="error" role="alert">{{error}}</div>
       <div class="col-md-6">
-        <br>
-        <div class="form-group">
-          <input id="prohibited" type="checkbox" formControlName="serverDeleteProhibited"/>
-          <label for="prohibited">Server Delete Prohibited</label><br>
-          <input id="hold" type="checkbox" formControlName="serverHold"/>
-          <label for="hold">Server Hold</label><br>
-          <input id="renew" type="checkbox" formControlName="serverRenewProhibited"/>
-          <label for="renew">Server Renew Prohibited</label><br>
-          <input id="transfer" type="checkbox" formControlName="serverTransferProhibited"/>
-          <label for="transfer">Server Transfer Prohibited</label><br>
-          <input id="update" type="checkbox" formControlName="serverUpdateProhibited"/>
-          <label for="update">Server Update Prohibited</label><br>
-        </div>
+        <fieldset [disabled]="!canUpdateClientStatus">
+          <p>Client-side</p>
+          <div class="form-group">
+            <input id="clientprohibited" type="checkbox" formControlName="clientDeleteProhibited"/>
+            <label for="clientprohibited">Delete Prohibited</label><br>
+            <input id="clienthold" type="checkbox" formControlName="clientHold"/>
+            <label for="clienthold">Hold</label><br>
+            <input id="clientrenew" type="checkbox" formControlName="clientRenewProhibited"/>
+            <label for="clientrenew">Renew Prohibited</label><br>
+            <input id="clienttransfer" type="checkbox" formControlName="clientTransferProhibited"/>
+            <label for="clienttransfer">Transfer Prohibited</label><br>
+            <input id="clientupdate" type="checkbox" formControlName="clientUpdateProhibited"/>
+            <label for="clientupdate">Update Prohibited</label><br>
+          </div>
+        </fieldset>
       </div>
-      <div class="col-md-6 center-line">
-        <br>
-        <div class="form-group">
-          <input id="clientprohibited" type="checkbox" formControlName="clientDeleteProhibited"/>
-          <label for="clientprohibited">Client Delete Prohibited</label><br>
-          <input id="clienthold" type="checkbox" formControlName="clientHold"/>
-          <label for="clienthold">Client Hold</label><br>
-          <input id="clientrenew" type="checkbox" formControlName="clientRenewProhibited"/>
-          <label for="clientrenew">Client Renew Prohibited</label><br>
-          <input id="clienttransfer" type="checkbox" formControlName="clientTransferProhibited"/>
-          <label for="clienttransfer">Client Transfer Prohibited</label><br>
-          <input id="clientupdate" type="checkbox" formControlName="clientUpdateProhibited"/>
-          <label for="clientupdate">Client Update Prohibited</label><br>
-        </div>
+      <div class="col-md-6">
+        <fieldset [disabled]="!canUpdateServerStatus">
+          <p>Server-side</p>
+          <div class="form-group">
+            <input id="prohibited" type="checkbox" formControlName="serverDeleteProhibited"/>
+            <label for="prohibited">Delete Prohibited</label><br>
+            <input id="hold" type="checkbox" formControlName="serverHold"/>
+            <label for="hold">Hold</label><br>
+            <input id="renew" type="checkbox" formControlName="serverRenewProhibited"/>
+            <label for="renew">Renew Prohibited</label><br>
+            <input id="transfer" type="checkbox" formControlName="serverTransferProhibited"/>
+            <label for="transfer">Transfer Prohibited</label><br>
+            <input id="update" type="checkbox" formControlName="serverUpdateProhibited"/>
+            <label for="update">Update Prohibited</label><br>
+          </div>
+        </fieldset>
       </div>
   </form>
   <p-footer>

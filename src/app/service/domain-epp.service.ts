@@ -136,10 +136,10 @@ export class DomainEppService {
       .then(result => this.eppHelper.getEppMessageAndStatus(result));
   }
 
-  updateStatus(name: string, addStatuses: Array<string>, remStatuses: Array<string>): Promise<EppMessageAndStatus> {
+  updateStatus(name: string, addStatuses: Array<string>, remStatuses: Array<string>, superuser = false): Promise<EppMessageAndStatus> {
     const clTrid = this.textStrings.EPP_CLTRID;
     const xml = domainStatusUpdate(name, clTrid, addStatuses, remStatuses);
-    return this.eppHelper.send(xml).toPromise()
+    return this.eppHelper.send(xml, superuser).toPromise()
       .then(result => this.eppHelper.getEppMessageAndStatus(result));
   }
 

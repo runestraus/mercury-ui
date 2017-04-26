@@ -214,7 +214,7 @@ describe('DomainEppService', () => {
     service.updateStatus(domain, ['car'], ['cheeseburger'])
       .then(result => expect(result).toBe('successful'));
     tick();
-    expect(eppHelper.send).toHaveBeenCalledWith(domainStatusUpdate(domain, 'WBP-00000', ['car'], ['cheeseburger']));
+    expect(eppHelper.send).toHaveBeenCalledWith(domainStatusUpdate(domain, 'WBP-00000', ['car'], ['cheeseburger']), false);
     expect(eppHelper.getEppMessageAndStatus).toHaveBeenCalledWith('the result');
   }));
 
