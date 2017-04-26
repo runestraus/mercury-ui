@@ -33,7 +33,7 @@
   </div>
   <div class="form-group" *ngIf="isPremium">
     <label for="premiumConfirmation">
-      Confirm Acceptance of Premium Price: {{domainCheck?.domainPrices['create'].fee['create'] | currency: domainCheck?.domainPrices['create'].currency:true}}*
+      Confirm Acceptance of Premium Price: {{domainCheck?.domainPrices.prices['create'].fee['create'] | currency: domainCheck?.domainPrices.prices['create'].currency:true}}*
     </label>
     <input id="premiumConfirmation" type="checkbox" formControlName="premiumConfirmation" required>
     <p class="help-block" id="premiumConfirmationError" *ngIf="formErrors.premiumConfirmation">{{formErrors.premiumConfirmation}}</p>

@@ -22,6 +22,9 @@ import {
  */
 @Injectable()
 export class DomainEppService {
+  static isPremium(domainPrice: DomainPrice): boolean {
+    return domainPrice.feeClass === 'premium';
+  }
 
   constructor(private textStrings: TextStringService, private eppHelper: EppHelperService) {
   }
@@ -138,10 +141,6 @@ export class DomainEppService {
     const xml = domainStatusUpdate(name, clTrid, addStatuses, remStatuses);
     return this.eppHelper.send(xml).toPromise()
       .then(result => this.eppHelper.getEppMessageAndStatus(result));
-  }
-
-  isPremium(domainPrice: DomainPrice): boolean {
-    return domainPrice.feeClass === 'premium';
   }
 
   private getPriceData(prices: any[]): DomainPrices {

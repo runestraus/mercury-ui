@@ -9,6 +9,7 @@ import { CanDirective } from '../../shared/directives/can.directive';
 import { PermissionService } from '../../service/permission.service';
 import { CanNotDirective } from '../../shared/directives/can-not.directive';
 import { DocQuery } from '../../shared/testutils';
+import { DomainPrice } from '../../model/domain.model';
 
 class Page {
   readonly PREMIUM_CONFIRMATION_ERROR = '#premiumConfirmationError';
@@ -41,16 +42,21 @@ describe('DomainCreateComponent', () => {
 
   function resolveDomainCheck(isPremium: boolean) {
     mockDomainService.check.and.returnValue(Promise.resolve({
+      fullyQualifiedDomainName: 'dev.dev',
+      avail: true,
+      reason: '',
       domainPrices: {
-        'create': {
-          currency: 'USD',
-          period: '1',
-          periodUnit: '',
-          feeClass: isPremium ? 'premium' : '',
-          fee: {
-            'create': '33.00'
-          }
-      }
+        prices: {
+          'create': {
+            currency: 'USD',
+            period: '1',
+            periodUnit: '',
+            feeClass: isPremium ? 'premium' : '',
+            fee: {
+              'create': '33.00'
+            }
+          } as DomainPrice
+        }
     }}));
   }
 
@@ -197,18 +203,15 @@ describe('DomainCreateComponent', () => {
 
   it('should require premium confirmation checkbox if premium name', async(() => {
     resolveDomainCheck(true);
-    component.ngOnInit();
     fixture.detectChanges();
     fixture.whenStable().then(() => {
       fixture.detectChanges();
-      fixture.whenStable().then(() => {
         component.domainForm.get('premiumConfirmation').markAsDirty();
         component.onValueChanged();
         fixture.detectChanges();
         fixture.whenStable().then(() => {
           expect(page.getFormError(page.PREMIUM_CONFIRMATION_ERROR)).toContain('Confirmation of premium price is required.');
         });
-      });
     }).catch(err => fail(err));
   }));
 

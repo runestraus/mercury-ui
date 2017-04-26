@@ -80,13 +80,17 @@ export class DomainCreateComponent implements OnInit {
       })
       .then(check => {
         this.domainCheck = check;
-        if (this.domainCheck.domainPrices['create'] !== undefined) {
-          this.isPremium = this.domainCheck.domainPrices['create'].feeClass === 'premium';
+        if (this.domainCheck.domainPrices.prices['create'] !== undefined) {
+          this.isPremium = DomainEppService.isPremium(this.domainCheck.domainPrices.prices['create']);
         }
         this.requireOnPremium();
       })
       .catch(err => {
-        this.error = err.error;
+        if (err.error) {
+          this.error = err.error;
+        } else {
+          this.error = 'There was an error getting the domain info';
+        }
       });
   }
 
@@ -95,7 +99,13 @@ export class DomainCreateComponent implements OnInit {
     this.domainService.create(domainCreated)
       .then(() => {
         this.onCreated.emit();
-      });
+      }).catch(err => {
+        if (err.error) {
+          this.error = err.error;
+        } else {
+          this.error = 'There was an error creating the domain';
+        }
+    });
   }
 
   prepareSaveDomain(): DomainInfo {
@@ -117,8 +127,8 @@ export class DomainCreateComponent implements OnInit {
       registrantContact: formModel.registrantContact
     } as DomainInfo;
     if (this.isPremium) {
-      domainInfo.premiumPrice = this.domainCheck.domainPrices['create'].fee['create'];
-      domainInfo.premiumCurrency = this.domainCheck.domainPrices['create'].currency;
+      domainInfo.premiumPrice = this.domainCheck.domainPrices.prices['create'].fee['create'];
+      domainInfo.premiumCurrency = this.domainCheck.domainPrices.prices['create'].currency;
     }
     return domainInfo;
   }

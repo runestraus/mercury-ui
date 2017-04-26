@@ -37,7 +37,7 @@ export class DomainInfoComponent implements OnInit {
       this.loading = false;
       this.domainDetail = domainDetail;
       if (domainDetail.domainPrices) {
-        this.isPremium = this.domainEppService.isPremium(domainDetail.domainPrices.prices['renew']);
+        this.isPremium = DomainEppService.isPremium(domainDetail.domainPrices.prices['renew']);
       }
       this.createDomain = false;
       this.checkForDpmlBlock();
