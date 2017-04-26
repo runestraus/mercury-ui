@@ -33,6 +33,7 @@
         "dev": "environments/environment.ts",
         "prod": "environments/environment.prod.ts",
         "alpha": "environments/environment.alpha.ts",
+        "sandbox": "environments/environment.sandbox.ts",
         "localhost": "environments/environment.localhost.ts"
       }
     }

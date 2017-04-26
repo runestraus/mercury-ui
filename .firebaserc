@@ -1,5 +1,6 @@
 {
   "projects": {
-    "default": "mercury-donuts-alpha"
+    "default": "mercury-donuts-alpha",
+    "sandbox": "mercury-donuts-sandbox"
   }
 }
