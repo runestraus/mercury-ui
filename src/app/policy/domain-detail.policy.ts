@@ -21,6 +21,20 @@ export class DomainDetailPolicy {
     return null;
   }
 
+  static restore(detail: DomainDetail, user: User): string {
+    if (detail.currentSponsorClientId !== user.clientId) {
+      return 'Current user\'s Registrar is not the sponsoring registrar';
+    }
+    const validStatus = detail.status.filter(status => {
+      const validStatuses = ['pendingDelete'];
+      return validStatuses.indexOf(status) > -1;
+    });
+    if (validStatus.length === 0) {
+      return `Status can only be 'pendingDelete'`;
+    }
+    return null;
+  }
+
   static updateServerStatus(detail: DomainDetail, user: User): string {
     const validRoles = ['REGISTRY_USER', 'REGISTRY_ADMIN'];
     const role = user.role.name;

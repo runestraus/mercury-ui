@@ -39,6 +39,12 @@ class Page {
     el.nativeElement.click();
   }
 
+  clickDomainRestore() {
+    const el = this.query.getElementByCss('#domainStatusIconRestore');
+    expect(el).not.toBeNull();
+    el.nativeElement.click();
+  }
+
   getRegistrarName() {
     return this.query.getElementByCss('#domainRegistrar');
   }
@@ -48,31 +54,10 @@ let mockDomainEppService = {
   info: jasmine.createSpy('info'),
 };
 
-let mockRegistrarService = {
-  get: jasmine.createSpy('get')
-};
-
-let mockRouter = {
-  navigate: jasmine.createSpy('navigate')
-};
-
-let mockPermissionService = {
-  authorize: jasmine.createSpy('authorize')
-};
-
-let mockRoute = {
-  snapshot: {
-    params: {
-      'domainName': 'holy.cow',
-    }
-  },
-  parent: {
-    url: Observable.create((observer: Observer<Array<string>>) => {
-      observer.next(['search', 'holy.cow']);
-      observer.complete();
-    })
-  }
-};
+let registrarService;
+let router;
+let route;
+let permissionService;
 
 describe('DomainInfoStatusComponent', () => {
   let component: DomainInfoStatusComponent;
@@ -94,17 +79,43 @@ describe('DomainInfoStatusComponent', () => {
   }
 
   beforeEach(async(() => {
+    const mockRouter = {
+      navigate: jasmine.createSpy('navigate')
+    };
+
+    const mockRoute = {
+      snapshot: {
+        params: {
+          'domainName': 'holy.cow',
+        }
+      },
+      parent: {
+        url: Observable.create((observer: Observer<Array<string>>) => {
+          observer.next(['search', 'holy.cow']);
+          observer.complete();
+        })
+      }
+    };
+
+    const mockPermissionService = {
+      authorize: jasmine.createSpy('authorize')
+    };
+
+    const mockRegistrarService = {
+      get: jasmine.createSpy('get')
+    };
+
     TestBed.configureTestingModule({
-      declarations: [ DomainInfoStatusComponent ],
+      declarations: [DomainInfoStatusComponent],
       providers: [
         RouterOutletMap,
-        { provide: ActivatedRoute, useValue: mockRoute },
+        { provide: ActivatedRoute, useValue: route },
         { provide: DomainEppService, useValue: mockDomainEppService },
         { provide: RegistrarService, useValue: mockRegistrarService },
         { provide: PermissionService, useValue: mockPermissionService },
         { provide: Router, useValue: mockRouter },
       ],
-      imports: [ TooltipModule ],
+      imports: [TooltipModule],
       schemas: [CUSTOM_ELEMENTS_SCHEMA]
     })
       .compileComponents();
@@ -114,13 +125,13 @@ describe('DomainInfoStatusComponent', () => {
     fixture = TestBed.createComponent(DomainInfoStatusComponent);
     component = fixture.componentInstance;
     page = new Page(fixture);
-    mockRouter = TestBed.get(Router);
-    mockRoute = TestBed.get(ActivatedRoute);
+    router = TestBed.get(Router);
+    route = TestBed.get(ActivatedRoute);
     mockDomainEppService = TestBed.get(DomainEppService);
-    mockRegistrarService = TestBed.get(RegistrarService);
-    mockPermissionService = TestBed.get(PermissionService);
-    mockPermissionService.authorize.and.returnValue(Promise.reject({ authorized: true }));
-    mockRegistrarService.get.and.returnValue(Promise.resolve(getRegistrar()));
+    registrarService = TestBed.get(RegistrarService);
+    permissionService = TestBed.get(PermissionService);
+    permissionService.authorize.and.returnValue(Promise.reject({ authorized: true }));
+    registrarService.get.and.returnValue(Promise.resolve(getRegistrar()));
     component.domain = getDomainData(['ok']);
     fixture.detectChanges();
   });
@@ -162,7 +173,7 @@ describe('DomainInfoStatusComponent', () => {
   // TODO: test transfer click navigates to modal
 
   it('should show a normal domain renew icon when renew is not prohibited', async(() => {
-    mockPermissionService.authorize.and.returnValue(Promise.resolve({ authorized: true }));
+    permissionService.authorize.and.returnValue(Promise.resolve({ authorized: true }));
     component.ngOnInit();
     fixture.detectChanges();
     fixture.whenStable().then(() => {
@@ -173,10 +184,10 @@ describe('DomainInfoStatusComponent', () => {
 
   it('should show a prohibited renew icon when renew is prohibited', async(() => {
     component.domain = getDomainData(['ok', 'clientRenewProhibited']);
-    mockRegistrarService.get.and.returnValue(Promise.resolve(getRegistrar()));
+    registrarService.get.and.returnValue(Promise.resolve(getRegistrar()));
     component.ngOnInit();
     fixture.detectChanges();
-    mockPermissionService.authorize.and.returnValue(Promise.resolve({ authorized: false, message: 'Not Authorized!'}));
+    permissionService.authorize.and.returnValue(Promise.resolve({ authorized: false, message: 'Not Authorized!' }));
     fixture.detectChanges();
     fixture.whenStable().then(() => {
       fixture.detectChanges();
@@ -184,13 +195,13 @@ describe('DomainInfoStatusComponent', () => {
       fixture.detectChanges();
       expect(component.canRenew).toBeFalsy();
       expect(page.isOperationIconDisabled('Renew')).toBeTruthy();
-      expect(mockRouter.navigate).not.toHaveBeenCalled();
+      expect(router.navigate).not.toHaveBeenCalled();
     }).catch(fail);
   }));
 
   it('should navigate to domain renew when renew icon is clicked', async(() => {
     component.domain = getDomainData(['ok']);
-    mockPermissionService.authorize.and.returnValue(Promise.resolve({ authorized: true }));
+    permissionService.authorize.and.returnValue(Promise.resolve({ authorized: true }));
     component.ngOnInit();
     fixture.detectChanges();
     fixture.whenStable().then(() => {
@@ -199,12 +210,53 @@ describe('DomainInfoStatusComponent', () => {
       fixture.detectChanges();
       fixture.whenStable().then(() => {
         fixture.detectChanges();
-        expect(mockRouter.navigate).toHaveBeenCalledWith(['domainrenew'], {relativeTo: mockRoute});
+        expect(router.navigate).toHaveBeenCalledWith(['domainrenew'], { relativeTo: route });
       }).catch(fail);
     }).catch(fail);
   }));
 
-  // TODO: test restore click navigates to modal
+  it('should show a normal domain restore icon when restore is not prohibited', async(() => {
+    permissionService.authorize.and.returnValue(Promise.resolve({ authorized: true }));
+    component.ngOnInit();
+    fixture.detectChanges();
+    fixture.whenStable().then(() => {
+      fixture.detectChanges();
+      expect(page.isOperationIconDisabled('Restore')).toBeFalsy();
+    }).catch(fail);
+  }));
+
+  it('should show a prohibited restore icon when restore is prohibited', async(() => {
+    component.domain = getDomainData(['ok']);
+    registrarService.get.and.returnValue(Promise.resolve(getRegistrar()));
+    component.ngOnInit();
+    fixture.detectChanges();
+    permissionService.authorize.and.returnValue(Promise.resolve({ authorized: false, message: 'Not Authorized!' }));
+    fixture.detectChanges();
+    fixture.whenStable().then(() => {
+      fixture.detectChanges();
+      page.clickDomainRestore();
+      fixture.detectChanges();
+      expect(component.canRestore).toBeFalsy();
+      expect(page.isOperationIconDisabled('Restore')).toBeTruthy();
+      expect(router.navigate).not.toHaveBeenCalled();
+    }).catch(fail);
+  }));
+
+  it('should navigate to domain restore when restore icon is clicked', async(() => {
+    component.domain = getDomainData(['pendingDelete']);
+    permissionService.authorize.and.returnValue(Promise.resolve({ authorized: true }));
+    component.ngOnInit();
+    fixture.detectChanges();
+    fixture.whenStable().then(() => {
+      fixture.detectChanges();
+      page.clickDomainRestore();
+      fixture.detectChanges();
+      fixture.whenStable().then(() => {
+        fixture.detectChanges();
+        expect(router.navigate).toHaveBeenCalledWith(['restore'], { relativeTo: route });
+      }).catch(fail);
+    }).catch(fail);
+  }));
 
   it('should show a normal domain delete icon when delete is not prohibited', () => {
     component.domain = getDomainData(['ok']);

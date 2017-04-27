@@ -1,4 +1,4 @@
-<p-dialog [(visible)]="showDialog" modal="modal" width="500" responsive="true" [closable]="false">
+<p-dialog [(visible)]="showDialog" modal="modal" width="500" responsive="true" [closable]="false" [resizable]="false">
   <div *ngIf="error" class="alert alert-danger" id="domainRestoreError">{{error}}</div>
   <p-header>
     <button id="buttonCloseX" tooltip="Close" type="button" class="close" (click)="onCloseClicked()" aria-hidden="true">&times;</button>

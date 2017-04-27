@@ -16,6 +16,7 @@ export class DomainInfoStatusComponent implements OnInit {
   registrar: Registrar;
   error: string;
   canRenew = false;
+  canRestore = false;
 
   constructor(private route: ActivatedRoute,
               private router: Router,
@@ -31,6 +32,14 @@ export class DomainInfoStatusComponent implements OnInit {
     this.permissionService.authorize(DomainDetailPolicy.renew, this.domain)
       .then(res => {
         this.canRenew = res.authorized;
+      })
+      .catch(() => {
+        this.error = 'Error obtaining permissions.';
+      });
+
+      this.permissionService.authorize(DomainDetailPolicy.restore, this.domain)
+      .then(res => {
+        this.canRestore = res.authorized;
       })
       .catch(() => {
         this.error = 'Error obtaining permissions.';
@@ -87,7 +96,9 @@ export class DomainInfoStatusComponent implements OnInit {
   }
 
   openDomainRestoreDialog(): void {
-    this.router.navigate(['restore'], {relativeTo: this.route});
+    if (this.canRestore) {
+      this.router.navigate(['restore'], {relativeTo: this.route});
+    }
   }
 
   openDomainDeleteDialog(): void {

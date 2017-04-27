@@ -87,7 +87,8 @@ export class SearchComponent implements OnInit {
             case('!DPML'):
               this.dpmlResults = this.displayItems;
               break;
-          }}})
+          }
+        }})
       .catch(err => {
         this.error = err.toString();
       });

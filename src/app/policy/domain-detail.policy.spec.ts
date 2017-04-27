@@ -8,6 +8,7 @@ describe('DomainDetailPolicy', () => {
     const user = { clientId: 'theUsers' } as User;
 
     expect(DomainDetailPolicy.renew(detail, user)).toBe('Current user\'s Registrar is not the sponsoring registrar');
+    expect(DomainDetailPolicy.restore(detail, user)).toBe('Current user\'s Registrar is not the sponsoring registrar');
   });
 
   function checkStatus(status: string) {
@@ -49,6 +50,26 @@ describe('DomainDetailPolicy', () => {
     const user = { clientId: 'theUsers' } as User;
 
     expect(DomainDetailPolicy.renew(detail, user)).toBeNull();
+  });
+
+  it('should return "Status can only be `pendingDelete`" when the user can not restore the domain', () => {
+    const detail = {
+      currentSponsorClientId: 'theUsers',
+      fullyQualifiedDomainName: 'dev.dev',
+      status: ['ok'] } as DomainDetail;
+    const user = { clientId: 'theUsers' } as User;
+
+    expect(DomainDetailPolicy.restore(detail, user)).toBe(`Status can only be 'pendingDelete'`);
+  });
+
+  it('should return null when the user can restore the domain', () => {
+    const detail = {
+      currentSponsorClientId: 'theUsers',
+      fullyQualifiedDomainName: 'dev.dev',
+      status: ['pendingDelete'] } as DomainDetail;
+    const user = { clientId: 'theUsers' } as User;
+
+    expect(DomainDetailPolicy.restore(detail, user)).toBeNull();
   });
 
   describe('updateServerStatus', () => {

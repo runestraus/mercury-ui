@@ -21,7 +21,8 @@
          [ngClass]="{'icon-disabled' : !canRenew}"></i>
     </span>
     <span id="domainStatusRestore" class="left fa-stack statusIcons" pTooltip="{{getRestoreTooltipMessage()}}">
-      <i (click)="openDomainRestoreDialog()" id="domainStatusIconRestore" class="fa fa-unlock fa-2x"></i>
+      <i (click)="openDomainRestoreDialog()" id="domainStatusIconRestore" class="fa fa-unlock fa-2x"
+      [ngClass]="{'icon-disabled' : !canRestore}"></i>
     </span>
     <span id="domainStatusDelete" class="left fa-stack statusIcons" pTooltip="{{getDeleteTooltipMessage()}}">
       <i (click)="openDomainDeleteDialog()" id="domainStatusIconDelete" class="fa fa-trash fa-2x"
