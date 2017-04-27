@@ -16,12 +16,13 @@ export class DomainInfoStatusComponent implements OnInit {
   registrar: Registrar;
   error: string;
   canRenew = false;
+  canDelete = false;
   canRestore = false;
 
   constructor(private route: ActivatedRoute,
-              private router: Router,
-              private registrarService: RegistrarService,
-              private permissionService: PermissionService) { }
+    private router: Router,
+    private registrarService: RegistrarService,
+    private permissionService: PermissionService) { }
 
   ngOnInit() {
     this.getRegistrar();
@@ -37,6 +38,14 @@ export class DomainInfoStatusComponent implements OnInit {
         this.error = 'Error obtaining permissions.';
       });
 
+    this.permissionService.authorize(DomainDetailPolicy.delete, this.domain)
+      .then(res => {
+        this.canDelete = res.authorized;
+        })
+      .catch(() => {
+        this.error = 'Error obtaining permissions.';
+      });
+
       this.permissionService.authorize(DomainDetailPolicy.restore, this.domain)
       .then(res => {
         this.canRestore = res.authorized;
@@ -47,13 +56,13 @@ export class DomainInfoStatusComponent implements OnInit {
   }
 
   getRegistrar() {
-   this.registrarService.get(this.domain.currentSponsorClientId)
-     .then(reg => {
+    this.registrarService.get(this.domain.currentSponsorClientId)
+      .then(reg => {
         this.registrar = reg;
       })
-     .catch(err => {
-       this.error = err.message;
-     });
+      .catch(err => {
+        this.error = err.message;
+      });
   }
 
   checkStatus(statuses: Array<string>): boolean {
@@ -102,10 +111,12 @@ export class DomainInfoStatusComponent implements OnInit {
   }
 
   openDomainDeleteDialog(): void {
-    this.router.navigate(['domaindelete'], {relativeTo: this.route});
+    if (this.canDelete) {
+      this.router.navigate(['domaindelete'], { relativeTo: this.route });
+    }
   }
 
   openDomainServerStatusDialog(): void {
-    this.router.navigate(['serverstatus'], {relativeTo: this.route});
+    this.router.navigate(['serverstatus'], { relativeTo: this.route });
   }
 }

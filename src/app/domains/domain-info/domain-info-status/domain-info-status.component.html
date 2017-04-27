@@ -26,7 +26,7 @@
     </span>
     <span id="domainStatusDelete" class="left fa-stack statusIcons" pTooltip="{{getDeleteTooltipMessage()}}">
       <i (click)="openDomainDeleteDialog()" id="domainStatusIconDelete" class="fa fa-trash fa-2x"
-         [ngClass]="{'icon-disabled' : checkStatus(['clientDeleteProhibited'])}"></i>
+         [ngClass]="{'icon-disabled' : !canDelete}"></i>
     </span>
     <span id="domainStatusServerStatus" class="left fa-stack statusIcons" pTooltip="{{getStatusTooltipMessage()}}">
       <i (click)="openDomainServerStatusDialog()" id="domainStatusIconServerStatus" class="fa fa-check-square-o fa-2x"

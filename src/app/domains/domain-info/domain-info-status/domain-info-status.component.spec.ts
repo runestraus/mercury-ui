@@ -39,6 +39,12 @@ class Page {
     el.nativeElement.click();
   }
 
+  clickDomainDelete() {
+    const el = this.query.getElementByCss('#domainStatusIconDelete');
+    expect(el).not.toBeNull();
+    el.nativeElement.click();
+  }
+
   clickDomainRestore() {
     const el = this.query.getElementByCss('#domainStatusIconRestore');
     expect(el).not.toBeNull();
@@ -50,14 +56,14 @@ class Page {
   }
 }
 
-let mockDomainEppService = {
-  info: jasmine.createSpy('info'),
-};
-
 let registrarService;
 let router;
 let route;
 let permissionService;
+
+let mockDomainEppService = {
+  info: jasmine.createSpy('info'),
+};
 
 describe('DomainInfoStatusComponent', () => {
   let component: DomainInfoStatusComponent;
@@ -259,16 +265,47 @@ describe('DomainInfoStatusComponent', () => {
   }));
 
   it('should show a normal domain delete icon when delete is not prohibited', () => {
-    component.domain = getDomainData(['ok']);
+    permissionService.authorize.and.returnValue(Promise.resolve({ authorized: true }));
+    component.ngOnInit();
     fixture.detectChanges();
-    expect(page.isOperationIconDisabled('Delete')).toBeFalsy();
+    fixture.whenStable().then(() => {
+      fixture.detectChanges();
+      expect(page.isOperationIconDisabled('Delete')).toBeFalsy();
+    }).catch(fail);
   });
 
-  it('should show a prohibited delete icon when delete is prohibited', () => {
+  it('should show a prohibited delete icon when delete is prohibited', async(() => {
     component.domain = getDomainData(['ok', 'clientDeleteProhibited']);
+    registrarService.get.and.returnValue(Promise.resolve(getRegistrar()));
+    component.ngOnInit();
     fixture.detectChanges();
-    expect(page.isOperationIconDisabled('Delete')).toBeTruthy();
-  });
+    permissionService.authorize.and.returnValue(Promise.resolve({ authorized: false, message: 'Not Authorized!' }));
+    fixture.detectChanges();
+    fixture.whenStable().then(() => {
+      fixture.detectChanges();
+      page.clickDomainDelete();
+      fixture.detectChanges();
+      expect(component.canRenew).toBeFalsy();
+      expect(page.isOperationIconDisabled('Delete')).toBeTruthy();
+      expect(router.navigate).not.toHaveBeenCalled();
+    }).catch(fail);
+  }));
+
+  it('should navigate to domain delete when delete icon is clicked', async(() => {
+    component.domain = getDomainData(['ok']);
+    permissionService.authorize.and.returnValue(Promise.resolve({ authorized: true }));
+    component.ngOnInit();
+    fixture.detectChanges();
+    fixture.whenStable().then(() => {
+      fixture.detectChanges();
+      page.clickDomainDelete();
+      fixture.detectChanges();
+      fixture.whenStable().then(() => {
+        fixture.detectChanges();
+        expect(router.navigate).toHaveBeenCalledWith(['domaindelete'], { relativeTo: route });
+      }).catch(fail);
+    }).catch(fail);
+  }));
 
   it('should show a normal server status icon', () => {
     component.domain = getDomainData(['ok']);

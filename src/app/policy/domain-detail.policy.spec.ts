@@ -15,7 +15,8 @@ describe('DomainDetailPolicy', () => {
     const detail = {
       currentSponsorClientId: 'theUsers',
       fullyQualifiedDomainName: 'dev.dev',
-      status: [status] } as DomainDetail;
+      status: [status]
+    } as DomainDetail;
     const user = { clientId: 'theUsers' } as User;
 
     expect(DomainDetailPolicy.renew(detail, user)).toBe(`Status can not be '${status}'`);
@@ -35,7 +36,8 @@ describe('DomainDetailPolicy', () => {
     const detail = {
       currentSponsorClientId: 'theUsers',
       fullyQualifiedDomainName: 'dev.dev',
-      status: ['pendingTransfer', 'pendingRenew', 'pendingRestore'] } as DomainDetail;
+      status: ['pendingTransfer', 'pendingRenew', 'pendingRestore']
+    } as DomainDetail;
     const user = { clientId: 'theUsers' } as User;
 
     expect(DomainDetailPolicy.renew(detail, user))
@@ -46,10 +48,34 @@ describe('DomainDetailPolicy', () => {
     const detail = {
       currentSponsorClientId: 'theUsers',
       fullyQualifiedDomainName: 'dev.dev',
-      status: [] } as DomainDetail;
+      status: []
+    } as DomainDetail;
     const user = { clientId: 'theUsers' } as User;
 
     expect(DomainDetailPolicy.renew(detail, user)).toBeNull();
+  });
+
+  it('should delete list all statuses in error message', () => {
+    const detail = {
+      currentSponsorClientId: 'theUsers',
+      fullyQualifiedDomainName: 'dev.dev',
+      status: ['pendingTransfer', 'pendingRenew', 'pendingRestore']
+    } as DomainDetail;
+    const user = { clientId: 'theUsers' } as User;
+
+    expect(DomainDetailPolicy.delete(detail, user))
+      .toBe(`Status can not be any of 'pendingTransfer, pendingRenew, pendingRestore'`);
+  });
+
+  it('should return null when the user can delete the domain', () => {
+    const detail = {
+      currentSponsorClientId: 'theUsers',
+      fullyQualifiedDomainName: 'dev.dev',
+      status: []
+    } as DomainDetail;
+    const user = { clientId: 'theUsers' } as User;
+
+    expect(DomainDetailPolicy.delete(detail, user)).toBeNull();
   });
 
   it('should return "Status can only be `pendingDelete`" when the user can not restore the domain', () => {
@@ -71,6 +97,7 @@ describe('DomainDetailPolicy', () => {
 
     expect(DomainDetailPolicy.restore(detail, user)).toBeNull();
   });
+});
 
   describe('updateServerStatus', () => {
     it('should return null when the user is a registry admin', () => {
@@ -157,5 +184,4 @@ describe('DomainDetailPolicy', () => {
       const user = { clientId: 'notTheSponsor', role: {name: 'REGISTRAR_ADMIN'} } as User;
       expect(DomainDetailPolicy.updateClientStatus(detail, user)).toBe('Current user\'s Registrar is not the sponsoring registrar');
     });
-  });
 });
