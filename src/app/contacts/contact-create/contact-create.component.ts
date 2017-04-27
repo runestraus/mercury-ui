@@ -1,13 +1,13 @@
 import { Component, OnInit } from '@angular/core';
-import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { CustomValidator } from '../../validators/customValidator';
 import { ContactEppService } from '../contactepp.service';
 import { MeService } from '../../service/me.service';
 import { Md5 } from 'ts-md5/dist/md5';
 import { COUNTRIES } from '../../model/country.model';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 import { ContactDetail } from '../contact.model';
-import { getParentRouteUrl } from '../../shared/routeutils';
+import { Location } from '@angular/common';
 
 /**
  * Component to create or update a contact.
@@ -57,16 +57,16 @@ export class ContactCreateComponent implements OnInit {
   };
 
   constructor(private fb: FormBuilder,
-              private router: Router,
               private route: ActivatedRoute,
               private contactEppService: ContactEppService,
-              private meService: MeService) { }
+              private meService: MeService,
+              private location: Location) { }
 
   ngOnInit() {
     this.createForm();
     const contactId = this.route.snapshot.params['contactId'];
         if (contactId) {
-          this.modalHeader = 'Edit Contact';
+          this.modalHeader = `Edit Contact: ${contactId}`;
           this.isEditForm = true;
           this.contactForm.get('id').enable();
           this.contactEppService.infoContact(contactId)
@@ -87,12 +87,24 @@ export class ContactCreateComponent implements OnInit {
                 phone: contact.voice,
                 fax: contact.fax
               });
-            }).catch(err => { this.error = err; });
+            }).catch(err => {
+            if (err.message) {
+              this.error = err.message;
+            } else {
+              this.error = 'Error while getting contact';
+            }
+            });
         } else {
           this.meService.get()
             .then(user => {
               this.generateContactId(user.clientId);
-            }).catch(err => { this.error = err; });
+            }).catch(err => {
+              if (err.message) {
+                this.error = err.message;
+              } else {
+                this.error = 'Error while getting user information';
+              }
+            });
         }
   }
 
@@ -104,8 +116,8 @@ export class ContactCreateComponent implements OnInit {
     const response = this.isEditForm ?
       this.contactEppService.updateContact(contactCreated) :
       this.contactEppService.createContact(contactCreated);
-    response.then(contact => {
-      this.closeDialog();
+    response.then(() => {
+      this.location.back();
     }).catch(error => {
       this.error = error.message;
     });
@@ -206,17 +218,7 @@ export class ContactCreateComponent implements OnInit {
     this.contactForm.get('id').enable();
   }
 
-  closeDialog() {
-    if (this.isEditForm) {
-      // route is .../contacts/edit/:contactId
-      this.router.navigate(['../..'], {relativeTo: this.route});
-    } else {
-      // route is .../contacts/edit
-      this.router.navigate(['..'], {relativeTo: this.route});
-    }
-  }
-
   onCloseClicked() {
-    this.closeDialog();
+    this.location.back();
   }
 }

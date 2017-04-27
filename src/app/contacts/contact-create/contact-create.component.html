@@ -3,11 +3,11 @@
   <form [formGroup]="contactForm" (submit)="onSubmit()" novalidate>
     <div *ngIf="error" class="alert alert-danger" role="alert">{{error.message}}</div>
     <div>
-      <div class="form-group" *ngIf="isEditForm">
+      <div class="form-group" *ngIf="!isEditForm">
         <label class="modal-label">Contact ID*:</label>
         <input id="newContactId" type="text" placeholder="Contact ID" class="form-control modal-form-control" formControlName="id"/>
         <p id="customizeContactIDButton" *ngIf="useSystemContactId" class="btn btn-primary" (click)="customizeContactId()">Customize Contact ID</p>
-        <p class="help-block"  *ngIf="formErrors.id">{{formErrors.id}}</p>
+        <p class="help-block" id="contact-id-error" *ngIf="formErrors.id">{{formErrors.id}}</p>
       </div>
       <div class="form-group left modal-form-group" style="width:48%;margin-right:20px;">
         <label class="modal-label">Name*:</label>
@@ -36,7 +36,7 @@
       <div class="form-group left modal-form-group" style="width:48%;margin-right:20px;">
         <label class="modal-label">City*:</label>
         <input id="contact-city" type="text" placeholder="City" class="form-control modal-form-control" formControlName="city"/>
-        <p class="help-block" *ngIf="formErrors.city">{{formErrors.city}}</p>
+        <p class="help-block" id="city-error" *ngIf="formErrors.city">{{formErrors.city}}</p>
       </div>
       <div class="form-group left modal-form-group" style="width:48%;">
         <label class="modal-label">State / Province / Prefecture:</label>
@@ -53,8 +53,7 @@
         <select id="contact-country-code" class="form-control modal-form-control" formControlName="countryCode">
           <option *ngFor="let country of availableCountries" [value]="country.abbr">{{country.name}}</option>
         </select>
-        <!--<input type="text" placeholder="Country Code" class="form-control modal-form-control" data-ng-model="ctrl.dialogResult.countryCode"/>-->
-        <p class="help-block" *ngIf="formErrors.countryCode">{{formErrors.countryCode}}</p>
+        <p class="help-block" id="country-code-error" *ngIf="formErrors.countryCode">{{formErrors.countryCode}}</p>
       </div>
       <div class="form-group left modal-form-group" style="width:48%;">
         <label class="modal-label">Phone:</label>

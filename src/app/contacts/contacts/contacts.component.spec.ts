@@ -1,20 +1,12 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
-import { Router, ActivatedRoute, RouterModule, RouterOutletMap } from '@angular/router';
-import { Observable } from 'rxjs/Observable';
-import { Observer } from 'rxjs/Observer';
+import { ActivatedRoute, Router, RouterModule, RouterOutletMap } from '@angular/router';
 import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
-
 import { EppMessageAndStatus } from '../../epp/epphelper.service';
-
-import { DocQuery, createMockRoute } from '../../shared/testutils';
-
+import { createMockRoute, DocQuery } from '../../shared/testutils';
 import { ContactsComponent } from './contacts.component';
-import { ContactDetail } from '../contact.model';
-
 import { DomainEppService } from '../../service/domain-epp.service';
-import { DomainDetail } from '../../model/domain.model';
-import { ContactEppService } from '../../contacts/contactepp.service';
+import { ContactEppService } from '../contactepp.service';
 
 class Page {
   query: DocQuery<ContactsComponent>;
