@@ -8,7 +8,7 @@ import { SearchComponent } from '../search.component';
 describe('ContactComponent', () => {
   let component: ContactComponent;
   let fixture: ComponentFixture<ContactComponent>;
-  let deTable, deContactName, deContactId, deCurrentSponsorClientId, deExportButton: DebugElement;
+  let deTable, deContactName, deContactId, deCurrentSponsorClientId: DebugElement;
   let elTable, elContactName, elContactId, elCurrentSponsorClientId: HTMLElement;
 
   const contact: Contact[] = [{
@@ -33,7 +33,6 @@ describe('ContactComponent', () => {
     component = fixture.componentInstance;
     fixture.detectChanges();
     deTable = fixture.debugElement.query(By.css('#contactsTable'));
-    deExportButton = fixture.debugElement.query(By.css('#exportButton'));
     deContactName = fixture.debugElement.query(By.css('#contactName'));
     deContactId = fixture.debugElement.query(By.css('#contactId'));
     deCurrentSponsorClientId = fixture.debugElement.query(By.css('#currentSponsorClientId'));
@@ -51,7 +50,6 @@ describe('ContactComponent', () => {
   it('should have all elements on the page, contactsTable, Export Button, Error Table, ' +
     'Contact Name field, Contact ID field, Client Id.', () => {
     expect(elTable).toBeTruthy();
-    expect(deExportButton).toBeTruthy();
     expect(deContactName).toBeTruthy();
     expect(deContactId).toBeTruthy();
     expect(deCurrentSponsorClientId).toBeTruthy();

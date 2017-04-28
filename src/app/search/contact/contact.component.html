@@ -1,10 +1,5 @@
 <p  class="error" *ngIf="errorMessage">{{errorMessage}}</p>
-<p-dataTable #dt [value]="contacts" exportFilename="contacts" sortMode="multiple" id="contactsTable">
-  <p-header>
-    <div class="ui-helper-clearfix">
-      <button id="exportButton" type="button" pButton icon="fa-file-o" iconPos="left" label="CSV" (click)="dt.exportCSV()" style="float:left"></button>
-    </div>
-  </p-header>
+<p-dataTable #dt [value]="contacts" sortMode="multiple" id="contactsTable">
     <p-column id="contactName" styleClass="contactName" field="name" header="Name" [sortable]="true"></p-column>
     <p-column id="contactId" styleClass="contactId" field="contactId" header="Contact Id" [sortable]="true"></p-column>
     <p-column id="currentSponsorClientId" styleClass="contactClientId" field="currentSponsorClientId" header="Current Sponsor Client Id" [sortable]="true"></p-column>

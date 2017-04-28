@@ -14,8 +14,8 @@ describe('TldsIndexComponent', () => {
   let component: TldsIndexComponent;
   let fixture: ComponentFixture<TldsIndexComponent>;
 
-  let deTable, deHeader, deNameTitle, deCSVButton: DebugElement;
-  let elTable, elHeader, elNameTitle, elCSVButton: HTMLElement;
+  let deTable, deHeader, deNameTitle: DebugElement;
+  let elTable, elHeader, elNameTitle: HTMLElement;
 
   const mockTldService = {
     get: jasmine.createSpy('get')
@@ -40,9 +40,7 @@ describe('TldsIndexComponent', () => {
     deHeader = fixture.debugElement.query(By.css('.page-header'));
     deTable = fixture.debugElement.query(By.css('#tldsTable'));
     deNameTitle = fixture.debugElement.query(By.css('.ui-column-title'));
-    deCSVButton = fixture.debugElement.query(By.css('.left'));
 
-    elCSVButton = deCSVButton.nativeElement;
     elHeader = deHeader.nativeElement;
     elTable = deTable.nativeElement;
     elNameTitle = deNameTitle.nativeElement;
@@ -57,6 +55,5 @@ describe('TldsIndexComponent', () => {
     expect(elHeader.innerText).toEqual('Manage TLDs');
     expect(elTable).toBeTruthy();
     expect(elNameTitle.innerText).toEqual('TLD');
-    expect(elCSVButton.getAttribute('label')).toEqual('CSV');
   });
 });

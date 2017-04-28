@@ -1,10 +1,5 @@
 <p class="error" *ngIf="errorMessage">{{errorMessage}}</p>
-<p-dataTable #dt [value]="domains" exportFilename="domains" sortMode="multiple" resizableColumns="true" id="domainsTable">
-  <p-header>
-    <div class="ui-helper-clearfix">
-      <button type="button" pButton icon="fa-file-o" iconPos="left" label="CSV" (click)="dt.exportCSV()" style="float:left"></button>
-    </div>
-  </p-header>
+<p-dataTable #dt [value]="domains" sortMode="multiple" resizableColumns="true" id="domainsTable">
   <p-column id="domainName" field="domainName" header="Domain" [sortable]="true">
     <ng-template let-col let-domain="rowData" pTemplate="body">
       <a class="spanLink" routerLink="domains/{{domain[col.field]}}">{{domain[col.field]}}</a>

@@ -1,8 +1,7 @@
 <h1 class="page-header">Manage TLDs</h1>
-<p-dataTable #dt [value]="tlds" selectionMode="single" [(selection)]="selectedTld"  (onRowSelect)="onRowSelect($event)" [paginator]="true" rows="35" [responsive]="true" exportFilename="Tlds" sortMode="multiple" id="tldsTable">
+<p-dataTable #dt [value]="tlds" selectionMode="single" [(selection)]="selectedTld"  (onRowSelect)="onRowSelect($event)" [paginator]="true" rows="35" [responsive]="true" sortMode="multiple" id="tldsTable">
    <p-header>
      <div class="ui-helper-clearfix">
-       <button type="button" pButton icon="fa-file-o" iconPos="left" label="CSV" (click)="dt.exportCSV()" lavel="CSV" class="left"></button>
        <button type="button" pButton icon="fa-plus" class="ui-button-success right" (click)="showDialogToAdd()" label="Create new TLD"></button>
      </div>
    </p-header>
