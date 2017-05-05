@@ -314,9 +314,9 @@ describe('SearchComponent', () => {
     }];
     const dpmlResults: Dpml[] = [{
       label: 'DpmlBlock',
-    reservedNames: reservedNameResults,
-    premiumNames: premiumNameResults,
-    domainNames: domainResults,
+      reservedNames: reservedNameResults,
+      premiumNames: premiumNameResults,
+      domainNames: domainResults,
     }];
     const dataResults: DataResults[] = [{
       type: '!DPML',

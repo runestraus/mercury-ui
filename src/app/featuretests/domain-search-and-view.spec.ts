@@ -19,7 +19,7 @@ import * as testusers from './testdata/testusers';
 import * as searchresults from './testdata/searchresults';
 import * as testcontacts from './testdata/testcontacts';
 import * as testdomains from './testdata/testdomains';
-import {DpmlBlockService} from '../service/dpml-block.service';
+import { DomainLabelsService } from '../service/domain.lables.service';
 
 describe('domain search', () => {
   let component: AppComponent;
@@ -32,8 +32,8 @@ describe('domain search', () => {
   let mockServer: MockServer;
   let router: Router;
 
-  const mockDpmlService = {
-    getDpmlBlock: jasmine.createSpy('getDpmlBlock'),
+  const mockDomainLabelService = {
+    getDomainLabels: jasmine.createSpy('getDomainLabels'),
   };
 
   beforeEach(() => {
@@ -46,7 +46,7 @@ describe('domain search', () => {
         {provide: APP_BASE_HREF, useValue: '/'},
         {provide: GoogleOauthService, useValue: mockGoogleService()},
         {provide: XHRBackend, useClass: MockBackend},
-        { provide: DpmlBlockService, useValue: mockDpmlService}
+        { provide: DomainLabelsService, useValue: mockDomainLabelService}
       ],
     })
     .compileComponents();
@@ -168,7 +168,7 @@ describe('domain search', () => {
       'Registrar': 'BroDaddy'
     });
 
-    mockDpmlService.getDpmlBlock.and.returnValue(Promise.resolve({label: null, }));
+    mockDomainLabelService.getDomainLabels.and.returnValue(Promise.resolve({label: null, }));
 
     // program response for domain and contact info commands
     // since this is epp, a single handler needs to deal with multiple request types

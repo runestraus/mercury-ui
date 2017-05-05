@@ -3,14 +3,12 @@ import { ActivatedRoute, Router, RouterModule, RouterOutletMap } from '@angular/
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import { Observer } from 'rxjs/Observer';
-
 import { DomainEppService } from '../../service/domain-epp.service';
 import { DomainInfoComponent } from './domain-info.component';
 import { DocQuery } from '../../shared/testutils';
-import { DpmlBlockService } from '../../service/dpml-block.service';
+import { DomainLabelsService } from '../../service/domain.lables.service';
 import { HttpClient } from '../../shared/http.client';
 import { HttpModule } from '@angular/http';
-import { DomainPrice } from '../../model/domain.model';
 
 class Page {
   query: DocQuery<DomainInfoComponent>;
@@ -46,6 +44,10 @@ class Page {
     return el ? el.nativeElement.textContent : null;
   }
 
+  hasDomainLabels(i: number): boolean {
+    return this.query.getElementByCss('#domain-lable-' + i) != null;
+  }
+
   clickCloseButton(): void {
     this.query.getElementByCss('#domainInfoClose').nativeElement.click();
   }
@@ -65,8 +67,8 @@ describe('DomainInfoComponent', () => {
     isPremium: jasmine.createSpy('isPremium')
   };
 
-  const mockDpmlService = {
-    getDpmlBlock: jasmine.createSpy('getDpmlBlock'),
+  const mockDomainLabelService = {
+    getDomainLabels: jasmine.createSpy('getDomainLabels'),
   };
 
   const mockRouter = {
@@ -96,13 +98,31 @@ describe('DomainInfoComponent', () => {
     }));
   }
   function resolveNotBlockedDomain() {
-    mockDpmlService.getDpmlBlock.and.returnValue(Promise.resolve({
-      label: null,
+    mockDomainLabelService.getDomainLabels.and.returnValue(Promise.resolve({
+      labels: null,
+      price: {
+        value: 33.00,
+        currency: 'USD'
+      }
+    }));
+  }
+
+  function resolveDomainLabels() {
+    mockDomainLabelService.getDomainLabels.and.returnValue(Promise.resolve({
+      labels: ['RSV', 'PREMIUM'],
+      price: {
+        value: 33.00,
+        currency: 'USD'
+      }
     }));
   }
   function resolveBlockedDomain() {
-    mockDpmlService.getDpmlBlock.and.returnValue(Promise.resolve({
-      label: 'dpml',
+    mockDomainLabelService.getDomainLabels.and.returnValue(Promise.resolve({
+      labels: ['Blocked'],
+      price: {
+        value: 55.00,
+        currency: 'USD'
+      }
     }));
   }
   function rejectDomainCreate(message: string) {
@@ -152,7 +172,7 @@ describe('DomainInfoComponent', () => {
         { provide: ActivatedRoute, useValue: mockRoute },
         { provide: DomainEppService, useValue: mockDomainEppService },
         { provide: Router, useValue: mockRouter },
-        { provide: DpmlBlockService, useValue: mockDpmlService}
+        { provide: DomainLabelsService, useValue: mockDomainLabelService}
       ],
       imports: [
         RouterModule, HttpModule,
@@ -198,6 +218,7 @@ describe('DomainInfoComponent', () => {
       fixture.detectChanges();
       expect(page.isLoading()).toBeFalsy('Expected no loading div');
       expect(page.hasBlockedIcon).toBeTruthy('Expected Blocked Icon');
+      expect(page.getPremiumInformation()).toBe('$55.00');
     });
   }));
 
@@ -214,10 +235,14 @@ describe('DomainInfoComponent', () => {
   it('should show premium domain info in header after name', async(() => {
     mockDomainEppService.isPremium.and.returnValue(true);
     resolvePremiumDomain();
+    resolveDomainLabels();
     fixture.detectChanges();
     fixture.whenStable().then(() => {
       fixture.detectChanges();
       expect(page.getPremiumInformation()).toBe('$33.00');
+      expect(page.hasDomainLabels(0)).toBeTruthy('Expected Domain Label');
+      expect(page.hasDomainLabels(1)).toBeTruthy('Expected Domain Label');
+      expect(page.hasDomainLabels(2)).toBeFalsy('Only expected two Domain Labels.');
     });
   }));
 
@@ -274,6 +299,7 @@ describe('DomainInfoComponent', () => {
       fixture.detectChanges();
       verifyNoErrorMessage();
       expect(page.hasBlockedIcon).toBeTruthy('Expected Blocked Icon');
+      expect(page.getPremiumInformation()).toBe('$55.00');
     });
   }));
 

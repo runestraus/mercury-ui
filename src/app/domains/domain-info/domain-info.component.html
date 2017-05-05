@@ -3,10 +3,13 @@
     <button id="buttonCloseX" tooltip="Close" type="button" class="close" (click)="onCloseClicked()" aria-hidden="true">&times;</button>
     <i *ngIf="!loading && domainDetail !== undefined" (click)="openDetailsDialog()" id="domainInfoIcon" class="right fa fa-info-circle fa-2x statusIcons" pTooltip="Domain Information" style="margin-top:5px;margin-right:10px;"></i>
     <span *ngIf="domainDetail?.registrationExpirationTime" class="domainExpirationHeader">Expires: {{domainDetail.registrationExpirationTime | date:'yyyy MMM d'}}</span><br/>
-    <h3 id="domain-info-header" class="modal-title wordBreak">{{domainName}}
-      <span *ngIf="isPremium" id="premiumDomainInfo" class="label label-default">{{domainDetail?.domainPrices.prices['renew'].fee['renew'] | currency: domainDetail?.domainPrices.prices['renew'].currency:true}}</span>
-      <span *ngIf="dpmlBlock" id="dpmlBlock" class="label label-danger">{{dpmlBlock}}</span>
-    </h3>
+    <h3 id="domain-info-header" class="modal-title wordBreak">{{domainName}}</h3>
+    <span class="clear"></span>
+    <span *ngIf="price" id="premiumDomainInfo" class="label label-default">{{price.value | currency: price.currency:true}}</span>
+    <span *ngFor="let listItem of labels; let i = index">
+      <span *ngIf="i > 0" data-role="separator">{{separator}}</span>
+      <span id="domain-lable-{{i}}" data-role="list-item" class="label label-default">{{listItem}}</span>
+    </span>
   </p-header>
   <div *ngIf="error" class="alert alert-danger" role="alert" id="domainInfoError">{{error}}</div>
   <app-domain-create *ngIf="createDomain" [domainName]="domainName" (onCreated)="getDomain()"></app-domain-create>

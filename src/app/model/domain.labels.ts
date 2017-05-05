@@ -12,22 +12,9 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-import { Injectable } from '@angular/core';
-import { HttpClient } from '../shared/http.client';
-import { Dpml } from '../model/dpml.model';
+import { Money } from './money.model';
 
-@Injectable()
-export class DpmlBlockService {
-
-  constructor(private http: HttpClient) { }
-  /**
-   * Get Dpml Block from label
-   *
-   * @returns {Promise<R>|Observable<R>|promise.Promise<R>|Maybe<T>|Promise<Promise<any>>}
-   */
-  getDpmlBlock(label: string): Promise<Dpml> {
-    return this.http.get('/api/blocked/' + label).toPromise()
-      .then(res => res.json() as Dpml)
-      .catch(error => this.http.handleError(error));
-  }
+export class DomainLabels {
+  labels: string[];
+  price: Money;
 }

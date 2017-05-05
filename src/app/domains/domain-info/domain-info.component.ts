@@ -2,8 +2,8 @@ import { DomainDetail } from '../../model/domain.model';
 import { DomainEppService } from '../../service/domain-epp.service';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { DpmlBlockService } from '../../service/dpml-block.service';
-import {extractSld} from '../../shared/dpmlUtils';
+import { DomainLabelsService } from '../../service/domain.lables.service';
+import { Money } from '../../model/money.model';
 
 @Component({
   selector: 'app-domain-info',
@@ -17,15 +17,17 @@ export class DomainInfoComponent implements OnInit {
   showDialog = true;
   loading = true;
   error: string = null;
-  dpmlBlock: string = null;
+  labels: string[] = null;
+  price: Money;
   createDomain = false;
   isPremium = false;
+  separator = ' ';
 
   constructor(
     private route: ActivatedRoute,
     private router: Router,
     private domainEppService: DomainEppService,
-    private dpmlBlockService: DpmlBlockService) { }
+    private domainLableService: DomainLabelsService) { }
 
   ngOnInit() {
     this.domainName = this.route.snapshot.params['domainName'];
@@ -36,17 +38,14 @@ export class DomainInfoComponent implements OnInit {
     this.domainEppService.info(this.domainName, null).then(domainDetail => {
       this.loading = false;
       this.domainDetail = domainDetail;
-      if (domainDetail.domainPrices) {
-        this.isPremium = DomainEppService.isPremium(domainDetail.domainPrices.prices['renew']);
-      }
       this.createDomain = false;
-      this.checkForDpmlBlock();
+      this.getDomainLabels();
     }).catch(err => {
       this.loading = false;
       // switch these blocks of code to test out the partial domain info display
       if (err.code === '2303') {
         this.createDomain = true;
-        this.checkForDpmlBlock();
+        this.getDomainLabels();
       } else if (err.code && err.message) {
         this.error = err.message;
       } else {
@@ -55,11 +54,10 @@ export class DomainInfoComponent implements OnInit {
     });
   }
 
-  checkForDpmlBlock() {
-    this.dpmlBlockService.getDpmlBlock(extractSld(this.domainName)).then(res => {
-        if (res.label !== null) {
-        this.dpmlBlock = 'Blocked';
-      }
+  getDomainLabels() {
+    this.domainLableService.getDomainLabels(this.domainName).then(res => {
+      this.labels = res.labels;
+      this.price = res.price;
     })
       .catch(err => {
         this.error = err;
