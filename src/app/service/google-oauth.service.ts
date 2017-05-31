@@ -46,7 +46,6 @@ export class GoogleOauthService {
     const authOptions = {
       client_id: environment.clientId,
       scope: this._scope,
-      prompt: 'select_account',
       redirect_uri: window.location.origin,
       ux_mode: 'redirect'
     };

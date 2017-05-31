@@ -20,8 +20,6 @@
       "prefix": "app",
       "styles": [
         "assets/css/font-awesome.min.css",
-        "../node_modules/primeng/resources/themes/omega/theme.css",
-        "../node_modules/primeng/resources/primeng.min.css",
         "../node_modules/bootstrap/dist/css/bootstrap.css",
         "styles.css"
       ],
