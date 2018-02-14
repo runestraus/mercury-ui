@@ -27,9 +27,7 @@ import { HostComponent } from './host/host.component';
 import { PremiumNameComponent } from './premium-name/premium-name.component';
 import { ReservedNameComponent } from './reserved-name/reserved-name.component';
 import { ContactComponent } from './contact/contact.component';
-import { DpmlComponent } from './dpml/dpml.component';
 import { Contact } from '../model/contact.model';
-import { Dpml } from '../model/dpml.model';
 import { CategorizedPremiumName } from '../model/categorized-premium-name.model';
 import { Money } from '../model/money.model';
 import { ReservedName } from '../model/reserved-name.model';
@@ -69,12 +67,6 @@ class Page {
   }
   verifyPremiumNamesSearchTable() {
     const deSearchTable = this.query.getElementByCss('#premiumPriceTable');
-    expect(deSearchTable).toBeTruthy();
-    const elSearchTable = deSearchTable.nativeElement;
-    expect(elSearchTable).toBeTruthy();
-  }
-  verifyDpmlSearchTable() {
-    const deSearchTable = this.query.getElementByCss('#dpmlTable');
     expect(deSearchTable).toBeTruthy();
     const elSearchTable = deSearchTable.nativeElement;
     expect(elSearchTable).toBeTruthy();
@@ -142,7 +134,7 @@ describe('SearchComponent', () => {
     });
     TestBed.configureTestingModule({
       declarations: [ SearchComponent, DomainComponent, HostComponent, PremiumNameComponent,
-        ReservedNameComponent, DpmlComponent, ContactComponent ],
+        ReservedNameComponent, ContactComponent ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA],
       imports: [ FormsModule, DialogModule, DataTableModule, HttpModule, BrowserAnimationsModule],
       providers: [
@@ -282,62 +274,6 @@ describe('SearchComponent', () => {
       expect(page.getHeaderName(0)).toBe('Name');
       expect(page.getHeaderName(1)).toBe('Contact Id');
       expect(page.getHeaderName(2)).toBe('Current Sponsor Client Id');
-    }).catch(err => {
-      fail('Err: ' + err);
-    });
-  }));
-  it('should have search error table after invalid dpml search', async(() => {
-    mockRoute.snapshot.params['query'] = '!DPML d*ml.zone';
-    searchService.getSearchResults.and.returnValue(Promise.reject('At least two characters must be specified before wildcard'));
-    fixture.detectChanges();
-    fixture.whenStable().then(() => {
-      fixture.detectChanges();
-      expect(page.getErrorMessage()).toBe('At least two characters must be specified before wildcard');
-    }).catch(err => {
-      fail('Err: ' + err);
-    });
-  }));
-  it('should have dpml table after dpml search', async(() => {
-    mockRoute.snapshot.params['query'] = '!DPML .dpml';
-    const domainResults: Domain[] = [{
-      domainName: 'dpml.zone',
-      status: 'INACTIVE',
-      systemTags: '!DPML',
-      tld: 'dpml.zone',
-      price: price,
-      priceCategory: 'A+',
-      ianaNumber: 9999,
-      registrar: 'brodaddy',
-      currentSponsorClientId: '1234',
-      contacts: null,
-      hosts: null,
-    }];
-    const dpmlResults: Dpml[] = [{
-      label: 'DpmlBlock',
-      reservedNames: reservedNameResults,
-      premiumNames: premiumNameResults,
-      domainNames: domainResults,
-    }];
-    const dataResults: DataResults[] = [{
-      type: '!DPML',
-      dataList: dpmlResults,
-    }];
-    const searchResults: SearchResults = {
-      data: dataResults,
-    };
-    searchService.getSearchResults.and.returnValue(Promise.resolve(searchResults));
-    fixture.detectChanges();
-    fixture.whenStable().then(() => {
-      fixture.detectChanges();
-      page.verifyDpmlSearchTable();
-      expect(page.getHeaderName(0)).toBe('Label');
-      expect(page.getHeaderName(1)).toBe('Domain');
-      expect(page.getHeaderName(2)).toBe('TLD');
-      expect(page.getHeaderName(3)).toBe('Status');
-      expect(page.getHeaderName(4)).toBe('System Tags');
-      expect(page.getHeaderName(5)).toBe('Price');
-      expect(page.getHeaderName(6)).toBe('Category');
-      expect(page.getHeaderName(7)).toBe('IANA ID');
     }).catch(err => {
       fail('Err: ' + err);
     });
