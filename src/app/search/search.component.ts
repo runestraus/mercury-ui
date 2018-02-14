@@ -21,7 +21,6 @@ import { Host } from '../model/host.model';
 import { CategorizedPremiumName } from '../model/categorized-premium-name.model';
 import { ReservedName } from '../model/reserved-name.model';
 import { DataResults } from '../model/data-results.model';
-import { Dpml } from '../model/dpml.model';
 import 'rxjs/add/operator/switchMap';
 
 @Component({
@@ -36,7 +35,6 @@ export class SearchComponent implements OnInit {
   contactResult: Contact[];
   premiumNameResults: CategorizedPremiumName[];
   reservedNameResults: ReservedName[];
-  dpmlResults: Dpml[];
   searchData: DataResults[];
   query: string;
   error: any;
@@ -84,9 +82,6 @@ export class SearchComponent implements OnInit {
             case('CONTACTS'):
               this.contactResult = this.displayItems;
               break;
-            case('!DPML'):
-              this.dpmlResults = this.displayItems;
-              break;
           }
         }})
       .catch(err => {
@@ -100,6 +95,5 @@ export class SearchComponent implements OnInit {
     this.contactResult = null;
     this.premiumNameResults = null;
     this.reservedNameResults = null;
-    this.dpmlResults = null;
   }
 }

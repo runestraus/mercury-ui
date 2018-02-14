@@ -25,7 +25,6 @@ export class DomainInfo {
   registrantContact?: string;
   contacts?: any[];
   authInfo: string;
-  smdSignature?: string;
   fee?: string;
   premiumPrice?: string;
   premiumCurrency?: string;

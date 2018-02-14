@@ -38,7 +38,6 @@ import { HostComponent } from './search/host/host.component';
 import { ContactComponent } from './search/contact/contact.component';
 import { PremiumNameComponent } from './search/premium-name/premium-name.component';
 import { ReservedNameComponent } from './search/reserved-name/reserved-name.component';
-import { DpmlComponent } from './search/dpml/dpml.component';
 import { DataTableModule } from 'primeng/components/datatable/datatable';
 import { SharedModule } from 'primeng/components/common/shared';
 import { MenuComponent } from './navbar/menu/menu.component';
@@ -96,7 +95,6 @@ import { RegistrarService } from './service/registrar.service';
     ContactComponent,
     PremiumNameComponent,
     ReservedNameComponent,
-    DpmlComponent,
     MenuComponent,
     ContactCreateComponent,
     UsersComponent,

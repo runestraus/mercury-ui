@@ -30,10 +30,6 @@ class Page {
     return this.query.getElementByCss('#domainInfoIcon') != null;
   }
 
-  hasBlockedIcon(): boolean {
-    return this.query.getElementByCss('#dpmlBlock') != null;
-  }
-
   getDomainExpiration(): string {
     const el = this.query.getElementByCss('.domainExpirationHeader');
     return el ? el.nativeElement.textContent : null;
@@ -278,28 +274,6 @@ describe('DomainInfoComponent', () => {
     fixture.whenStable().then(() => {
       fixture.detectChanges();
       expect(page.getErrorMessage()).toBe('You broke it!');
-    });
-  }));
-
-  it('should show no dpml block icon', async(() => {
-    rejectDomainCreate('Create Domain');
-    resolveNotBlockedDomain();
-    fixture.detectChanges();
-    fixture.whenStable().then(() => {
-      fixture.detectChanges();
-      verifyNoErrorMessage();
-    });
-  }));
-
-  it('should show dpml block icon', async(() => {
-    rejectDomainCreate('Create Domain');
-    resolveBlockedDomain();
-    fixture.detectChanges();
-    fixture.whenStable().then(() => {
-      fixture.detectChanges();
-      verifyNoErrorMessage();
-      expect(page.hasBlockedIcon).toBeTruthy('Expected Blocked Icon');
-      expect(page.getPremiumInformation()).toBe('$55.00');
     });
   }));
 

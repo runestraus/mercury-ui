@@ -202,45 +202,6 @@ describe('Domain EPP Templates', () => {
 </epp>`);
   });
 
-  it('should generate a domain create command with smdSignature', () => {
-    const domainInfo = {
-      clientId: 'brodaddy',
-      fullyQualifiedDomainName: 'foo.com',
-      registrationPeriod: '1',
-      authInfo: 'abc123',
-      fee: '25.00',
-      smdSignature: 'abcdefg',
-      domainNameserversArray: undefined,
-    };
-    expect(domainepp.domainCreate(domainInfo, 'TEST-1234')).toBe(
-      `<epp xmlns="urn:ietf:params:xml:ns:epp-1.0">
-  <command>
-    <create>
-      <domain:create xmlns:domain="urn:ietf:params:xml:ns:domain-1.0">
-        <domain:name>foo.com</domain:name>
-        <domain:period unit="y">1</domain:period>
-        <domain:authInfo>
-          <domain:pw>abc123</domain:pw>
-        </domain:authInfo>
-      </domain:create>
-    </create>
-    <extension>
-      <launch:create xmlns:launch="urn:ietf:params:xml:ns:launch-1.0" type="registration">
-        <launch:phase name="dpml">custom</launch:phase>
-          <smd:encodedSignedMark xmlns:smd="urn:ietf:params:xml:ns:signedMark-1.0">
-            abcdefg
-          </smd:encodedSignedMark>
-      </launch:create>
-      <fee:create xmlns:fee="urn:ietf:params:xml:ns:fee-0.6">
-        <fee:currency>USD</fee:currency>
-        <fee:fee description="DPML Override">25.00</fee:fee>
-      </fee:create>
-    </extension>
-    <clTRID>TEST-1234</clTRID>
-  </command>
-</epp>`);
-  });
-
   it('should generate a domain create command with premium price', () => {
     const domainInfo = {
       clientId: 'brodaddy',

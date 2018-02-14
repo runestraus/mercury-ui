@@ -194,20 +194,6 @@ const CREATE_TEMPLATE = Handlebars.compile(`<epp xmlns="urn:ietf:params:xml:ns:e
         </domain:authInfo>
       </domain:create>
     </create>
-    {{#ifNonnull item.smdSignature}}
-    <extension>
-      <launch:create xmlns:launch="urn:ietf:params:xml:ns:launch-1.0" type="registration">
-        <launch:phase name="dpml">custom</launch:phase>
-          <smd:encodedSignedMark xmlns:smd="urn:ietf:params:xml:ns:signedMark-1.0">
-            {{item.smdSignature}}
-          </smd:encodedSignedMark>
-      </launch:create>
-      <fee:create xmlns:fee="urn:ietf:params:xml:ns:fee-0.6">
-        <fee:currency>USD</fee:currency>
-        <fee:fee description="DPML Override">{{item.fee}}</fee:fee>
-      </fee:create>
-    </extension>
-    {{/ifNonnull}}
     {{#ifNonnull item.premiumPrice}}
     <extension>
       <fee:create xmlns:fee="urn:ietf:params:xml:ns:fee-0.6">
